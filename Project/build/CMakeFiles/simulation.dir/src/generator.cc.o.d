@@ -1,8 +1,13 @@
-CMakeFiles/sim.dir/physics.cc.o: \
- /home/deanciarniello/CERN/Project/physics.cc /usr/include/stdc-predef.h \
- /home/deanciarniello/CERN/Project/physics.hh \
- /opt/Geant4/include/Geant4/G4VModularPhysicsList.hh \
- /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_algobase.h \
+CMakeFiles/simulation.dir/src/generator.cc.o: \
+ /home/deanciarniello/CERN/Project/src/generator.cc \
+ /usr/include/stdc-predef.h \
+ /home/deanciarniello/CERN/Project/include/generator.hh \
+ /opt/Geant4/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
+ /opt/Geant4/include/Geant4/G4ParticleGun.hh \
+ /opt/Geant4/include/Geant4/globals.hh \
+ /opt/Geant4/include/Geant4/G4ios.hh \
+ /opt/Geant4/include/Geant4/G4Types.hh \
+ /opt/Geant4/include/Geant4/G4GlobalConfig.hh /usr/include/c++/9/complex \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -11,41 +16,9 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/cpu_defines.h \
- /usr/include/c++/9/bits/functexcept.h \
- /usr/include/c++/9/bits/exception_defines.h \
  /usr/include/c++/9/bits/cpp_type_traits.h \
- /usr/include/c++/9/ext/type_traits.h \
- /usr/include/c++/9/ext/numeric_traits.h \
- /usr/include/c++/9/bits/stl_pair.h /usr/include/c++/9/bits/move.h \
- /usr/include/c++/9/bits/concept_check.h /usr/include/c++/9/type_traits \
- /usr/include/c++/9/bits/stl_iterator_base_types.h \
- /usr/include/c++/9/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/9/debug/assertions.h \
- /usr/include/c++/9/bits/stl_iterator.h \
- /usr/include/c++/9/bits/ptr_traits.h /usr/include/c++/9/debug/debug.h \
- /usr/include/c++/9/bits/predefined_ops.h \
- /usr/include/c++/9/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/9/bits/c++allocator.h \
- /usr/include/c++/9/ext/new_allocator.h /usr/include/c++/9/new \
- /usr/include/c++/9/exception /usr/include/c++/9/bits/exception.h \
- /usr/include/c++/9/bits/exception_ptr.h \
- /usr/include/c++/9/bits/cxxabi_init_exception.h \
- /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h \
- /usr/include/c++/9/typeinfo /usr/include/c++/9/bits/hash_bytes.h \
- /usr/include/c++/9/bits/nested_exception.h \
- /usr/include/c++/9/bits/memoryfwd.h \
- /usr/include/c++/9/bits/stl_construct.h \
- /usr/include/c++/9/ext/alloc_traits.h \
- /usr/include/c++/9/bits/alloc_traits.h \
- /usr/include/c++/9/bits/stl_uninitialized.h \
- /usr/include/c++/9/bits/stl_vector.h /usr/include/c++/9/initializer_list \
- /usr/include/c++/9/bits/stl_bvector.h \
- /usr/include/c++/9/bits/functional_hash.h \
- /usr/include/c++/9/bits/range_access.h \
- /usr/include/c++/9/bits/vector.tcc /opt/Geant4/include/Geant4/G4ios.hh \
- /opt/Geant4/include/Geant4/G4Types.hh \
- /opt/Geant4/include/Geant4/G4GlobalConfig.hh /usr/include/c++/9/complex \
- /usr/include/c++/9/cmath /usr/include/math.h \
+ /usr/include/c++/9/ext/type_traits.h /usr/include/c++/9/cmath \
+ /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/timesize.h \
@@ -64,6 +37,7 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
  /usr/include/x86_64-linux-gnu/bits/mathinline.h \
  /usr/include/c++/9/bits/std_abs.h /usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
@@ -95,16 +69,34 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/c++/9/sstream \
  /usr/include/c++/9/istream /usr/include/c++/9/ios \
  /usr/include/c++/9/iosfwd /usr/include/c++/9/bits/stringfwd.h \
- /usr/include/c++/9/bits/postypes.h /usr/include/c++/9/cwchar \
- /usr/include/wchar.h /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
+ /usr/include/c++/9/bits/memoryfwd.h /usr/include/c++/9/bits/postypes.h \
+ /usr/include/c++/9/cwchar /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2.h \
- /usr/include/c++/9/bits/char_traits.h /usr/include/c++/9/cstdint \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/9/exception \
+ /usr/include/c++/9/bits/exception.h \
+ /usr/include/c++/9/bits/exception_ptr.h \
+ /usr/include/c++/9/bits/exception_defines.h \
+ /usr/include/c++/9/bits/cxxabi_init_exception.h \
+ /usr/include/c++/9/typeinfo /usr/include/c++/9/bits/hash_bytes.h \
+ /usr/include/c++/9/new /usr/include/c++/9/bits/nested_exception.h \
+ /usr/include/c++/9/bits/move.h /usr/include/c++/9/bits/concept_check.h \
+ /usr/include/c++/9/type_traits /usr/include/c++/9/bits/char_traits.h \
+ /usr/include/c++/9/bits/stl_algobase.h \
+ /usr/include/c++/9/bits/functexcept.h \
+ /usr/include/c++/9/ext/numeric_traits.h \
+ /usr/include/c++/9/bits/stl_pair.h \
+ /usr/include/c++/9/bits/stl_iterator_base_types.h \
+ /usr/include/c++/9/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/9/debug/assertions.h \
+ /usr/include/c++/9/bits/stl_iterator.h \
+ /usr/include/c++/9/bits/ptr_traits.h /usr/include/c++/9/debug/debug.h \
+ /usr/include/c++/9/bits/predefined_ops.h /usr/include/c++/9/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/c++/9/bits/localefwd.h \
@@ -126,11 +118,18 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/atomic_word.h \
  /usr/include/c++/9/bits/locale_classes.h /usr/include/c++/9/string \
+ /usr/include/c++/9/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/9/bits/c++allocator.h \
+ /usr/include/c++/9/ext/new_allocator.h \
  /usr/include/c++/9/bits/ostream_insert.h \
  /usr/include/c++/9/bits/cxxabi_forced.h \
  /usr/include/c++/9/bits/stl_function.h \
  /usr/include/c++/9/backward/binders.h \
+ /usr/include/c++/9/bits/range_access.h \
+ /usr/include/c++/9/initializer_list \
  /usr/include/c++/9/bits/basic_string.h \
+ /usr/include/c++/9/ext/alloc_traits.h \
+ /usr/include/c++/9/bits/alloc_traits.h \
  /usr/include/c++/9/ext/string_conversions.h /usr/include/c++/9/cstdlib \
  /usr/include/c++/9/cstdio /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -145,6 +144,7 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+ /usr/include/c++/9/bits/functional_hash.h \
  /usr/include/c++/9/bits/basic_string.tcc \
  /usr/include/c++/9/bits/locale_classes.tcc \
  /usr/include/c++/9/system_error \
@@ -161,11 +161,12 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/c++/9/bits/basic_ios.tcc /usr/include/c++/9/ostream \
  /usr/include/c++/9/bits/ostream.tcc /usr/include/c++/9/bits/istream.tcc \
  /usr/include/c++/9/bits/sstream.tcc /opt/Geant4/include/Geant4/tls.hh \
- /usr/include/c++/9/iostream /opt/Geant4/include/Geant4/globals.hh \
- /usr/include/c++/9/algorithm /usr/include/c++/9/utility \
- /usr/include/c++/9/bits/stl_relops.h /usr/include/c++/9/bits/stl_algo.h \
+ /usr/include/c++/9/iostream /usr/include/c++/9/algorithm \
+ /usr/include/c++/9/utility /usr/include/c++/9/bits/stl_relops.h \
+ /usr/include/c++/9/bits/stl_algo.h \
  /usr/include/c++/9/bits/algorithmfwd.h \
  /usr/include/c++/9/bits/stl_heap.h /usr/include/c++/9/bits/stl_tempbuf.h \
+ /usr/include/c++/9/bits/stl_construct.h \
  /usr/include/c++/9/bits/uniform_int_dist.h /usr/include/c++/9/limits \
  /opt/Geant4/include/Geant4/G4String.hh /usr/include/c++/9/cstring \
  /usr/include/string.h /usr/include/strings.h \
@@ -203,9 +204,21 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/c++/9/bits/parse_numbers.h \
  /usr/include/c++/9/bits/std_mutex.h \
  /usr/include/c++/9/bits/unique_lock.h \
- /opt/Geant4/include/Geant4/rundefs.hh \
- /opt/Geant4/include/Geant4/G4VPhysicsConstructor.hh \
- /opt/Geant4/include/Geant4/G4ParticleTable.hh \
+ /opt/Geant4/include/Geant4/G4VPrimaryGenerator.hh \
+ /opt/Geant4/include/Geant4/G4ThreeVector.hh \
+ /opt/CLHEP/include/CLHEP/Vector/ThreeVector.h \
+ /opt/CLHEP/include/CLHEP/Vector/defs.h \
+ /opt/CLHEP/include/CLHEP/Vector/ThreeVector.icc \
+ /opt/Geant4/include/Geant4/G4ParticleDefinition.hh \
+ /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_uninitialized.h \
+ /usr/include/c++/9/bits/stl_vector.h \
+ /usr/include/c++/9/bits/stl_bvector.h /usr/include/c++/9/bits/vector.tcc \
+ /opt/CLHEP/include/CLHEP/Units/PhysicalConstants.h \
+ /opt/CLHEP/include/CLHEP/Units/defs.h \
+ /opt/CLHEP/include/CLHEP/Units/SystemOfUnits.h \
+ /opt/Geant4/include/Geant4/G4PDefManager.hh /usr/include/c++/9/stdlib.h \
+ /opt/Geant4/include/Geant4/pwdefs.hh \
+ /opt/Geant4/include/Geant4/G4AutoLock.hh \
  /opt/Geant4/include/Geant4/G4Threading.hh \
  /usr/include/c++/9/condition_variable \
  /usr/include/c++/9/ext/concurrence.h \
@@ -221,36 +234,13 @@ CMakeFiles/sim.dir/physics.cc.o: \
  /usr/include/c++/9/backward/auto_ptr.h /usr/include/c++/9/atomic \
  /usr/include/c++/9/bits/atomic_futex.h \
  /usr/include/c++/9/bits/std_function.h \
- /opt/Geant4/include/Geant4/G4ParticleDefinition.hh \
- /opt/CLHEP/include/CLHEP/Units/PhysicalConstants.h \
- /opt/CLHEP/include/CLHEP/Units/defs.h \
- /opt/CLHEP/include/CLHEP/Units/SystemOfUnits.h \
- /opt/Geant4/include/Geant4/G4PDefManager.hh /usr/include/c++/9/stdlib.h \
- /opt/Geant4/include/Geant4/pwdefs.hh \
- /opt/Geant4/include/Geant4/G4AutoLock.hh \
  /opt/Geant4/include/Geant4/G4ParticleDefinition.icc \
+ /opt/Geant4/include/Geant4/G4PrimaryVertex.hh \
+ /opt/Geant4/include/Geant4/G4Allocator.hh /usr/include/c++/9/cstddef \
+ /opt/Geant4/include/Geant4/G4AllocatorPool.hh \
+ /opt/Geant4/include/Geant4/G4PrimaryParticle.hh \
+ /opt/Geant4/include/Geant4/G4ParticleMomentum.hh \
+ /opt/Geant4/include/Geant4/G4SystemOfUnits.hh \
+ /opt/Geant4/include/Geant4/G4ParticleTable.hh \
  /opt/Geant4/include/Geant4/G4ParticleTableIterator.hh \
- /opt/Geant4/include/Geant4/G4ParticleTable.icc \
- /opt/Geant4/include/Geant4/G4PhysicsListHelper.hh \
- /opt/Geant4/include/Geant4/G4PhysicsListOrderingParameter.hh \
- /opt/Geant4/include/Geant4/G4ThreadLocalSingleton.hh \
- /usr/include/c++/9/list /usr/include/c++/9/bits/stl_list.h \
- /usr/include/c++/9/bits/list.tcc /opt/Geant4/include/Geant4/G4Cache.hh \
- /opt/Geant4/include/Geant4/G4CacheDetails.hh \
- /opt/Geant4/include/Geant4/G4VUPLSplitter.hh \
- /opt/Geant4/include/Geant4/G4VUserPhysicsList.hh \
- /opt/Geant4/include/Geant4/G4ProductionCutsTable.hh \
- /opt/Geant4/include/Geant4/G4MaterialCutsCouple.hh \
- /opt/Geant4/include/Geant4/G4ProductionCuts.hh \
- /opt/Geant4/include/Geant4/G4MCCIndexConversionTable.hh \
- /opt/Geant4/include/Geant4/G4Region.hh \
- /opt/Geant4/include/Geant4/G4GeomSplitter.hh \
- /opt/Geant4/include/Geant4/geomwdefs.hh \
- /opt/Geant4/include/Geant4/G4Region.icc \
- /opt/Geant4/include/Geant4/G4EmStandardPhysics.hh \
- /opt/Geant4/include/Geant4/G4OpticalPhysics.hh \
- /opt/Geant4/include/Geant4/G4OpticalParameters.hh \
- /opt/Geant4/include/Geant4/G4ThreeVector.hh \
- /opt/CLHEP/include/CLHEP/Vector/ThreeVector.h \
- /opt/CLHEP/include/CLHEP/Vector/defs.h \
- /opt/CLHEP/include/CLHEP/Vector/ThreeVector.icc
+ /opt/Geant4/include/Geant4/G4ParticleTable.icc

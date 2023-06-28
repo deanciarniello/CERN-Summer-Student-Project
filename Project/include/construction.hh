@@ -8,6 +8,8 @@
 #include "G4NistManager.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4LogicalVolume.hh"
+#include "G4VisAttributes.hh"
+#include "G4ProcessManager.hh"
 
 class DetectorConstruction : public G4VUserDetectorConstruction 
 {

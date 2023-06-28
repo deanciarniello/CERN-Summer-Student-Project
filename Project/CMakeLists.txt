@@ -1,16 +1,25 @@
+# Setup Project
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-
 project(Simualtion)
 
-find_package(Geant4 REQUIRED ui_all vis_all)
+# Setup Geant4 package
+option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
+if(WITH_GEANT4_UIVIS)
+  find_package(Geant4 REQUIRED ui_all vis_all)
+else()
+  find_package(Geant4 REQUIRED)
+endif()
 
+# Setup geant4 include dirs
 include(${Geant4_USE_FILE})
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-file(GLOB sources ${PROJECT_SOURCE_DIR}/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/*.hh)
+# find sources and headers
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
-add_executable(sim sim.cc ${sources} ${headers})
+add_executable(simulation simulation.cc ${sources} ${headers})
+target_link_libraries(simulation ${Geant4_LIBRARIES})
 
-target_link_libraries(sim ${Geant4_LIBRARIES})
-
-add_custom_target(Simulation DEPENDS sim)
+# add target
+add_custom_target(Simulation DEPENDS simulation)
