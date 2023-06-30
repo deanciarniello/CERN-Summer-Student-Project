@@ -632,153 +632,25 @@ CMakeFiles/simulation.dir/simulation.cc.o: \
  /opt/Geant4/include/Geant4/G4ProductionCuts.hh \
  /opt/Geant4/include/Geant4/G4MCCIndexConversionTable.hh \
  /opt/Geant4/include/Geant4/G4EmStandardPhysics.hh \
- /opt/Geant4/include/Geant4/G4OpticalPhysics.hh \
- /opt/Geant4/include/Geant4/G4OpticalParameters.hh \
- /opt/Geant4/include/Geant4/G4EmExtraPhysics.hh \
- /opt/Geant4/include/Geant4/G4EmMessenger.hh \
- /opt/Geant4/include/Geant4/G4UIcmdWithABool.hh \
- /opt/Geant4/include/Geant4/G4UIcmdWithADouble.hh \
- /opt/Geant4/include/Geant4/G4UIcmdWithAString.hh \
- /opt/Geant4/include/Geant4/G4UIcmdWithADoubleAndUnit.hh \
  /opt/Geant4/include/Geant4/G4DecayPhysics.hh \
  /opt/Geant4/include/Geant4/G4Decay.hh \
  /opt/Geant4/include/Geant4/G4VRestDiscreteProcess.hh \
  /opt/Geant4/include/Geant4/G4ParticleChangeForDecay.hh \
  /opt/Geant4/include/Geant4/G4DecayProcessType.hh \
- /opt/Geant4/include/Geant4/G4HadronElasticPhysics.hh \
- /opt/Geant4/include/Geant4/G4HadronElastic.hh \
- /opt/Geant4/include/Geant4/G4HadronicInteraction.hh \
- /opt/Geant4/include/Geant4/G4HadFinalState.hh \
- /opt/Geant4/include/Geant4/G4HadSecondary.hh \
- /opt/Geant4/include/Geant4/G4LorentzRotation.hh \
- /opt/CLHEP/include/CLHEP/Vector/LorentzRotation.h \
- /opt/CLHEP/include/CLHEP/Vector/Boost.h \
- /opt/CLHEP/include/CLHEP/Vector/BoostX.h \
- /opt/CLHEP/include/CLHEP/Vector/BoostX.icc \
- /opt/CLHEP/include/CLHEP/Vector/BoostY.h \
- /opt/CLHEP/include/CLHEP/Vector/BoostY.icc \
- /opt/CLHEP/include/CLHEP/Vector/BoostZ.h \
- /opt/CLHEP/include/CLHEP/Vector/BoostZ.icc \
- /opt/CLHEP/include/CLHEP/Vector/Boost.icc \
- /opt/CLHEP/include/CLHEP/Vector/LorentzRotation.icc \
- /opt/Geant4/include/Geant4/G4Nucleus.hh \
- /opt/Geant4/include/Geant4/G4ParticleTypes.hh \
- /opt/Geant4/include/Geant4/G4ChargedGeantino.hh \
- /opt/Geant4/include/Geant4/G4Geantino.hh \
- /opt/Geant4/include/Geant4/G4Gamma.hh \
- /opt/Geant4/include/Geant4/G4OpticalPhoton.hh \
- /opt/Geant4/include/Geant4/G4UnknownParticle.hh \
- /opt/Geant4/include/Geant4/G4MuonPlus.hh \
- /opt/Geant4/include/Geant4/G4MuonMinus.hh \
- /opt/Geant4/include/Geant4/G4TauMinus.hh \
- /opt/Geant4/include/Geant4/G4TauPlus.hh \
- /opt/Geant4/include/Geant4/G4Electron.hh \
- /opt/Geant4/include/Geant4/G4Positron.hh \
- /opt/Geant4/include/Geant4/G4NeutrinoTau.hh \
- /opt/Geant4/include/Geant4/G4AntiNeutrinoTau.hh \
- /opt/Geant4/include/Geant4/G4NeutrinoMu.hh \
- /opt/Geant4/include/Geant4/G4AntiNeutrinoMu.hh \
- /opt/Geant4/include/Geant4/G4NeutrinoE.hh \
- /opt/Geant4/include/Geant4/G4AntiNeutrinoE.hh \
- /opt/Geant4/include/Geant4/G4PionPlus.hh \
- /opt/Geant4/include/Geant4/G4PionMinus.hh \
- /opt/Geant4/include/Geant4/G4PionZero.hh \
- /opt/Geant4/include/Geant4/G4Eta.hh \
- /opt/Geant4/include/Geant4/G4EtaPrime.hh \
- /opt/Geant4/include/Geant4/G4KaonPlus.hh \
- /opt/Geant4/include/Geant4/G4KaonMinus.hh \
- /opt/Geant4/include/Geant4/G4KaonZero.hh \
- /opt/Geant4/include/Geant4/G4AntiKaonZero.hh \
- /opt/Geant4/include/Geant4/G4KaonZeroLong.hh \
- /opt/Geant4/include/Geant4/G4KaonZeroShort.hh \
- /opt/Geant4/include/Geant4/G4DMesonPlus.hh \
- /opt/Geant4/include/Geant4/G4DMesonMinus.hh \
- /opt/Geant4/include/Geant4/G4DMesonZero.hh \
- /opt/Geant4/include/Geant4/G4AntiDMesonZero.hh \
- /opt/Geant4/include/Geant4/G4DsMesonPlus.hh \
- /opt/Geant4/include/Geant4/G4DsMesonMinus.hh \
- /opt/Geant4/include/Geant4/G4JPsi.hh \
- /opt/Geant4/include/Geant4/G4Etac.hh \
- /opt/Geant4/include/Geant4/G4BMesonPlus.hh \
- /opt/Geant4/include/Geant4/G4BMesonMinus.hh \
- /opt/Geant4/include/Geant4/G4BMesonZero.hh \
- /opt/Geant4/include/Geant4/G4AntiBMesonZero.hh \
- /opt/Geant4/include/Geant4/G4BsMesonZero.hh \
- /opt/Geant4/include/Geant4/G4AntiBsMesonZero.hh \
- /opt/Geant4/include/Geant4/G4Upsilon.hh \
- /opt/Geant4/include/Geant4/G4Proton.hh \
- /opt/Geant4/include/Geant4/G4Ions.hh \
- /opt/Geant4/include/Geant4/G4AntiProton.hh \
- /opt/Geant4/include/Geant4/G4Neutron.hh \
- /opt/Geant4/include/Geant4/G4AntiNeutron.hh \
- /opt/Geant4/include/Geant4/G4Lambda.hh \
- /opt/Geant4/include/Geant4/G4SigmaPlus.hh \
- /opt/Geant4/include/Geant4/G4SigmaZero.hh \
- /opt/Geant4/include/Geant4/G4SigmaMinus.hh \
- /opt/Geant4/include/Geant4/G4XiMinus.hh \
- /opt/Geant4/include/Geant4/G4XiZero.hh \
- /opt/Geant4/include/Geant4/G4OmegaMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiLambda.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmaPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmaZero.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmaMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiXiMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiXiZero.hh \
- /opt/Geant4/include/Geant4/G4AntiOmegaMinus.hh \
- /opt/Geant4/include/Geant4/G4LambdacPlus.hh \
- /opt/Geant4/include/Geant4/G4SigmacPlusPlus.hh \
- /opt/Geant4/include/Geant4/G4SigmacPlus.hh \
- /opt/Geant4/include/Geant4/G4SigmacZero.hh \
- /opt/Geant4/include/Geant4/G4XicPlus.hh \
- /opt/Geant4/include/Geant4/G4XicZero.hh \
- /opt/Geant4/include/Geant4/G4OmegacZero.hh \
- /opt/Geant4/include/Geant4/G4AntiLambdacPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmacPlusPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmacPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmacZero.hh \
- /opt/Geant4/include/Geant4/G4AntiXicPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiXicZero.hh \
- /opt/Geant4/include/Geant4/G4AntiOmegacZero.hh \
- /opt/Geant4/include/Geant4/G4Lambdab.hh \
- /opt/Geant4/include/Geant4/G4SigmabPlus.hh \
- /opt/Geant4/include/Geant4/G4SigmabZero.hh \
- /opt/Geant4/include/Geant4/G4SigmabMinus.hh \
- /opt/Geant4/include/Geant4/G4XibZero.hh \
- /opt/Geant4/include/Geant4/G4XibMinus.hh \
- /opt/Geant4/include/Geant4/G4OmegabMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiLambdab.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmabPlus.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmabZero.hh \
- /opt/Geant4/include/Geant4/G4AntiSigmabMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiXibZero.hh \
- /opt/Geant4/include/Geant4/G4AntiXibMinus.hh \
- /opt/Geant4/include/Geant4/G4AntiOmegabMinus.hh \
- /opt/Geant4/include/Geant4/G4Alpha.hh \
- /opt/Geant4/include/Geant4/G4Deuteron.hh \
- /opt/Geant4/include/Geant4/G4He3.hh \
- /opt/Geant4/include/Geant4/G4Triton.hh \
- /opt/Geant4/include/Geant4/G4AntiAlpha.hh \
- /opt/Geant4/include/Geant4/G4AntiDeuteron.hh \
- /opt/Geant4/include/Geant4/G4AntiHe3.hh \
- /opt/Geant4/include/Geant4/G4AntiTriton.hh \
- /opt/Geant4/include/Geant4/G4GenericIon.hh \
- /opt/Geant4/include/Geant4/G4ReactionProduct.hh \
- /opt/Geant4/include/Geant4/G4HadProjectile.hh \
- /opt/Geant4/include/Geant4/G4HadronicException.hh \
- /opt/Geant4/include/Geant4/G4ReactionProductVector.hh \
- /opt/Geant4/include/Geant4/G4NucleiProperties.hh \
- /opt/Geant4/include/Geant4/G4HadronicProcess.hh \
- /opt/Geant4/include/Geant4/G4VDiscreteProcess.hh \
- /opt/Geant4/include/Geant4/G4EnergyRangeManager.hh \
- /opt/Geant4/include/Geant4/G4HadronicProcessType.hh \
- /opt/Geant4/include/Geant4/G4CrossSectionDataStore.hh \
- /opt/Geant4/include/Geant4/G4VCrossSectionDataSet.hh \
- /opt/Geant4/include/Geant4/G4FastPathHadronicCrossSection.hh \
- /opt/Geant4/include/Geant4/G4IonPhysics.hh \
+ /opt/Geant4/include/Geant4/G4EmStandardPhysics_option1.hh \
  /home/deanciarniello/CERN/Project/include/action.hh \
  /opt/Geant4/include/Geant4/G4VUserActionInitialization.hh \
  /home/deanciarniello/CERN/Project/include/generator.hh \
  /opt/Geant4/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /opt/Geant4/include/Geant4/G4ParticleGun.hh \
  /opt/Geant4/include/Geant4/G4VPrimaryGenerator.hh \
- /opt/Geant4/include/Geant4/G4ParticleTable.hh
+ /opt/Geant4/include/Geant4/G4ParticleTable.hh \
+ /opt/Geant4/include/Geant4/G4GeneralParticleSource.hh \
+ /opt/Geant4/include/Geant4/G4SingleParticleSource.hh \
+ /opt/Geant4/include/Geant4/G4SPSPosDistribution.hh \
+ /opt/Geant4/include/Geant4/G4SPSRandomGenerator.hh \
+ /opt/Geant4/include/Geant4/G4DataInterpolation.hh \
+ /opt/Geant4/include/Geant4/G4SPSAngDistribution.hh \
+ /opt/Geant4/include/Geant4/G4SPSEneDistribution.hh \
+ /opt/Geant4/include/Geant4/G4GeneralParticleSourceMessenger.hh \
+ /opt/Geant4/include/Geant4/G4GeneralParticleSourceData.hh
