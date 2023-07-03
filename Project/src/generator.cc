@@ -8,13 +8,13 @@ PrimaryGenerator::PrimaryGenerator() {
     G4ParticleDefinition *particle = particleTable->FindParticle("mu-"); //muon
 
     // set the particle position and momentum direction on a circle in the xz plane
-    G4double radius = 100.0 * cm;  // Set the desired radius
-    G4double phi = 87.5 * deg;  // Set the desired angle
+    G4double radius = 50.0 * cm;  // Set the desired radius
+    G4double theta = 1.5 * deg;  // Set the desired angle
 
     // calculate the position on the circle
     G4double x = 0.0;
-    G4double y = radius * std::cos(phi);
-    G4double z = radius * std::sin(phi);
+    G4double y = radius * std::sin(theta);
+    G4double z = radius * std::cos(theta);
     fParticleGun->SetParticlePosition(G4ThreeVector(x, y, z));
 
     // set the particle momentum direction to point towards the origin
@@ -24,7 +24,7 @@ PrimaryGenerator::PrimaryGenerator() {
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(px, py, pz));
 
     // set other beam parameters
-    fParticleGun->SetParticleMomentum(60.*MeV);
+    fParticleGun->SetParticleMomentum(90.*MeV);
     fParticleGun->SetParticleDefinition(particle);
 }
 

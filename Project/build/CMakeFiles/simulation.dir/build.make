@@ -83,38 +83,94 @@ CMakeFiles/simulation.dir/simulation.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/simulation.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/simulation.cc -o CMakeFiles/simulation.dir/simulation.cc.s
 
-CMakeFiles/simulation.dir/src/action.cc.o: CMakeFiles/simulation.dir/flags.make
-CMakeFiles/simulation.dir/src/action.cc.o: ../src/action.cc
-CMakeFiles/simulation.dir/src/action.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/simulation.dir/src/action.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/action.cc.o -MF CMakeFiles/simulation.dir/src/action.cc.o.d -o CMakeFiles/simulation.dir/src/action.cc.o -c /home/deanciarniello/CERN/Project/src/action.cc
+CMakeFiles/simulation.dir/src/Action.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/Action.cc.o: ../src/Action.cc
+CMakeFiles/simulation.dir/src/Action.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/simulation.dir/src/Action.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/Action.cc.o -MF CMakeFiles/simulation.dir/src/Action.cc.o.d -o CMakeFiles/simulation.dir/src/Action.cc.o -c /home/deanciarniello/CERN/Project/src/Action.cc
 
-CMakeFiles/simulation.dir/src/action.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/action.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/action.cc > CMakeFiles/simulation.dir/src/action.cc.i
+CMakeFiles/simulation.dir/src/Action.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/Action.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/Action.cc > CMakeFiles/simulation.dir/src/Action.cc.i
 
-CMakeFiles/simulation.dir/src/action.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/action.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/action.cc -o CMakeFiles/simulation.dir/src/action.cc.s
+CMakeFiles/simulation.dir/src/Action.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/Action.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/Action.cc -o CMakeFiles/simulation.dir/src/Action.cc.s
 
-CMakeFiles/simulation.dir/src/construction.cc.o: CMakeFiles/simulation.dir/flags.make
-CMakeFiles/simulation.dir/src/construction.cc.o: ../src/construction.cc
-CMakeFiles/simulation.dir/src/construction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/simulation.dir/src/construction.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/construction.cc.o -MF CMakeFiles/simulation.dir/src/construction.cc.o.d -o CMakeFiles/simulation.dir/src/construction.cc.o -c /home/deanciarniello/CERN/Project/src/construction.cc
+CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o: ../src/DetectorConstruction.cc
+CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o -MF CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o.d -o CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o -c /home/deanciarniello/CERN/Project/src/DetectorConstruction.cc
 
-CMakeFiles/simulation.dir/src/construction.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/construction.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/construction.cc > CMakeFiles/simulation.dir/src/construction.cc.i
+CMakeFiles/simulation.dir/src/DetectorConstruction.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/DetectorConstruction.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/DetectorConstruction.cc > CMakeFiles/simulation.dir/src/DetectorConstruction.cc.i
 
-CMakeFiles/simulation.dir/src/construction.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/construction.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/construction.cc -o CMakeFiles/simulation.dir/src/construction.cc.s
+CMakeFiles/simulation.dir/src/DetectorConstruction.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/DetectorConstruction.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/DetectorConstruction.cc -o CMakeFiles/simulation.dir/src/DetectorConstruction.cc.s
+
+CMakeFiles/simulation.dir/src/EventAction.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/EventAction.cc.o: ../src/EventAction.cc
+CMakeFiles/simulation.dir/src/EventAction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/simulation.dir/src/EventAction.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/EventAction.cc.o -MF CMakeFiles/simulation.dir/src/EventAction.cc.o.d -o CMakeFiles/simulation.dir/src/EventAction.cc.o -c /home/deanciarniello/CERN/Project/src/EventAction.cc
+
+CMakeFiles/simulation.dir/src/EventAction.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/EventAction.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/EventAction.cc > CMakeFiles/simulation.dir/src/EventAction.cc.i
+
+CMakeFiles/simulation.dir/src/EventAction.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/EventAction.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/EventAction.cc -o CMakeFiles/simulation.dir/src/EventAction.cc.s
+
+CMakeFiles/simulation.dir/src/PhysicsList.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/PhysicsList.cc.o: ../src/PhysicsList.cc
+CMakeFiles/simulation.dir/src/PhysicsList.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/simulation.dir/src/PhysicsList.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/PhysicsList.cc.o -MF CMakeFiles/simulation.dir/src/PhysicsList.cc.o.d -o CMakeFiles/simulation.dir/src/PhysicsList.cc.o -c /home/deanciarniello/CERN/Project/src/PhysicsList.cc
+
+CMakeFiles/simulation.dir/src/PhysicsList.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/PhysicsList.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/PhysicsList.cc > CMakeFiles/simulation.dir/src/PhysicsList.cc.i
+
+CMakeFiles/simulation.dir/src/PhysicsList.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/PhysicsList.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/PhysicsList.cc -o CMakeFiles/simulation.dir/src/PhysicsList.cc.s
+
+CMakeFiles/simulation.dir/src/RunAction.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/RunAction.cc.o: ../src/RunAction.cc
+CMakeFiles/simulation.dir/src/RunAction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/simulation.dir/src/RunAction.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/RunAction.cc.o -MF CMakeFiles/simulation.dir/src/RunAction.cc.o.d -o CMakeFiles/simulation.dir/src/RunAction.cc.o -c /home/deanciarniello/CERN/Project/src/RunAction.cc
+
+CMakeFiles/simulation.dir/src/RunAction.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/RunAction.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/RunAction.cc > CMakeFiles/simulation.dir/src/RunAction.cc.i
+
+CMakeFiles/simulation.dir/src/RunAction.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/RunAction.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/RunAction.cc -o CMakeFiles/simulation.dir/src/RunAction.cc.s
+
+CMakeFiles/simulation.dir/src/StepAction.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/StepAction.cc.o: ../src/StepAction.cc
+CMakeFiles/simulation.dir/src/StepAction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/simulation.dir/src/StepAction.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/StepAction.cc.o -MF CMakeFiles/simulation.dir/src/StepAction.cc.o.d -o CMakeFiles/simulation.dir/src/StepAction.cc.o -c /home/deanciarniello/CERN/Project/src/StepAction.cc
+
+CMakeFiles/simulation.dir/src/StepAction.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/StepAction.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/StepAction.cc > CMakeFiles/simulation.dir/src/StepAction.cc.i
+
+CMakeFiles/simulation.dir/src/StepAction.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/StepAction.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/StepAction.cc -o CMakeFiles/simulation.dir/src/StepAction.cc.s
 
 CMakeFiles/simulation.dir/src/generator.cc.o: CMakeFiles/simulation.dir/flags.make
 CMakeFiles/simulation.dir/src/generator.cc.o: ../src/generator.cc
 CMakeFiles/simulation.dir/src/generator.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/simulation.dir/src/generator.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/simulation.dir/src/generator.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/generator.cc.o -MF CMakeFiles/simulation.dir/src/generator.cc.o.d -o CMakeFiles/simulation.dir/src/generator.cc.o -c /home/deanciarniello/CERN/Project/src/generator.cc
 
 CMakeFiles/simulation.dir/src/generator.cc.i: cmake_force
@@ -125,36 +181,28 @@ CMakeFiles/simulation.dir/src/generator.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/generator.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/generator.cc -o CMakeFiles/simulation.dir/src/generator.cc.s
 
-CMakeFiles/simulation.dir/src/physics.cc.o: CMakeFiles/simulation.dir/flags.make
-CMakeFiles/simulation.dir/src/physics.cc.o: ../src/physics.cc
-CMakeFiles/simulation.dir/src/physics.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/simulation.dir/src/physics.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/physics.cc.o -MF CMakeFiles/simulation.dir/src/physics.cc.o.d -o CMakeFiles/simulation.dir/src/physics.cc.o -c /home/deanciarniello/CERN/Project/src/physics.cc
-
-CMakeFiles/simulation.dir/src/physics.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/physics.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/physics.cc > CMakeFiles/simulation.dir/src/physics.cc.i
-
-CMakeFiles/simulation.dir/src/physics.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/physics.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/physics.cc -o CMakeFiles/simulation.dir/src/physics.cc.s
-
 # Object files for target simulation
 simulation_OBJECTS = \
 "CMakeFiles/simulation.dir/simulation.cc.o" \
-"CMakeFiles/simulation.dir/src/action.cc.o" \
-"CMakeFiles/simulation.dir/src/construction.cc.o" \
-"CMakeFiles/simulation.dir/src/generator.cc.o" \
-"CMakeFiles/simulation.dir/src/physics.cc.o"
+"CMakeFiles/simulation.dir/src/Action.cc.o" \
+"CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o" \
+"CMakeFiles/simulation.dir/src/EventAction.cc.o" \
+"CMakeFiles/simulation.dir/src/PhysicsList.cc.o" \
+"CMakeFiles/simulation.dir/src/RunAction.cc.o" \
+"CMakeFiles/simulation.dir/src/StepAction.cc.o" \
+"CMakeFiles/simulation.dir/src/generator.cc.o"
 
 # External object files for target simulation
 simulation_EXTERNAL_OBJECTS =
 
 simulation: CMakeFiles/simulation.dir/simulation.cc.o
-simulation: CMakeFiles/simulation.dir/src/action.cc.o
-simulation: CMakeFiles/simulation.dir/src/construction.cc.o
+simulation: CMakeFiles/simulation.dir/src/Action.cc.o
+simulation: CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o
+simulation: CMakeFiles/simulation.dir/src/EventAction.cc.o
+simulation: CMakeFiles/simulation.dir/src/PhysicsList.cc.o
+simulation: CMakeFiles/simulation.dir/src/RunAction.cc.o
+simulation: CMakeFiles/simulation.dir/src/StepAction.cc.o
 simulation: CMakeFiles/simulation.dir/src/generator.cc.o
-simulation: CMakeFiles/simulation.dir/src/physics.cc.o
 simulation: CMakeFiles/simulation.dir/build.make
 simulation: /opt/Geant4/lib/libG4Tree.so
 simulation: /opt/Geant4/lib/libG4FR.so
@@ -204,7 +252,7 @@ simulation: /opt/Geant4/lib/libG4global.so
 simulation: /opt/Geant4/lib/libG4ptl.so.0.0.2
 simulation: /opt/CLHEP/lib/libCLHEP-2.4.4.2.so
 simulation: CMakeFiles/simulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable simulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable simulation"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/simulation.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

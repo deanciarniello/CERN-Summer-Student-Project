@@ -6,9 +6,9 @@
 #include "G4UIExecutive.hh"
 #include "G4VisExecutive.hh"
 
-#include "construction.hh"
-#include "physics.hh"
-#include "action.hh"
+#include "DetectorConstruction.hh"
+#include "PhysicsList.hh"
+#include "Action.hh"
 
 int main(int argc, char** argv) {
     auto *runManager = G4RunManagerFactory::CreateRunManager();;

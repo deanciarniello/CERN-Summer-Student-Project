@@ -1,7 +1,7 @@
-CMakeFiles/simulation.dir/src/physics.cc.o: \
- /home/deanciarniello/CERN/Project/src/physics.cc \
+CMakeFiles/simulation.dir/src/PhysicsList.cc.o: \
+ /home/deanciarniello/CERN/Project/src/PhysicsList.cc \
  /usr/include/stdc-predef.h \
- /home/deanciarniello/CERN/Project/include/physics.hh \
+ /home/deanciarniello/CERN/Project/include/PhysicsList.hh \
  /opt/Geant4/include/Geant4/G4VModularPhysicsList.hh \
  /usr/include/c++/9/vector /usr/include/c++/9/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/9/bits/c++config.h \

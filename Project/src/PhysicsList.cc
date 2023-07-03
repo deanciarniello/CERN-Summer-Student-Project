@@ -1,4 +1,4 @@
-#include "physics.hh"
+#include "PhysicsList.hh"
 
 PhysicsList::PhysicsList() {
     RegisterPhysics (new G4EmStandardPhysics_option4());

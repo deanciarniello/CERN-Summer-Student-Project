@@ -1,4 +1,4 @@
-#include "construction.hh"
+#include "DetectorConstruction.hh"
 
 DetectorConstruction::DetectorConstruction() {
 
