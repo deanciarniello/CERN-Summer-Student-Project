@@ -125,10 +125,24 @@ CMakeFiles/simulation.dir/src/EventAction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/EventAction.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/EventAction.cc -o CMakeFiles/simulation.dir/src/EventAction.cc.s
 
+CMakeFiles/simulation.dir/src/Generator.cc.o: CMakeFiles/simulation.dir/flags.make
+CMakeFiles/simulation.dir/src/Generator.cc.o: ../src/Generator.cc
+CMakeFiles/simulation.dir/src/Generator.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/simulation.dir/src/Generator.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/Generator.cc.o -MF CMakeFiles/simulation.dir/src/Generator.cc.o.d -o CMakeFiles/simulation.dir/src/Generator.cc.o -c /home/deanciarniello/CERN/Project/src/Generator.cc
+
+CMakeFiles/simulation.dir/src/Generator.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/Generator.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/Generator.cc > CMakeFiles/simulation.dir/src/Generator.cc.i
+
+CMakeFiles/simulation.dir/src/Generator.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/Generator.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/Generator.cc -o CMakeFiles/simulation.dir/src/Generator.cc.s
+
 CMakeFiles/simulation.dir/src/PhysicsList.cc.o: CMakeFiles/simulation.dir/flags.make
 CMakeFiles/simulation.dir/src/PhysicsList.cc.o: ../src/PhysicsList.cc
 CMakeFiles/simulation.dir/src/PhysicsList.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/simulation.dir/src/PhysicsList.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/simulation.dir/src/PhysicsList.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/PhysicsList.cc.o -MF CMakeFiles/simulation.dir/src/PhysicsList.cc.o.d -o CMakeFiles/simulation.dir/src/PhysicsList.cc.o -c /home/deanciarniello/CERN/Project/src/PhysicsList.cc
 
 CMakeFiles/simulation.dir/src/PhysicsList.cc.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/simulation.dir/src/PhysicsList.cc.s: cmake_force
 CMakeFiles/simulation.dir/src/RunAction.cc.o: CMakeFiles/simulation.dir/flags.make
 CMakeFiles/simulation.dir/src/RunAction.cc.o: ../src/RunAction.cc
 CMakeFiles/simulation.dir/src/RunAction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/simulation.dir/src/RunAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/simulation.dir/src/RunAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/RunAction.cc.o -MF CMakeFiles/simulation.dir/src/RunAction.cc.o.d -o CMakeFiles/simulation.dir/src/RunAction.cc.o -c /home/deanciarniello/CERN/Project/src/RunAction.cc
 
 CMakeFiles/simulation.dir/src/RunAction.cc.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/simulation.dir/src/RunAction.cc.s: cmake_force
 CMakeFiles/simulation.dir/src/StepAction.cc.o: CMakeFiles/simulation.dir/flags.make
 CMakeFiles/simulation.dir/src/StepAction.cc.o: ../src/StepAction.cc
 CMakeFiles/simulation.dir/src/StepAction.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/simulation.dir/src/StepAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/simulation.dir/src/StepAction.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/StepAction.cc.o -MF CMakeFiles/simulation.dir/src/StepAction.cc.o.d -o CMakeFiles/simulation.dir/src/StepAction.cc.o -c /home/deanciarniello/CERN/Project/src/StepAction.cc
 
 CMakeFiles/simulation.dir/src/StepAction.cc.i: cmake_force
@@ -167,30 +181,16 @@ CMakeFiles/simulation.dir/src/StepAction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/StepAction.cc.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/StepAction.cc -o CMakeFiles/simulation.dir/src/StepAction.cc.s
 
-CMakeFiles/simulation.dir/src/generator.cc.o: CMakeFiles/simulation.dir/flags.make
-CMakeFiles/simulation.dir/src/generator.cc.o: ../src/generator.cc
-CMakeFiles/simulation.dir/src/generator.cc.o: CMakeFiles/simulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/deanciarniello/CERN/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/simulation.dir/src/generator.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/simulation.dir/src/generator.cc.o -MF CMakeFiles/simulation.dir/src/generator.cc.o.d -o CMakeFiles/simulation.dir/src/generator.cc.o -c /home/deanciarniello/CERN/Project/src/generator.cc
-
-CMakeFiles/simulation.dir/src/generator.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation.dir/src/generator.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/deanciarniello/CERN/Project/src/generator.cc > CMakeFiles/simulation.dir/src/generator.cc.i
-
-CMakeFiles/simulation.dir/src/generator.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation.dir/src/generator.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/deanciarniello/CERN/Project/src/generator.cc -o CMakeFiles/simulation.dir/src/generator.cc.s
-
 # Object files for target simulation
 simulation_OBJECTS = \
 "CMakeFiles/simulation.dir/simulation.cc.o" \
 "CMakeFiles/simulation.dir/src/Action.cc.o" \
 "CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o" \
 "CMakeFiles/simulation.dir/src/EventAction.cc.o" \
+"CMakeFiles/simulation.dir/src/Generator.cc.o" \
 "CMakeFiles/simulation.dir/src/PhysicsList.cc.o" \
 "CMakeFiles/simulation.dir/src/RunAction.cc.o" \
-"CMakeFiles/simulation.dir/src/StepAction.cc.o" \
-"CMakeFiles/simulation.dir/src/generator.cc.o"
+"CMakeFiles/simulation.dir/src/StepAction.cc.o"
 
 # External object files for target simulation
 simulation_EXTERNAL_OBJECTS =
@@ -199,10 +199,10 @@ simulation: CMakeFiles/simulation.dir/simulation.cc.o
 simulation: CMakeFiles/simulation.dir/src/Action.cc.o
 simulation: CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o
 simulation: CMakeFiles/simulation.dir/src/EventAction.cc.o
+simulation: CMakeFiles/simulation.dir/src/Generator.cc.o
 simulation: CMakeFiles/simulation.dir/src/PhysicsList.cc.o
 simulation: CMakeFiles/simulation.dir/src/RunAction.cc.o
 simulation: CMakeFiles/simulation.dir/src/StepAction.cc.o
-simulation: CMakeFiles/simulation.dir/src/generator.cc.o
 simulation: CMakeFiles/simulation.dir/build.make
 simulation: /opt/Geant4/lib/libG4Tree.so
 simulation: /opt/Geant4/lib/libG4FR.so

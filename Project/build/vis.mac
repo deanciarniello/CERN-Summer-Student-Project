@@ -8,3 +8,4 @@
 #/vis/scene/add/axes
 /vis/scene/add/eventID
 /vis/scene/endOfEventAction accumulate
+/run/verbose 1

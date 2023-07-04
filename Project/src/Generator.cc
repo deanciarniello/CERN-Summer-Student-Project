@@ -1,4 +1,4 @@
-#include "generator.hh"
+#include "Generator.hh"
 
 PrimaryGenerator::PrimaryGenerator() {
     fParticleGun = new G4ParticleGun(1); //1 vertex per event
@@ -9,12 +9,13 @@ PrimaryGenerator::PrimaryGenerator() {
 
     // set the particle position and momentum direction on a circle in the xz plane
     G4double radius = 50.0 * cm;  // Set the desired radius
-    G4double theta = 1.5 * deg;  // Set the desired angle
+    G4double theta = 88.5 * deg;  // Set the desired angle
+    G4double phi = 0. * deg;
 
     // calculate the position on the circle
-    G4double x = 0.0;
-    G4double y = radius * std::sin(theta);
-    G4double z = radius * std::cos(theta);
+    G4double z = radius * cos(phi) * sin(theta);
+    G4double x = radius * sin(phi) * sin(theta);
+    G4double y = radius * cos(theta);
     fParticleGun->SetParticlePosition(G4ThreeVector(x, y, z));
 
     // set the particle momentum direction to point towards the origin

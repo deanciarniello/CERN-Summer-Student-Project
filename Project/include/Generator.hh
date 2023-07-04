@@ -1,6 +1,8 @@
 #ifndef GENERATOR_HH
 #define GENERATOR_HH
 
+#include <cmath>
+
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
 #include "G4SystemOfUnits.hh"

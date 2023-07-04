@@ -3,7 +3,7 @@
 
 #include "G4VUserActionInitialization.hh"
 
-#include "generator.hh"
+#include "Generator.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "StepAction.hh"

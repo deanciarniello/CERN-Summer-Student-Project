@@ -22,15 +22,26 @@ public:
     void SetPX(G4double px) { fPXout = px; }
     void SetPY(G4double py) { fPYout = py; }
     void SetPZ(G4double pz) { fPZout = pz; }
+
+    //void SetPrimaryPDG(G4int pdg) { fPrimaryPDG = pdg; }
+    G4int GetPrimaryPDG() { return fPrimaryPDG; }
+
     void IncrementBoundaryCount() { fBoundaryCount += 1; }
     G4int GetBoundaryCount() { return fBoundaryCount; }
+
+    G4bool GetIsDecayed() { return fIsDecayed; }
+    void SetIsDecayed(G4bool isDecayed) { fIsDecayed = isDecayed; }
 
 private:
     G4double fPXout;
     G4double fPYout;
     G4double fPZout;
 
+    G4int fPrimaryPDG;
+
     G4int fBoundaryCount;
+
+    G4bool fIsDecayed;
 };
 
 

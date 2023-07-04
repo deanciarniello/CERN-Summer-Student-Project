@@ -313,6 +313,7 @@ CMakeFiles/simulation.dir/src/StepAction.cc.o: \
  /opt/Geant4/include/Geant4/G4PhysicsModelCatalog.hh \
  /opt/Geant4/include/Geant4/G4Track.icc \
  /opt/Geant4/include/Geant4/G4Step.hh \
+ /opt/Geant4/include/Geant4/G4Track.hh \
  /home/deanciarniello/CERN/Project/include/DetectorConstruction.hh \
  /opt/Geant4/include/Geant4/G4SystemOfUnits.hh \
  /opt/Geant4/include/Geant4/G4VUserDetectorConstruction.hh \
@@ -429,6 +430,8 @@ CMakeFiles/simulation.dir/src/StepAction.cc.o: \
  /opt/Geant4/include/Geant4/G4ProcessVector.hh \
  /opt/Geant4/include/Geant4/G4ProcessVector.icc \
  /opt/Geant4/include/Geant4/G4ProcessManager.icc \
+ /opt/Geant4/include/Geant4/G4UserLimits.hh \
+ /opt/Geant4/include/Geant4/G4UserLimits.icc \
  /home/deanciarniello/CERN/Project/include/EventAction.hh \
  /opt/Geant4/include/Geant4/G4UserEventAction.hh \
  /opt/Geant4/include/Geant4/G4Event.hh \

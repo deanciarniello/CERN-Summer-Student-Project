@@ -10,6 +10,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4VisAttributes.hh"
 #include "G4ProcessManager.hh"
+#include "G4UserLimits.hh"
 
 class DetectorConstruction : public G4VUserDetectorConstruction 
 {

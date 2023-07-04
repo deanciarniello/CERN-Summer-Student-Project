@@ -17,7 +17,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4double density = 1.e-25*g/cm3;
     G4double temperature = 2.73*kelvin;
     G4double pressure = 3.e-18*pascal;
-    G4Material *vacuum = new G4Material("interGalactic", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
+    G4Material *vacuum = new G4Material("vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
+    
     G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
 
     // Each shape needs 3 volumes
@@ -26,7 +27,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.), logicWorld, "physWorld", 0, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);
 
-    G4Box *solidPlate = new G4Box("solidPlate", 1*m, 0.5*mm, 1*m);
+    G4Box *solidPlate = new G4Box("solidPlate", 1*m, 5*mm, 1*m);
     G4LogicalVolume *logicPlate = new G4LogicalVolume(solidPlate, copper, "logicPlate");
     G4VPhysicalVolume *physPlate = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPlate, "physPlate", logicWorld, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
 
@@ -34,6 +35,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     //plateVisAttributes->SetVisibility(true);
     plateVisAttributes->SetForceSolid(true);  // Enable solid visualization
     logicPlate->SetVisAttributes(plateVisAttributes);
+
+    G4double maxStep = 0.1*mm;
+    G4UserLimits *stepLimit = new G4UserLimits(maxStep);
+    logicPlate->SetUserLimits(stepLimit);
 
     return physWorld; //return phys volume
 }

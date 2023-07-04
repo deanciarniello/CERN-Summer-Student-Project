@@ -238,6 +238,30 @@ src/EventAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/EventAction.cc.s
 .PHONY : src/EventAction.cc.s
 
+src/Generator.o: src/Generator.cc.o
+.PHONY : src/Generator.o
+
+# target to build an object file
+src/Generator.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Generator.cc.o
+.PHONY : src/Generator.cc.o
+
+src/Generator.i: src/Generator.cc.i
+.PHONY : src/Generator.i
+
+# target to preprocess a source file
+src/Generator.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Generator.cc.i
+.PHONY : src/Generator.cc.i
+
+src/Generator.s: src/Generator.cc.s
+.PHONY : src/Generator.s
+
+# target to generate assembly for a file
+src/Generator.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/Generator.cc.s
+.PHONY : src/Generator.cc.s
+
 src/PhysicsList.o: src/PhysicsList.cc.o
 .PHONY : src/PhysicsList.o
 
@@ -310,30 +334,6 @@ src/StepAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/StepAction.cc.s
 .PHONY : src/StepAction.cc.s
 
-src/generator.o: src/generator.cc.o
-.PHONY : src/generator.o
-
-# target to build an object file
-src/generator.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/generator.cc.o
-.PHONY : src/generator.cc.o
-
-src/generator.i: src/generator.cc.i
-.PHONY : src/generator.i
-
-# target to preprocess a source file
-src/generator.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/generator.cc.i
-.PHONY : src/generator.cc.i
-
-src/generator.s: src/generator.cc.s
-.PHONY : src/generator.s
-
-# target to generate assembly for a file
-src/generator.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/simulation.dir/build.make CMakeFiles/simulation.dir/src/generator.cc.s
-.PHONY : src/generator.cc.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -356,6 +356,9 @@ help:
 	@echo "... src/EventAction.o"
 	@echo "... src/EventAction.i"
 	@echo "... src/EventAction.s"
+	@echo "... src/Generator.o"
+	@echo "... src/Generator.i"
+	@echo "... src/Generator.s"
 	@echo "... src/PhysicsList.o"
 	@echo "... src/PhysicsList.i"
 	@echo "... src/PhysicsList.s"
@@ -365,9 +368,6 @@ help:
 	@echo "... src/StepAction.o"
 	@echo "... src/StepAction.i"
 	@echo "... src/StepAction.s"
-	@echo "... src/generator.o"
-	@echo "... src/generator.i"
-	@echo "... src/generator.s"
 .PHONY : help
 
 

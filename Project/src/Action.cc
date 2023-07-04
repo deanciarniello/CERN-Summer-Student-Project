@@ -1,5 +1,5 @@
 #include "Action.hh"
-#include "generator.hh"
+#include "Generator.hh"
 
 ActionInitialization::ActionInitialization() {
 

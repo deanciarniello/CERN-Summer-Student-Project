@@ -426,4 +426,6 @@ CMakeFiles/simulation.dir/src/DetectorConstruction.cc.o: \
  /opt/Geant4/include/Geant4/G4ProcessType.hh \
  /opt/Geant4/include/Geant4/G4ProcessVector.hh \
  /opt/Geant4/include/Geant4/G4ProcessVector.icc \
- /opt/Geant4/include/Geant4/G4ProcessManager.icc
+ /opt/Geant4/include/Geant4/G4ProcessManager.icc \
+ /opt/Geant4/include/Geant4/G4UserLimits.hh \
+ /opt/Geant4/include/Geant4/G4UserLimits.icc
