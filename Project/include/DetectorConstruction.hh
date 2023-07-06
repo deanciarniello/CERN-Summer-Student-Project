@@ -11,14 +11,20 @@
 #include "G4VisAttributes.hh"
 #include "G4ProcessManager.hh"
 #include "G4UserLimits.hh"
+#include "G4Material.hh"
+
+#include <cmath>
 
 class DetectorConstruction : public G4VUserDetectorConstruction 
 {
 public:
-    DetectorConstruction();
+    DetectorConstruction(G4int detectorConfig);
     ~DetectorConstruction();
 
     virtual G4VPhysicalVolume *Construct();
+
+private:
+    G4int fConfig;
 };
 
 

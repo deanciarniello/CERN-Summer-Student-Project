@@ -5,9 +5,10 @@ EventAction::EventAction(RunAction*) {
     fPYout = 0;
     fPZout = 0;
     
-    //fBoundaryCount = 0;
+    fBoundaryCount = 0;
 
     fIsDecayed = false;
+    fIsAbsorbed = false;
 }
 
 EventAction::~EventAction() {
@@ -15,6 +16,7 @@ EventAction::~EventAction() {
 }
 
 void EventAction::BeginOfEventAction(const G4Event* event) {
+    // ========== Set Event Action Parameters ==========
     fPXout = 0;
     fPYout = 0;
     fPZout = 0;
@@ -22,23 +24,31 @@ void EventAction::BeginOfEventAction(const G4Event* event) {
     fBoundaryCount = 0;
 
     fIsDecayed = false;
+    fIsAbsorbed = false;
+
 
     fPrimaryPDG = event->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
 }
 
 void EventAction::EndOfEventAction(const G4Event* event) {
-    G4cout << "End of event action." << G4endl;
+    // ========== Print Out Final Event Momenta for Primary Particle ==========
+    /*G4cout << "End of event action." << G4endl;
     G4cout << "Px: " << fPXout << G4endl;
     G4cout << "Py: " << fPYout << G4endl;
-    G4cout << "Pz: " << fPZout << G4endl;
+    G4cout << "Pz: " << fPZout << G4endl;*/
+    G4double Pabs = sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2));
+    if (Pabs == 0) {
+        SetIsAbsorbed(true);
+    }
 
-    
+    // ========== Fill Ntuples/Histograms ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();
     man->FillNtupleIColumn(1,0,event->GetEventID());
     man->FillNtupleIColumn(1,1,fIsDecayed);
+    man->FillNtupleIColumn(1,2,fIsAbsorbed);
     man->AddNtupleRow(1); 
 
-    if (!fIsDecayed) {
+    if ((!fIsDecayed) && (!fIsAbsorbed)) {
         double theta = acos((fPYout)/sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2)));
 
         double phi;

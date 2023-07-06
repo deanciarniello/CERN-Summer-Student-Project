@@ -7,5 +7,6 @@
 /vis/scene/add/scale 10 cm
 #/vis/scene/add/axes
 /vis/scene/add/eventID
-/vis/scene/endOfEventAction accumulate
+/vis/scene/endOfEventAction accumulate 1000
 /run/verbose 1
+/run/beamOn 1000

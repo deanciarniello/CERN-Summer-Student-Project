@@ -11,7 +11,7 @@
 
 class PrimaryGenerator : public G4VUserPrimaryGeneratorAction {
 public:
-    PrimaryGenerator();
+    PrimaryGenerator(G4double, G4double, G4String);
     ~PrimaryGenerator();
     virtual void GeneratePrimaries(G4Event*);
 

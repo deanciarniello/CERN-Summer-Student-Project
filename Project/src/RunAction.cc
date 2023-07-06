@@ -1,7 +1,7 @@
 #include "RunAction.hh"
 
-RunAction::RunAction() {
-
+RunAction::RunAction(G4String output) {
+    fOutputFile = output;
 }
 
 RunAction::~RunAction() {
@@ -9,8 +9,9 @@ RunAction::~RunAction() {
 }
 
 void RunAction::BeginOfRunAction(const G4Run* run) {
+    // =========== Create Ntuples and Histograms in .root file ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();
-    man->OpenFile("output.root");
+    man->OpenFile(fOutputFile);
 
     // Create Ntuple for Primary Events (no decay)
     man->CreateNtuple("PrimaryEvents", "Primary Events");  // can rename as appropriate
@@ -26,6 +27,7 @@ void RunAction::BeginOfRunAction(const G4Run* run) {
     man->CreateNtuple("AllEvents", "All Events");
     man->CreateNtupleIColumn("fEvent");
     man->CreateNtupleIColumn("fIsDecayed");
+    man->CreateNtupleIColumn("fIsAbsorbed");
     man->FinishNtuple();
 
     // Create 2D Histograms
@@ -34,6 +36,7 @@ void RunAction::BeginOfRunAction(const G4Run* run) {
 }
 
 void RunAction::EndOfRunAction(const G4Run*) {
+    // ========== Write and Close .root file ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();
     man->Write();
     man->CloseFile();

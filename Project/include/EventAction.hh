@@ -23,7 +23,6 @@ public:
     void SetPY(G4double py) { fPYout = py; }
     void SetPZ(G4double pz) { fPZout = pz; }
 
-    //void SetPrimaryPDG(G4int pdg) { fPrimaryPDG = pdg; }
     G4int GetPrimaryPDG() { return fPrimaryPDG; }
 
     void IncrementBoundaryCount() { fBoundaryCount += 1; }
@@ -31,6 +30,9 @@ public:
 
     G4bool GetIsDecayed() { return fIsDecayed; }
     void SetIsDecayed(G4bool isDecayed) { fIsDecayed = isDecayed; }
+
+    G4bool GetIsAbsorbed() { return fIsAbsorbed; }
+    void SetIsAbsorbed(G4bool isAbsorbed) { fIsAbsorbed = isAbsorbed; }
 
 private:
     G4double fPXout;
@@ -42,6 +44,7 @@ private:
     G4int fBoundaryCount;
 
     G4bool fIsDecayed;
+    G4bool fIsAbsorbed;
 };
 
 
