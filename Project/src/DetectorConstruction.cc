@@ -21,6 +21,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4double pressure = 3.e-18*pascal;
     G4Material *Vacuum = new G4Material("vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
 
+    // Gold
+    G4Material *gold = nist->FindOrBuildMaterial("G4_Au");
+
+
     switch (fConfig) {
         // Copper (Elemental)
         case 0: {
@@ -61,6 +65,13 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             break;
         }
 
+        // Copper (Elemental)
+        case 2: {
+            G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
+            plateMaterial = copper;
+            break;
+        }
+
         // Default (Copper)
         default: {
             G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
@@ -69,8 +80,8 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
         }
     }
 
-
-
+    G4double plateThickness = 5*mm;
+    G4double coatingThickness = 5*um;
 
     // ========== Construct Shapes ==========
     // World
@@ -80,21 +91,37 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);
 
     // Scattering Plate
-    G4Box *solidPlate = new G4Box("solidPlate", 1*m, 5*mm, 1*m);
+    G4Box *solidPlate = new G4Box("solidPlate", 1*m, plateThickness, 1*m);
     G4LogicalVolume *logicPlate = new G4LogicalVolume(solidPlate, plateMaterial, "logicPlate");
     G4VPhysicalVolume *physPlate = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicPlate, "physPlate", logicWorld, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
+
+    G4Box *solidCoatingGold = nullptr;
+    G4LogicalVolume *logicCoatingGold = nullptr;
+    G4VPhysicalVolume *physCoatingGold = nullptr;
+    if (fConfig == 2) {
+        solidCoatingGold = new G4Box("solidCoatingGold", 1*m, coatingThickness, 1*m);
+        logicCoatingGold = new G4LogicalVolume(solidCoatingGold, gold, "logicalCoatingGold");
+        physCoatingGold = new G4PVPlacement(0, G4ThreeVector(0., ((coatingThickness + plateThickness)/2), 0.), logicCoatingGold, "physCoatingGold", logicWorld, false, 0, true);
+    }
 
 
 
     // ========== Set Visualization Attributes ==========
     
     G4VisAttributes* plateVisAttributes = new G4VisAttributes();
+    G4VisAttributes* coatingVisAttributes = new G4VisAttributes();
     switch (fConfig) {
         case 0:
             plateVisAttributes->SetColour(G4Colour::Brown());
             break;
         case 1:
             plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 2:
+            plateVisAttributes->SetColour(G4Colour::Brown());
+            coatingVisAttributes->SetColour(G4Colour::Yellow());
+            coatingVisAttributes->SetForceSolid(true);
+            logicCoatingGold->SetVisAttributes(coatingVisAttributes);
             break;
         default:
             plateVisAttributes->SetColour(G4Colour::White());
@@ -108,6 +135,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4double maxStep = 0.1*mm;
     G4UserLimits *stepLimit = new G4UserLimits(maxStep);
     logicPlate->SetUserLimits(stepLimit);
+    if (fConfig == 2) {
+        logicCoatingGold->SetUserLimits(stepLimit);
+    }
 
     // ========== Return World ==========
     return physWorld;

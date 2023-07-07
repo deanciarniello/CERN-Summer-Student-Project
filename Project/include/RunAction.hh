@@ -4,6 +4,8 @@
 #include "G4UserRunAction.hh"
 #include "G4AnalysisManager.hh"
 
+#include <filesystem>
+
 class RunAction : public G4UserRunAction {
 public:
     RunAction(const G4String);

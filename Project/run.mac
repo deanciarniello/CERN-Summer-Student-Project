@@ -1,7 +1,5 @@
-# Disable the Geant4 GUI
-/vis/disable
-
 # Run
+#/run/numberOfThreads 1
 /run/initialize
 /run/verbose 1
-/run/beamOn 100
+/run/beamOn 10000
