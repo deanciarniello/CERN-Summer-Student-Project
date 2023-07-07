@@ -1,5 +1,7 @@
 # Disable the Geant4 GUI
-/vis/disable
+#/vis/disable
+
+/control/execute no_vis.mac
 
 # Run
 /run/initialize
