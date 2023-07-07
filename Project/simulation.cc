@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
     
-    ui->SessionStart();
+    //ui->SessionStart();
 
     delete visManager;
     delete runManager;
