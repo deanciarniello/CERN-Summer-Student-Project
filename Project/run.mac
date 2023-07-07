@@ -1,9 +1,10 @@
 # Disable the Geant4 GUI
-/vis/disable
-
-/control/execute no_vis.mac
+#/vis/disable
 
 # Run
 /run/initialize
+
+/control/execute no_vis.mac
+
 /run/verbose 1
 /run/beamOn 100
