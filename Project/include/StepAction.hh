@@ -4,6 +4,7 @@
 #include "G4UserSteppingAction.hh"
 #include "G4Step.hh"
 #include "G4Track.hh"
+#include "G4LogicalVolume.hh"
 
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
