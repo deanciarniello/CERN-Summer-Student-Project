@@ -5,7 +5,7 @@ EventAction::EventAction(RunAction*) {
     fPYout = 0;
     fPZout = 0;
     
-    fBoundaryCount = 0;
+    //fBoundaryCount = 0;
 
     fIsDecayed = false;
     fIsAbsorbed = false;
@@ -21,7 +21,7 @@ void EventAction::BeginOfEventAction(const G4Event* event) {
     fPYout = 0;
     fPZout = 0;
     
-    fBoundaryCount = 0;
+    //fBoundaryCount = 0;
 
     fIsDecayed = false;
     fIsAbsorbed = false;
@@ -39,7 +39,10 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     G4double Pabs = sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2));
     if (Pabs == 0) {
         SetIsAbsorbed(true);
+        //G4cout << "Absorbed!" << G4endl;
     }
+
+    //if (fIsDecayed) { G4cout << "Decayed!" << G4endl; }
 
     // ========== Fill Ntuples/Histograms ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();

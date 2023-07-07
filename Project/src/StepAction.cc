@@ -16,16 +16,21 @@ void StepAction::UserSteppingAction(const G4Step *step) {
 
         // Check if step is last in current volume
         G4bool isBoundary = step->IsLastStepInVolume();
-
+        
         if (isBoundary) {
-            fEventAction->IncrementBoundaryCount();
-            if (fEventAction->GetBoundaryCount() == 2) { // If particle is exiting plate (2nd volume it will leave)
-                // Record particle momentum
-                G4ThreeVector momentum = step->GetPostStepPoint()->GetMomentum();
-                fEventAction->SetPX(momentum[0]);
-                fEventAction->SetPY(momentum[1]);
-                fEventAction->SetPZ(momentum[2]);
-                //G4cout << "End of boundary!!!" << G4endl;
+            //fEventAction->IncrementBoundaryCount();
+
+            if (step->GetTrack()->GetNextVolume()) {
+                //G4cout << "Next Volume: " << step->GetTrack()->GetNextVolume()->GetName() << G4endl;
+
+                if (step->GetTrack()->GetNextVolume()->GetName() == "physWorld") {
+                    // Record particle momentum
+                    G4ThreeVector momentum = step->GetPostStepPoint()->GetMomentum();
+                    fEventAction->SetPX(momentum[0]);
+                    fEventAction->SetPY(momentum[1]);
+                    fEventAction->SetPZ(momentum[2]);
+                    //G4cout << "End of boundary!!!" << G4endl;
+                }
             }
         }
         //G4cout << "Is last step in boundary: " << isBoundary << G4endl;

@@ -7,7 +7,7 @@
 #include "G4Event.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "G4AnalysisManager.hh"
+#include "g4root.hh"
 
 #include "RunAction.hh"
 

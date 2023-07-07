@@ -101,7 +101,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     if (fConfig == 2) {
         solidCoatingGold = new G4Box("solidCoatingGold", 1*m, coatingThickness, 1*m);
         logicCoatingGold = new G4LogicalVolume(solidCoatingGold, gold, "logicalCoatingGold");
-        physCoatingGold = new G4PVPlacement(0, G4ThreeVector(0., ((coatingThickness + plateThickness)/2), 0.), logicCoatingGold, "physCoatingGold", logicWorld, false, 0, true);
+        physCoatingGold = new G4PVPlacement(0, G4ThreeVector(0., plateThickness, 0.), logicCoatingGold, "physCoatingGold", logicWorld, false, 0, true);
     }
 
 
