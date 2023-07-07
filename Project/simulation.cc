@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     
     //ui->SessionStart();
 
-    delete visManager;
+    //delete visManager;
     delete runManager;
     delete ui;
 
