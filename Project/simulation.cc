@@ -16,21 +16,23 @@ int main(int argc, char** argv) {
     // 1) .mac file
     // 2) detector config (plate material)
     // 3) beam angle (w.r.t normal)
-    // 4) beam momentum
+    // 4) beam momentum (MeV)
     // 5) beam particle type
-    // 6) path to output file
-    // 7) visualization {0,1}
+    // 6) output file name
+    // 7) path to output file
+    // 8) visualization {0,1}
     G4int detectorConfig = std::stoi(argv[2]);
     G4double beamAngle = std::stod(argv[3]);
     G4double beamPMeV = std::stod(argv[4]);
     G4String beamParticleType = argv[5];
     G4String outputFile = argv[6];
-    G4int vis = std::stoi(argv[7]);
+    G4String outputFilePath = argv[7];
+    G4int vis = std::stoi(argv[8]);
 
     auto *runManager = G4RunManagerFactory::CreateRunManager();
     runManager->SetUserInitialization(new DetectorConstruction(detectorConfig));
     runManager->SetUserInitialization(new PhysicsList());
-    runManager->SetUserInitialization(new ActionInitialization(beamAngle, beamPMeV, beamParticleType, outputFile));
+    runManager->SetUserInitialization(new ActionInitialization(beamAngle, beamPMeV, beamParticleType, outputFile, outputFilePath));
 
     runManager->Initialize();
 

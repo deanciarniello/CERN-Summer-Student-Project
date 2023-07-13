@@ -71,6 +71,6 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         man->AddNtupleRow(0);
 
         man->FillH2(0, phi/deg, theta/deg);
-        man->FillH2(1, fPZout, theta/deg);
+        //man->FillH2(1, fPZout, theta/deg);
     }
 }

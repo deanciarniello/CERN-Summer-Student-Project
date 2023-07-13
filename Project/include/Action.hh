@@ -10,7 +10,7 @@
 
 class ActionInitialization : public G4VUserActionInitialization {
 public:
-    ActionInitialization(const G4double, const G4double, const G4String, const G4String);
+    ActionInitialization(const G4double, const G4double, const G4String, const G4String, const G4String);
     ~ActionInitialization();
 
     // Main function of program
@@ -21,6 +21,7 @@ private:
     G4double fBeamPMeV;
     G4String fBeamParticleType;
     G4String fOutputFile;
+    G4String fOutputPath;
 };
 
 #endif
