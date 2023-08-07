@@ -44,7 +44,9 @@ Add additional notes about how to deploy this on a live system.
 
 ## Built Using <a name = "built_using"></a>
 - [Geant4](https://geant4.cern.ch/) - Simulation Framework
-- [ROOT](https://root.cern/) - Data
+- [ROOT](https://root.cern/) - Data Framework
+- [Matplotlib](https://matplotlib.org/) - Plotting
+- [NumPy](https://numpy.org/) - Data Analysis
 
 ## Authors <a name = "authors"></a>
 - Dean Ciarniello, The University of British Columbia [[@deanciarniello]](https://github.com/deanciarniello)
