@@ -1,0 +1,32 @@
+
+/vis/open OGLI
+/vis/viewer/set/viewpointVector 1 0 0
+/vis/drawVolume
+/vis/viewer/set/autoRefresh true
+/vis/scene/add/trajectories smooth
+/vis/scene/add/scale 10 cm
+#/vis/scene/add/axes
+/vis/scene/add/eventID
+/vis/scene/endOfEventAction accumulate 1000
+
+#===============================================================
+# 1D accelerator beam
+#
+/gps/particle mu+
+/gps/pos/type Beam
+#
+# the beam spot is centered at the origin and is
+# of 1d gaussian shape with a 20mm central plateau
+/gps/pos/shape Circle
+/gps/pos/centre 0. 0. 0. m
+/gps/pos/radius 35. mm
+#/gps/pos/sigma_r 5. mm
+#
+# the beam is travelling along the x-axis with 1 degrees dispersion
+/gps/ang/type beam1d
+/gps/ang/sigma_r 1. deg
+#
+# the beam energy is in gaussian profile centered at 40 MeV
+/gps/ene/type Gauss
+/gps/ene/mono 5.6 MeV
+/gps/ene/sigma 0.1 MeV
