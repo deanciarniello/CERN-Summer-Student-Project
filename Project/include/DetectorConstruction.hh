@@ -18,13 +18,14 @@
 class DetectorConstruction : public G4VUserDetectorConstruction 
 {
 public:
-    DetectorConstruction(G4int detectorConfig);
+    DetectorConstruction(G4int detectorConfig, G4double plateThickness);
     ~DetectorConstruction();
 
     virtual G4VPhysicalVolume *Construct();
 
 private:
     G4int fConfig;
+    G4double fPlateThickness;
 };
 
 

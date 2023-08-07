@@ -1,0 +1,3 @@
+condor_exec.exe: line 23: [: missing `]'
+condor_exec.exe: line 30: [: missing `]'
+warning: found zero files to copy!

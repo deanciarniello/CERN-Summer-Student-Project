@@ -1,6 +1,6 @@
 # Setup Project
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-project(Simualtion)
+project(Simulation)
 
 # Setup Geant4 package
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)

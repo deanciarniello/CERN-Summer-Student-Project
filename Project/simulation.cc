@@ -21,6 +21,7 @@ int main(int argc, char** argv) {
     // 6) output file name
     // 7) path to output file
     // 8) visualization {0,1}
+    // 9) plate thickness (in mm) [OPTIONAL]
     G4int detectorConfig = std::stoi(argv[2]);
     G4double beamAngle = std::stod(argv[3]);
     G4double beamPMeV = std::stod(argv[4]);
@@ -28,9 +29,15 @@ int main(int argc, char** argv) {
     G4String outputFile = argv[6];
     G4String outputFilePath = argv[7];
     G4int vis = std::stoi(argv[8]);
+    G4double plateThickness;
+    if (argv[9] == NULL) {
+        plateThickness = 5; // default thickness is 5 mm
+    } else {
+        plateThickness = std::stod(argv[9]);
+    }
 
     auto *runManager = G4RunManagerFactory::CreateRunManager();
-    runManager->SetUserInitialization(new DetectorConstruction(detectorConfig));
+    runManager->SetUserInitialization(new DetectorConstruction(detectorConfig, plateThickness));
     runManager->SetUserInitialization(new PhysicsList());
     runManager->SetUserInitialization(new ActionInitialization(beamAngle, beamPMeV, beamParticleType, outputFile, outputFilePath));
 

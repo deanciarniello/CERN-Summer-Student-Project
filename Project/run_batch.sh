@@ -1,34 +1,44 @@
 #!/bin/bash
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/10.3.0/x86_64-centos7/setup.sh
+source /cvmfs/geant4.cern.ch/geant4/10.7.ref09/x86_64-centos7-gcc10-optdeb/CMake-setup.sh
 
-# Define the momentum range, angle, particles, and materials
-momenta=(seq -w 010 20 050) #20 500
-angles=(seq -w 30 1 40) #1 89
-particles=("mu+") # "mu-" "e-" "proton"
-materials=(0) # 1 2
 
-if [ ! -d "./output/" ]; then
-  mkdir -p "./output/"
+# Use user CERNBOX as EOS instance
+export EOS_MGM_URL=root://eosuser.cern.ch
+
+# Define the momentum, angle, particle, and material
+output=$1
+angle=$2
+momentum=$3
+particle=$4
+material=$5
+
+
+# Make output directory
+if [ ! -d "${output}" ]; then
+  mkdir -p "${output}"
 fi
 
-# Loop over the parameters and run the C++ scripts
-for angle in $angles; do
-  for particle in "${particles[@]}"; do
-    for material in "${materials[@]}"; do
-      for momentum in "${momenta[@]}"; do
-        if [ ! -d "./output/${material}/" ]; then
-          mkdir -p "./output/${material}/"
-        fi
-        if [ ! -d "./output/${material}/${particle}/" ]; then
-          mkdir -p "./output/${material}/${particle}/"
-        fi
-        if [ ! -d "./output/${material}/${particle}/${angle}/" ]; then
-          mkdir -p "./output/${material}/${particle}/${angle}/"
-        fi
-        if [ ! -d "./output/${material}/${particle}/${angle}/${momentum}/" ]; then
-          mkdir -p "./output/${material}/${particle}/${angle}/${momentum}/"
-        fi
-        ./build/simulation run.mac $material $angle $momentum  $particle output.root ./output/${material}/${particle}/${angle}/${momentum}/ 0
-      done
-    done
-  done
-done
+# Run Script
+if [ $# -eq 5 ]; then
+  # Run script without plate thickness argument
+  echo "Running Script"
+  ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}.root ${output}/ 0
+  echo "Finished Script"
+fi
+
+if [ $# -eq 6 ]; then
+  # Define thickness
+  thickness=$6
+
+  # Run script with plate thickness argument
+  echo "Running Script (with thickness arg)"
+  ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}_${thickness}.root ${output}/ 0 $thickness
+  echo "Finished Script (with thickness arg)"
+fi
+
+
+# for staging out a directory
+echo "Moving Files from ${output} to EOS"
+eos cp -r ${output} /eos/user/d/dciarnie/Data
+echo "Done Moving Files to EOS"

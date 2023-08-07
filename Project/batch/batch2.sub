@@ -1,0 +1,24 @@
+# File: batch.sub
+
+# Executable to run
+executable = run_batch.sh
+arguments = $(angles) $(momenta) $(particles) $(surfaces)
+
+# Input files required by the executable (if any)
+transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
+
+# Output files produced by the executable (if any)
+transfer_output_files = ""
+
+# Log files for the job
+output = jobs2/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).out
+error = jobs2/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).err
+log = jobs2/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).log
+
++JobFlavour = "espresso"
+
+#getenv = True
+
+# Queue the job
+# queue angles,momenta,particles,surfaces from config/config_e-_mu-.txt
+queue angles,momenta,particles,surfaces from config/config_mu+_proton.txt
