@@ -43,13 +43,13 @@ Add notes about how to use the system.
 Add additional notes about how to deploy this on a live system.
 
 ## Built Using <a name = "built_using"></a>
-- [Geant4](https://geant4.cern.ch/) - Simulation Framework
-- [ROOT](https://root.cern/) - Data Framework
-- [Matplotlib](https://matplotlib.org/) - Plotting
-- [NumPy](https://numpy.org/) - Data Analysis
+- <img width=20px height=20px src="https://geant4.org/assets/logo/g4logo-square.png" alt=""> [Geant4](https://geant4.cern.ch/) - Simulation Framework 
+- <img width=20px height=20px src="https://root.cern/img/logos/ROOT_Logo/misc/generic-logo-color-shadowed-512.png" alt=""> [ROOT](https://root.cern/) - Data Framework 
+- <img width=20px height=20px src="https://matplotlib.org/stable/_images/sphx_glr_logos2_001.png" alt=""> [Matplotlib](https://matplotlib.org/) - Plotting 
+- <img width=20px height=20px src="https://raw.githubusercontent.com/numpy/numpy/main/branding/logo/secondary/numpylogo2.png" alt=""> [NumPy](https://numpy.org/) - Data Analysis  
 
 ## Authors <a name = "authors"></a>
-- Dean Ciarniello, The University of British Columbia [[@deanciarniello]](https://github.com/deanciarniello)
+- Dean Ciarniello [The University of British Columbia] [@deanciarniello](https://github.com/deanciarniello)
 
 ## Acknowledgements <a name = "acknowledgement"></a>
 
