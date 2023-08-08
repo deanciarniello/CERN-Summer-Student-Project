@@ -105,6 +105,8 @@ def reduced_chi_squared(observed, expected, errors, dof):
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def setup_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    '''
+    '''
     # Fit to beta distribution and compute reduced chi-squared
     params = stats.beta.fit(thetas, floc=0, fscale=90)
     fitted_pdf = stats.beta.pdf(np.linspace(0, 90, 90), *params)
