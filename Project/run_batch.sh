@@ -1,12 +1,23 @@
 #!/bin/bash
+
+# Output Directory
+# ===========================================
+OUTPUT_DIR=/eos/user/d/dciarnie/Data
+
+
+# Source gcc and geant4 versions
+# ===========================================
 source /cvmfs/sft.cern.ch/lcg/contrib/gcc/10.3.0/x86_64-centos7/setup.sh
 source /cvmfs/geant4.cern.ch/geant4/10.7.ref09/x86_64-centos7-gcc10-optdeb/CMake-setup.sh
 
 
 # Use user CERNBOX as EOS instance
+# ===========================================
 export EOS_MGM_URL=root://eosuser.cern.ch
 
+
 # Define the momentum, angle, particle, and material
+# ===========================================
 output=$1
 angle=$2
 momentum=$3
@@ -15,11 +26,14 @@ material=$5
 
 
 # Make output directory
+# ===========================================
 if [ ! -d "${output}" ]; then
   mkdir -p "${output}"
 fi
 
+
 # Run Script
+# ===========================================
 if [ $# -eq 5 ]; then
   # Run script without plate thickness argument
   echo "Running Script"
@@ -38,7 +52,8 @@ if [ $# -eq 6 ]; then
 fi
 
 
-# for staging out a directory
+# For staging out a directory
+# ===========================================
 echo "Moving Files from ${output} to EOS"
-eos cp -r ${output} /eos/user/d/dciarnie/Data
+eos cp -r ${output} ${OUTPUT_DIR}
 echo "Done Moving Files to EOS"

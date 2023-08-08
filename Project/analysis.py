@@ -1,3 +1,26 @@
+#####################################################
+#   analysis.py                                     #
+#---------------------------------------------------#
+#   Details:                                        #
+#   Script to read output data from Geant4          #
+#   scattering simulation. Options to produce:      #
+#       *histograms of reflected angles             #
+#       *histograms of reflected momenta            #
+#       *correlation 2d histograms of reflected     #
+#           angle vs momenta                        #
+#       *arrays of histograms for each of the       #
+#           above options                           #
+#       *scatter plots (with errors) of the mode    #
+#           and mean of reflected angle             #
+#           distributions                           #
+#                                                   #
+#---------------------------------------------------#
+#   Author: Dean Ciarniello [2023-08-08]            #
+#####################################################
+
+
+# Packages
+#=====================================================
 import numpy as np
 from scipy.stats import *
 from scipy import stats, optimize
@@ -6,7 +29,9 @@ import matplotlib.pyplot as plt
 import uproot
 import os
 
-# Configuration
+
+# Plotting Options
+#=====================================================
 ANGLE_HISTOGRAMS = False
 MOMENTUM_HISTOGRAMS = False
 CORRELATION_HISTOGRAM_ANGLE_MOMENTUM = False
@@ -15,20 +40,43 @@ MOMENTUM_HISTOGRAM_ARRAY = False
 CORRELATION_HISTOGRAM_ANGLE_MOMENTUM_ARRAY = False
 ANGLES_SCATTER_PLOT = True
 MOMENTUM_SCATTER_PLOT = False
+#=====================================================
 
+
+# Number of Events
+#=====================================================
 EVENTS=100000
+#=====================================================
 
+
+# Plotting Configuration
+# Note: data for any permutations must be in the DATA directory
+#=====================================================
 MOMENTA = [50, 100, 150, 200]
 ANGLES = [0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
-SURFACES = [0, 1, 2] # 0, 1, 2
-PARTICLES = ["mu-", "e-", "proton", "mu+"] #"mu-", "e-", "proton", "mu+"
+SURFACES = [0] # 0, 1, 2
+PARTICLES = ["e-", "proton", "mu+"] #"mu-", "e-", "proton", "mu+"
+#=====================================================
 
-# Root directory where the files are located
+
+# Data Directory
+# Info: directory where the files are located
+#=====================================================
 DATA = "/eos/user/d/dciarnie/Data/output_mt/output_mt/output/"
+#=====================================================
 
 
-# ========== HELPER FUNCTIONS ==========
+
+# Helper Functions
+#=====================================================
 def return_surface_name(surface):
+    '''
+        Parameters:
+            surface (int):                  0 (Copper); 1 (Glass); 2 (Gold-Plated Copper)
+        
+        Returns:
+            surface_name (string):          name of corresponding surface/material
+    '''
     surface_name = ""
     if surface == 0:
         surface_name = "Copper"
@@ -38,46 +86,34 @@ def return_surface_name(surface):
         surface_name = "Gold-Plated-Copper"
     return surface_name
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Helper function to calculate reduced chi-squared
-def reduced_chi_squared(observed, expected, errors, degrees_of_freedom):
-    return np.sum(((observed - expected) / errors) ** 2) / degrees_of_freedom
+def reduced_chi_squared(observed, expected, errors, dof):
+    '''
+        Parameters: 
+            observed (float array):             observed values
+            expected (float array):             expected values
+            errors (float array):               errors of observed values
+            dof (int):                          degrees of freedom
+            
+        Returns:
+            r_chi_squared (float):
+    '''
+    r_chi_squared = np.sum(((observed - expected) / errors) ** 2) / dof
+    return r_chi_squared
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
-    # Fit beta distribution
-    params = stats.beta.fit(thetas, floc=0, fscale=90)
-    fitted_pdf = stats.beta.pdf(np.linspace(0, 90, 300), *params)
-    
-    ax_h.plot(np.linspace(0, 90, 300), fitted_pdf,'r-', label=f'Fitted Beta Distribution \nParams: [{params[2]:.0f},{params[3]:.0f}], a={params[0]:.2f}, b={params[1]:.2f}')
-
-    # Plot histogram
-    n, bins, _ = ax_h.hist(thetas, bins='scott', range=(0, 90), density=True, histtype='step', color='blue', linewidth=1, label=f"$\sigma: {std_dev_:.2f}$")
-    ax_h.axvline(mean_, 0, 1, color='black', linestyle='dashed', linewidth=1, label=f"Mean: {mean_:.2f}")
-    ax_h.axvline(mode_, 0, 1, color='green', linestyle='dashed', linewidth=1, label=f"Mode: {mode_:.1f}")
-    ax_h.axvline(angle, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Angle: {angle:.2f}")
-    ax_h.set_xlabel("Reflected Angle (deg)", fontsize=10)
-    ax_h.set_ylabel("Normalized Rate", fontsize=10)
-    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Angle: {angle}deg \nEvents: Total={total}, Reflected={reflected}", fontsize=11)
-    ax_h.grid(True, linestyle='--', linewidth=0.5)
-    ax_h.tick_params(axis='both', which='major', labelsize=10)
-    ax_h.spines['top'].set_visible(False)
-    ax_h.spines['right'].set_visible(False)
-    ax_h.yaxis.tick_left()
-    ax_h.yaxis.set_label_position("left")
-    ax_h.set_ylim([0,1.01*np.max(n)])
-    ax_h.legend(fontsize=8)
-
-
-def make_angle_histogram_a(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
-    # Compute reduced chi-squared for beta distribution fit
+def setup_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    # Fit to beta distribution and compute reduced chi-squared
     params = stats.beta.fit(thetas, floc=0, fscale=90)
     fitted_pdf = stats.beta.pdf(np.linspace(0, 90, 90), *params)
     observed_counts, _ = np.histogram(thetas, bins=90, range=(0, 90))
     expected_counts = len(thetas) * fitted_pdf
     degrees_of_freedom = len(observed_counts) - len(params)  # Number of bins - number of fit parameters
     reduced_chi2 = reduced_chi_squared(observed_counts[1:-1], expected_counts[1:-1], np.sqrt(expected_counts[1:-1]), degrees_of_freedom)
-                        
+                       
+    # Plot fitted beta distribution 
     ax_h.plot(np.linspace(0, 90, 90), fitted_pdf,'r-', label=f'Fitted Beta Distribution \nParams: [{params[2]:.0f},{params[3]:.0f}], a={params[0]:.2f}, b={params[1]:.2f}\nChi2/dof: {reduced_chi2:.2f}')
 
     # Plot histogram
@@ -87,54 +123,62 @@ def make_angle_histogram_a(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle
     ax_h.axvline(angle, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Angle: {angle:.2f}")
     ax_h.set_xlabel("Reflected Angle (deg)", fontsize=10)
     ax_h.set_ylabel("Normalized Rate", fontsize=10)
-    ax_h.set_title(f"Momentum: {momentum}MeV/c, Angle: {angle}deg\nN Reflected: {reflected}", fontsize=11)
     ax_h.grid(True, linestyle='--', linewidth=0.5)
     ax_h.tick_params(axis='both', which='major', labelsize=10)
     ax_h.spines['top'].set_visible(False)
     ax_h.spines['right'].set_visible(False)
     ax_h.yaxis.tick_left()
     ax_h.yaxis.set_label_position("left")
-    #ax_h.set_ylim([0,np.max(n)])
-    ax_h.legend(fontsize=9)
-
-
-def make_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
-    # Plot histogram
-    n, bins, _ = ax_h.hist(momenta, bins='scott', range=(0, momentum), density=True, histtype='step', color='blue', linewidth=1, label=f"$\sigma$: {std_dev_:.2f} MeV/c")
-    ax_h.axvline(mean_, 0, 1, color='black', linestyle='dashed', linewidth=1, label=f"Mean: {mean_:.2f} MeV/c ({(mean_/momentum)*100:.2f}% of Incident)")
-    ax_h.axvline(mode_, 0, 1, color='green', linestyle='dashed', linewidth=1, label=f"Mode: {mode_:.1f} MeV/c ({(mode_/momentum)*100:.1f}% of Incident)")
-    ax_h.axvline(momentum, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Momentum: {momentum:.2f} MeV/c")
-    ax_h.set_xlabel("Reflected Momentum (MeV/c)", fontsize=10)
-    ax_h.set_ylabel("Normalized Rate", fontsize=10)
-    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Angle: {angle}deg \nEvents: Total={total}, Reflected={reflected}", fontsize=11)
-    ax_h.grid(True, linestyle='--', linewidth=0.5)
-    ax_h.tick_params(axis='both', which='major', labelsize=10)
-    ax_h.spines['top'].set_visible(False)
-    ax_h.spines['right'].set_visible(False)
-    ax_h.yaxis.tick_left()
-    ax_h.yaxis.set_label_position("left")
-    ax_h.set_ylim([0,1.01*np.max(n)])
     ax_h.legend(fontsize=8)
     
+    return [n]
 
-def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
-    # Plot histogram
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    setup = setup_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected)
+    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Angle: {angle}deg \nEvents: Total={total}, Reflected={reflected}", fontsize=11)
+    ax_h.set_ylim([0,1.01*np.max(setup[0])])
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_angle_histogram_a(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    setup = setup_angle_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected)
+    ax_h.set_title(f"Momentum: {momentum}MeV/c, Angle: {angle}deg\nN Reflected: {reflected}", fontsize=11)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
     n, bins, _ = ax_h.hist(momenta, bins='scott', range=(0, momentum), density=True, histtype='step', color='blue', linewidth=1, label=f"$\sigma$: {std_dev_:.2f} MeV/c")
     ax_h.axvline(mean_, 0, 1, color='black', linestyle='dashed', linewidth=1, label=f"Mean: {mean_:.2f} MeV/c ({(mean_/momentum)*100:.2f}% of Incident)")
     ax_h.axvline(mode_, 0, 1, color='green', linestyle='dashed', linewidth=1, label=f"Mode: {mode_:.1f} MeV/c ({(mode_/momentum)*100:.1f}% of Incident)")
     ax_h.axvline(momentum, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Momentum: {momentum:.2f} MeV/c")
     ax_h.set_xlabel("Reflected Momentum (MeV/c)", fontsize=10)
     ax_h.set_ylabel("Normalized Rate", fontsize=10)
-    ax_h.set_title(f"Momentum: {momentum}MeV/c, Angle: {angle}deg \nN Reflected={reflected}", fontsize=11)
     ax_h.grid(True, linestyle='--', linewidth=0.5)
     ax_h.tick_params(axis='both', which='major', labelsize=10)
     ax_h.spines['top'].set_visible(False)
     ax_h.spines['right'].set_visible(False)
     ax_h.yaxis.tick_left()
     ax_h.yaxis.set_label_position("left")
-    #ax_h.set_ylim([0,1.01*np.max(n)])
     ax_h.legend(fontsize=8)
+    
+    return [n]
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected)
+    ax_h.set_ylim([0,1.01*np.max(setup[0])])
+    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Angle: {angle}deg \nEvents: Total={total}, Reflected={reflected}", fontsize=11)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected):
+    setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, angle, total, reflected)
+    ax_h.set_title(f"Momentum: {momentum}MeV/c, Angle: {angle}deg \nN Reflected={reflected}", fontsize=11)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def make_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, angle, total, reflected):
     counts_theta, bins_theta = np.histogram(thetas, bins='scott', range=(0,90))
@@ -147,7 +191,9 @@ def make_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, s
     # Add color bar for the intensity scale
     cbar = fig_h_cor.colorbar(hist[3], ax=ax_h_cor)
     cbar.set_label('Count')
-    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def make_correlation_histogram_a(fig_cor_array, axes_cor_array, thetas, momenta, particle, surface_name, momentum, angle, total, reflected):
     counts_theta, bins_theta = np.histogram(thetas, bins='scott', range=(0,90))
     counts_momentum, bins_momentum = np.histogram(momenta, bins='scott', range=(0,momentum))
@@ -158,7 +204,7 @@ def make_correlation_histogram_a(fig_cor_array, axes_cor_array, thetas, momenta,
     
     return hist
 
-
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def make_angles_scatter_plot_mean(fig_mean, ax_mean, particle, surface_name):
     # Customize the scatter plot appearance for all momenta
@@ -183,6 +229,7 @@ def make_angles_scatter_plot_mean(fig_mean, ax_mean, particle, surface_name):
     fig_mean.savefig(f"plots/scatter_plot_mean_{particle}_{surface_name}.png")
     plt.close(fig_mean)  # Close the scatter plot figure after saving
     
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def make_angles_scatter_plot_mode(fig_mode, ax_mode, particle, surface_name):
     # Customize the scatter plot appearance for all momenta
@@ -207,8 +254,13 @@ def make_angles_scatter_plot_mode(fig_mode, ax_mode, particle, surface_name):
     fig_mode.savefig(f"plots/scatter_plot_mode_{particle}_{surface_name}.png")
     plt.close(fig_mode)  # Close the scatter plot figure after saving
 
+#=====================================================
 
-# ========== Main Code ==========
+
+
+
+# Main Code
+#=====================================================
 # Perform Analysis and Make Plots
 for particle in PARTICLES:
     for surface in SURFACES:

@@ -1,5 +1,5 @@
 <p align="center">
- <img width=300px height=300px src="img.png" alt="Project logo"></a>
+ <img width=300px height=300px src="misc/img.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Geant4 Scattering Simulaton - CERN Summer Student Program 2023</h3>
@@ -54,4 +54,4 @@ Add additional notes about how to deploy this on a live system.
 ## Acknowledgements <a name = "acknowledgement"></a>
 
 - CERN Summer Student Program
-- Dr. Massimo Giovannozzi (CERN)
+- Dr. Massimo Giovannozzi [CERN]
