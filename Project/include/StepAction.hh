@@ -1,3 +1,9 @@
+/*
+File: StepAction.hh
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
 #ifndef STEP_ACTION_HH
 #define STEP_ACTION_HH
 

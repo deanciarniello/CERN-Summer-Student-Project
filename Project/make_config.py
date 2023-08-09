@@ -1,3 +1,7 @@
+# File: make_config.py
+# Author: Dean Ciarniello
+# Date: 2023-08-08
+
 # Packages
 #=====================================================
 import itertools

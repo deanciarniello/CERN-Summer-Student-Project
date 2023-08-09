@@ -1,3 +1,11 @@
+/*
+File: simulation.cc
+Author: Dean Ciarniello
+Date: 2023-08-09
+*/
+
+// Includes
+// ===================================================
 #include <iostream>
 #include <stdio.h>
 
@@ -11,7 +19,12 @@
 #include "PhysicsList.hh"
 #include "Action.hh"
 
+
+// Main
+// ===================================================
 int main(int argc, char** argv) {
+    // Read in command line arguments and store in respective variables
+    //
     // argv:
     // 1) .mac file
     // 2) detector config (plate material)
@@ -22,6 +35,7 @@ int main(int argc, char** argv) {
     // 7) path to output file
     // 8) visualization {0,1}
     // 9) plate thickness (in mm) [OPTIONAL]
+
     G4int detectorConfig = std::stoi(argv[2]);
     G4double beamAngle = std::stod(argv[3]);
     G4double beamPMeV = std::stod(argv[4]);
@@ -36,13 +50,16 @@ int main(int argc, char** argv) {
         plateThickness = std::stod(argv[9]);
     }
 
+    // Create run manager, and set user initializions: detector construction, physics list, and action
     auto *runManager = G4RunManagerFactory::CreateRunManager();
     runManager->SetUserInitialization(new DetectorConstruction(detectorConfig, plateThickness));
     runManager->SetUserInitialization(new PhysicsList());
     runManager->SetUserInitialization(new ActionInitialization(beamAngle, beamPMeV, beamParticleType, outputFile, outputFilePath));
 
+    // Initialize run manager
     runManager->Initialize();
 
+    // If ui enabled, define and initialize vis manager
     G4UIExecutive *ui = nullptr;
     G4VisManager *visManager = nullptr;
     if (vis) { 
@@ -51,14 +68,16 @@ int main(int argc, char** argv) {
         visManager->Initialize();
     }
 
+    // Get pointer to UI manager and execute .mac file
     G4UImanager *UImanager = G4UImanager::GetUIpointer();
-
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
     
+    // If vis enabled, start the session
     if (vis) { ui->SessionStart(); }
 
+    // Delete run, vis, and ui managers
     delete runManager;
     if (vis) {
         delete visManager;

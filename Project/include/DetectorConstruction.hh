@@ -1,3 +1,9 @@
+/*
+File: DetectorConstruction.hh
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
 #ifndef CONSTRUCTION_HH
 #define CONSTRUCTION_HH
 

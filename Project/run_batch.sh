@@ -1,3 +1,7 @@
+# File: run_batch.sh
+# Author: Dean Ciarniello
+# Date: 2023-08-08
+
 #!/bin/bash
 
 # Output Directory

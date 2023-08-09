@@ -1,23 +1,6 @@
-#####################################################
-#   analysis.py                                     #
-#---------------------------------------------------#
-#   Details:                                        #
-#   Script to read output data from Geant4          #
-#   scattering simulation. Options to produce:      #
-#       *histograms of reflected/transmited angles  #
-#       *histograms of reflected/transmited momenta #
-#       *correlation 2d histograms of reflected     #
-#           /transmited theta vs momenta            #
-#       *arrays of histograms for each of the       #
-#           above options                           #
-#       *scatter plots (with errors) of the mode    #
-#           and mean of reflected/transmited theta  #
-#           distributions                           #
-#                                                   #
-#---------------------------------------------------#
-#   Author: Dean Ciarniello [2023-08-08]            #
-#####################################################
-
+# File: analysis.py
+# Author: Dean Ciarniello
+# Date: 2023-08-09
 
 # Packages
 #=====================================================
@@ -28,30 +11,36 @@ import scipy as sc
 import matplotlib.pyplot as plt
 import uproot
 import os
+import matplotlib.colors as colors
 
 
 # Number of Events
 #=====================================================
-EVENTS=100000
+EVENTS=100000           # Will return error if this does not agree with number of events in data files
+CUT=5
 #=====================================================
 
 
 # Plotting Options
 #=====================================================
 THETA_HISTOGRAMS = False
-PHI_HISTOGRAMS = True
+PHI_HISTOGRAMS = False
 MOMENTUM_HISTOGRAMS = False
 CORRELATION_HISTOGRAM_THETA_MOMENTUM = False
+CORRELATION_HISTOGRAM_THETA_PHI = False
 
 THETA_HISTOGRAM_ARRAY = False
-PHI_HISTOGRAM_ARRAY = True
+PHI_HISTOGRAM_ARRAY = False
 MOMENTUM_HISTOGRAM_ARRAY = False
-CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY = False
+CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY = True
+CORRELATION_HISTOGRAM_THETA_PHI_ARRAY = True
+
+REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT = False
 
 THETAS_SCATTER_PLOT = False
 MOMENTUM_SCATTER_PLOT = False   # Not currently implemented
 
-TRANSMITTED_PARTICLES = True    # Option for angle histograms to check transmitted particle angle distributions
+TRANSMITTED_PARTICLES = False    # Option for angle histograms to check transmitted particle angle distributions
                                 # Not currently supported for scatterplots, only histograms/arrays
 
 # Extra constants for transmitted particle option
@@ -64,8 +53,8 @@ transmit = "_transmitted" if TRANSMITTED_PARTICLES else ""
 # Plotting Configuration
 # Note: data for any permutations must be in the DATA directory
 #=====================================================
-MOMENTA = [50,100,150]
-ANGLES = [40,60,80] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
+MOMENTA = [10,20,30,40]
+ANGLES = [20,40,60,80] #[0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
 SURFACES = [0] # 0, 1, 2
 PARTICLES = ["mu-"] #"mu-", "e-", "proton", "mu+"
 #=====================================================
@@ -74,7 +63,7 @@ PARTICLES = ["mu-"] #"mu-", "e-", "proton", "mu+"
 # Data Directory
 # Info: directory where the files are located
 #=====================================================
-DATA = "/eos/user/d/dciarnie/Data/output_mt/output_mt/output/"
+DATA = "/eos/user/d/dciarnie/Data/output/"
 #=====================================================
 
 
@@ -149,15 +138,13 @@ def setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle,
     #ax_h.plot(np.linspace(0, 90, 90), fitted_pdf,'r-', label=f'Fitted Beta Distribution \nParams: [{params[2]:.0f},{params[3]:.0f}], a={params[0]:.2f}, b={params[1]:.2f}\nChi2/dof: {reduced_chi2:.2f}')
 
     # Plot histogram
-    range = (90,180) if TRANSMITTED_PARTICLES else (0,90)
-    n, bins, _ = ax_h.hist(thetas, bins='scott', range=range, density=True, histtype='step', color='blue', linewidth=1, label=f"$\sigma: {std_dev_:.2f}$")
+    range_theta = (0,90)
+    n, bins, _ = ax_h.hist(thetas, bins='scott', range=range_theta, density=True, histtype='step', color='blue', linewidth=1, label=f"$\sigma: {std_dev_:.2f}$")
     
     # Plot mean, mode, and incident theta
-    theta_incident = (180 - theta_incident) if TRANSMITTED_PARTICLES else theta_incident
-    angle_label = "180 - " if TRANSMITTED_PARTICLES else ""
     ax_h.axvline(mean_, 0, 1, color='black', linestyle='dashed', linewidth=1, label=f"Mean: {mean_:.2f}")
     ax_h.axvline(mode_, 0, 1, color='green', linestyle='dashed', linewidth=1, label=f"Mode: {mode_:.1f}")
-    ax_h.axvline(theta_incident, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"{angle_label}Incident Theta: {theta_incident:.2f}")
+    ax_h.axvline(theta_incident, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Theta: {theta_incident:.2f}")
     
     # Set axis labels
     ax_h.set_xlabel(f"{refl_trans_string} Theta (deg)", fontsize=10)
@@ -314,7 +301,7 @@ def make_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surf
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_theta_histogram_a(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans):
+def make_phi_histogram_a(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans):
     '''
         Parameters:
             fig_h (matplotlib figure):      figure of plot
@@ -372,7 +359,7 @@ def setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, parti
     ax_h.axvline(momentum, 0, 1, color='red', linewidth=4, alpha=0.5, label=f"Incident Momentum: {momentum:.2f} MeV/c")
     
     # Set axis labels
-    ax_h.set_xlabel("{refl_trans_string} Momentum (MeV/c)", fontsize=10)
+    ax_h.set_xlabel(f"{refl_trans_string} Momentum (MeV/c)", fontsize=10)
     ax_h.set_ylabel("Normalized Rate", fontsize=10)
     ax_h.yaxis.set_label_position("left")
     
@@ -445,7 +432,7 @@ def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, part
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def setup_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
+def setup_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
     '''
         Parameters:
             fig_h_cor (matplotlib figure):  figure of plot
@@ -465,19 +452,24 @@ def setup_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, 
         Info:
             Makes a 2d histogram of the output momentum distribution vs the output theta distribution of one configuration of the scattering simulation
     '''
-    range = (90,180) if TRANSMITTED_PARTICLES else (0,90)
-    counts_theta, bins_theta = np.histogram(thetas, bins='scott', range=range)
-    counts_momentum, bins_momentum = np.histogram(momenta, bins='scott', range=(0,momentum))
-    hist = ax_h_cor.hist2d(thetas, momenta, bins=[bins_theta, bins_momentum], cmap='magma')
+    
+    # Compute Correlation (Pearson)
+    correlation = np.corrcoef(thetas, momenta)
+    
+    # Setup Histogram
+    range_theta = (0,90)
+    counts_theta, bins_theta = np.histogram(thetas, bins='scott', range=range_theta, density = False)
+    counts_momentum, bins_momentum = np.histogram(momenta, bins='scott', range=(0,momentum), density = False)
+    hist = ax_h_cor.hist2d(thetas, momenta, bins=[bins_theta, bins_momentum], cmap='Greys',density = True, norm=colors.LogNorm())
     ax_h_cor.set_ylabel(f"{refl_trans_string} Momentum (MeV/c)", fontsize=10)
     ax_h_cor.set_xlabel(f"{refl_trans_string} Theta (deg)", fontsize=10)
     
-    setup = [hist]
+    setup = [hist, correlation[0][1]]
     return setup
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
+def make_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
     '''
         Parameters:
             fig_h_cor (matplotlib figure):  figure of plot
@@ -496,22 +488,48 @@ def make_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, s
         Info:
             Runs setup function for 2d histogram, adds title for individual 2d histogram and adds a colorbar + label
     '''
-    setup = setup_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}", fontsize=11)
+    setup = setup_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
+    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
     
     # Add color bar for the intensity scale
     cbar = fig_h_cor.colorbar(setup[0][3], ax=ax_h_cor)
-    cbar.set_label('Count')
+    cbar.set_label('Rate')
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_correlation_histogram_a(fig_cor_array, axes_cor_array, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
+def make_correlation_theta_momentum_histogram_a(fig_cor_array, axes_cor_array, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans):
+    '''
+        Parameters:
+            fig_cor_array (matplotlib figure):  figure of plot
+            axes_cor_array (matplotlib axes):   axes of plot
+            thetas (float array):               thetas of reflected/transmited particles
+            momenta (float array):              momentum of reflected/transmited particles
+            particle (string):                  name of particle
+            surface_name (string):              name of scattering surface/material
+            momentum (float):                   momentum of incident particle
+            theta_incident (float):             incident theta of particle
+            total (int):                        total number of particles for configuration
+            refl_trans (int):                   number of reflected/transmited particles for configuration (excluding decayed particles)
+
+        Returns:
+            setup[0] (2d histogram):           2d histogram (for purposes of aligning the array colorbar with all the histograms in the array)
+        Info:
+            Runs setup function for 2d histogram and adds title for array of 2d histogram
+    '''
+    setup = setup_correlation_theta_momentum_histogram(fig_cor_array, axes_cor_array, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
+    axes_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    
+    return setup[0]
+    
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def setup_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans):
     '''
         Parameters:
             fig_h_cor (matplotlib figure):  figure of plot
             ax_h_cor (matplotlib axes):     axes of plot
             thetas (float array):           thetas of reflected/transmited particles
-            momenta (float array):          momentum of reflected/transmited particles
+            phis (float array):             phi of reflected/transmited particles
             particle (string):              name of particle
             surface_name (string):          name of scattering surface/material
             momentum (float):               momentum of incident particle
@@ -520,12 +538,78 @@ def make_correlation_histogram_a(fig_cor_array, axes_cor_array, thetas, momenta,
             refl_trans (int):               number of reflected/transmited particles for configuration (excluding decayed particles)
 
         Returns:
+            setup (matplotlib histogram):   2d matplotlib histogram
+            
+        Info:
+            Makes a 2d histogram of the output phi distribution vs the output theta distribution of one configuration of the scattering simulation
+    '''
+    
+    # Compute Correlation (Pearson)
+    correlation = np.corrcoef(thetas, momenta)
+    
+    # Setup Histogram
+    range_theta = (0,90)
+    range_phi = (0,360)
+    counts_theta, bins_theta = np.histogram(thetas, bins='scott', range=range_theta, density = False)
+    counts_phi, bins_phi = np.histogram(phis, bins='scott', range=range_phi, density = False)
+    hist = ax_h_cor.hist2d(thetas, phis, bins=[bins_theta, bins_phi], cmap='Greys',density = True, norm=colors.LogNorm())
+    ax_h_cor.set_ylabel(f"{refl_trans_string} Phi (deg)", fontsize=10)
+    ax_h_cor.set_xlabel(f"{refl_trans_string} Theta (deg)", fontsize=10)
+    
+    setup = [hist, correlation[0][1]]
+    return setup
+    
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans):
+    '''
+        Parameters:
+            fig_h_cor (matplotlib figure):  figure of plot
+            ax_h_cor (matplotlib axes):     axes of plot
+            thetas (float array):           thetas of reflected/transmited particles
+            phis (float array):             phi of reflected/transmited particles
+            particle (string):              name of particle
+            surface_name (string):          name of scattering surface/material
+            momentum (float):               momentum of incident particle
+            theta_incident (float):         incident theta of particle
+            total (int):                    total number of particles for configuration
+            refl_trans (int):               number of reflected/transmited particles for configuration (excluding decayed particles)
+
+        Returns:
+            
+        Info:
+            Runs setup function for 2d histogram, adds title for individual 2d histogram and adds a colorbar + label
+    '''
+    setup = setup_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans)
+    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    
+    # Add color bar for the intensity scale
+    cbar = fig_h_cor.colorbar(setup[0][3], ax=ax_h_cor)
+    cbar.set_label('Rate')
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_correlation_theta_phi_histogram_a(fig_cor_array, ax_cor_array, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans):
+    '''
+        Parameters:
+            fig_cor_array (matplotlib figure):  figure of plot
+            axes_cor_array (matplotlib axes):   axes of plot
+            thetas (float array):               thetas of reflected/transmited particles
+            phis (float array):                 phi of reflected/transmited particles
+            particle (string):                  name of particle
+            surface_name (string):              name of scattering surface/material
+            momentum (float):                   momentum of incident particle
+            theta_incident (float):             incident theta of particle
+            total (int):                        total number of particles for configuration
+            refl_trans (int):                   number of reflected/transmited particles for configuration (excluding decayed particles)
+
+        Returns:
             setup[0] (2d histogram):           2d histogram (for purposes of aligning the array colorbar with all the histograms in the array)
         Info:
             Runs setup function for 2d histogram and adds title for array of 2d histogram
     '''
-    setup = setup_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    axes_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}", fontsize=11)
+    setup = setup_correlation_theta_phi_histogram(fig_cor_array, ax_cor_array, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans)
+    ax_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
     
     return setup[0]
     
@@ -608,6 +692,52 @@ def make_thetas_scatter_plot_mode(fig_mode, ax_mode, particle, surface_name):
     fig_mode.savefig(f"plots/scatter_plot_theta_mode_{particle}_{surface_name}.png")
     plt.close(fig_mode)
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitted, n_decayed, n_absorbed, particle, surface_name, momentum, total):
+    '''
+        Parameters:
+            fig_rtd (matplotlib figure):        figure of plot
+            ax_rtd (matplotlib axes):           axes of plot
+            inc_angles (float array):           array of incident thetas
+            n_reflected (int array):            number of reflected particles
+            n_transmitted (int array):          number of transmitted particles
+            n_decayed (int array):              number of decayed particles
+            n_absorbed (int array):             number of absorbed particles
+            surface_name (string):              name of surface/material
+            momentum (float):                   incident particle momentum
+            total (int):                        total number of events
+        
+        Returns:
+        
+        Info:
+            Produces a scatter plot for one momentum and material/surface configuration, of the number of 
+            reflected, transmitted, absorbed, and decayed particles
+    '''
+    # Make Scatter Plots
+    ax_rtd.scatter(inc_angles, n_reflected, marker='o', edgecolors='black', label="Reflected")
+    ax_rtd.scatter(inc_angles, n_transmitted, marker='o', edgecolors='black', label="Transmitted")
+    ax_rtd.scatter(inc_angles, n_decayed, marker='o', edgecolors='black', label="Decayed")
+    ax_rtd.scatter(inc_angles, n_absorbed, marker='o', edgecolors='black', label="Absorbed")
+    
+    # Label axes and title
+    ax_rtd.set_xlabel("Incident Angle (deg)", fontsize=9, fontweight='bold')
+    ax_rtd.set_ylabel("Count", fontsize=9, fontweight='bold')
+    ax_rtd.set_title(f"Angle Study\n Particle: {particle}, Surface: {surface_name}, Momentum: {momentum} MeV/c\nN Events = {total}", fontsize=11)
+    ax_rtd.grid(True, linestyle='--', linewidth=0.5)
+    
+    # Set up ticks and axes limits
+    ax_rtd.tick_params(axis='both', which='major', labelsize=10)
+    ax_rtd.spines['top'].set_visible(False)
+    ax_rtd.spines['right'].set_visible(False)
+    ax_rtd.set_xlim([0, 90])
+    ax_rtd.set_ylim([-0.5*total,1.05*total])
+    
+    # Make legend and save/close figure.
+    ax_rtd.legend()
+    fig_rtd.savefig(f'plots/scatter_plot_rtd_{particle}_{surface_name}_{momentum}.png')
+    plt.close(fig_rtd)
+
 #=====================================================
 
 
@@ -631,13 +761,20 @@ for particle in PARTICLES:
             fig_momentum_array, axes_momentum_array = plt.subplots(len(MOMENTA), len(ANGLES), figsize=(16,16), sharex=False, sharey=False)
         
         if CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY:
-            fig_cor_array, axes_cor_array = plt.subplots(len(MOMENTA), len(ANGLES), figsize=(16,16), sharex=False, sharey=False)
+            fig_cor_array_t_m, axes_cor_array_t_m = plt.subplots(len(MOMENTA), len(ANGLES), figsize=(16,16), sharex=False, sharey=False)
+            
+        if CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
+            fig_cor_array_t_p, axes_cor_array_t_p = plt.subplots(len(MOMENTA), len(ANGLES), figsize=(16,16), sharex=False, sharey=False)
         
         # Record surface/material name as string
         surface_name = return_surface_name(surface)
         
 
         for momentum_index, momentum in enumerate(MOMENTA):
+            # Create reflected, transmitted, decayed scatterplot
+            if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
+                fig_rtd, ax_rtd = plt.subplots()
+            
             print("Analyzing momentum: " + str(momentum))
             
             # Initiate arrays for statistical parameters for theta
@@ -663,47 +800,90 @@ for particle in PARTICLES:
             
             # Record array of incident angles where there are reflected (or transmitted if TRANSMITTED_PARTICLES=True) particles
             incident_angles = []
+            
+            # Record number of non-decayed reflected and transmitted particles, and number of decayed particles
+            n_reflected = []
+            n_transmitted = []
+            n_decayed = []
+            n_absorbed = []
 
             for theta_index, theta_incident in enumerate(ANGLES):
-                print("Analyzing theta: " + str(theta_incident))
+                #print("Analyzing theta: " + str(theta_incident))
                 
                 # Initialize arrays of angles and momenta of reflected (or transmitted if TRANSMITTED_PARTICLES=True) particles for each configuration
                 thetas = []
                 phis = []
                 momenta = []
                 
+                # Initialize counts
+                reflected = 0
+                transmitted = 0
+                absorbed = 0
+                decayed = 0
+                events = 0
+                
+                
                 # Record path to specific data files
-                path = DATA+str(surface)+'/'+particle+'/'+str(theta_incident)+'/'+str(momentum)+'/'
+                #path = DATA+str(surface)+'/'+particle+'/'+str(theta_incident)+'/'+str(momentum)+'/'
+                
+                path = DATA + 'output_'+str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
                 #print(path)
 
                 # Iterate through all .root files for the specified configuration
-                for file_path in os.listdir(path):
-                    if not file_path.endswith(".root"): continue
-                    with uproot.open(path + file_path) as file:
-                        theta_i = file["PrimaryEvents"]["fTheta"]            # Store thetas from root ntuples
-                        theta_i = np.asarray(theta_i)
-                        theta = theta_i[theta_i > 90] if TRANSMITTED_PARTICLES else theta_i[theta_i <= 90] # Cut out transmitted/reflected events
-                        thetas = np.append(thetas, theta)                   # Add ntuple of thetas to thetas array
-                        
-                        phi = file["PrimaryEvents"]["fPhi"]                 # Store phis from root ntuples
-                        phi = np.asarray(phi)
-                        phi = phi[theta_i > 90] if TRANSMITTED_PARTICLES else phi[theta_i <= 90] # Cut out transmitted/reflected events
-                        phis = np.append(phis, phi)                         # Add ntuple of phis to phis array
-                        
-                        p_x = np.asarray(file["PrimaryEvents"]["fP_x"])     # Store x-momentum fro root ntuples
-                        p_y = np.asarray(file["PrimaryEvents"]["fP_y"])     # Store y-momentum fro root ntuples
-                        p_z = np.asarray(file["PrimaryEvents"]["fP_z"])     # Store z-momentum fro root ntuples
-                        p_x = p_x[p_y < 0] if TRANSMITTED_PARTICLES else p_x[p_y >= 0] # Cut out transmitted/reflected events
-                        p_z = p_z[p_y < 0] if TRANSMITTED_PARTICLES else p_z[p_y >= 0]
-                        p_y = p_y[p_y < 0] if TRANSMITTED_PARTICLES else p_y[p_y >= 0]
-                        p = np.sqrt(np.add(np.add(np.square(p_x),np.square(p_y)),np.square(p_z)))
-                        momenta = np.append(momenta, p)                     # Add ntuple of |P| to momenta array
+                #for file_path in os.listdir(path):
+                #    if not file_path.endswith(".root"): continue
+                with uproot.open(path) as file: # + file_path
+                    theta_i = file["PrimaryEvents"]["fTheta"]            # Store thetas from root ntuples
+                    theta_i = np.asarray(theta_i)
+                    theta = theta_i[theta_i > 90] if TRANSMITTED_PARTICLES else theta_i[theta_i <= 90] # Cut out transmitted/reflected events
+                    thetas = np.append(thetas, theta)                   # Add ntuple of thetas to thetas array
+                    
+                    phi = file["PrimaryEvents"]["fPhi"]                 # Store phis from root ntuples
+                    phi = np.asarray(phi)
+                    phi = phi[theta_i > 90] if TRANSMITTED_PARTICLES else phi[theta_i <= 90] # Cut out transmitted/reflected events
+                    phis = np.append(phis, phi)                         # Add ntuple of phis to phis array
+                    
+                    p_x = np.asarray(file["PrimaryEvents"]["fP_x"])     # Store x-momentum fro root ntuples
+                    p_y = np.asarray(file["PrimaryEvents"]["fP_y"])     # Store y-momentum fro root ntuples
+                    p_z = np.asarray(file["PrimaryEvents"]["fP_z"])     # Store z-momentum fro root ntuples
+                    p_x = p_x[p_y < 0] if TRANSMITTED_PARTICLES else p_x[p_y >= 0] # Cut out transmitted/reflected events
+                    p_z = p_z[p_y < 0] if TRANSMITTED_PARTICLES else p_z[p_y >= 0]
+                    p_y = p_y[p_y < 0] if TRANSMITTED_PARTICLES else p_y[p_y >= 0]
+                    p = np.sqrt(np.add(np.add(np.square(p_x),np.square(p_y)),np.square(p_z)))
+                    momenta = np.append(momenta, p)                     # Add ntuple of |P| to momenta array
+                    
+                    # Compute reflected, absorbed, transmitted, and decayed and add to current tally
+                    reflected_add = len(np.asarray(file["PrimaryEvents"]["fEvent"])[np.asarray(file["PrimaryEvents"]["fTheta"]) < 90])
+                    transmitted_add = len(np.asarray(file["PrimaryEvents"]["fEvent"])[np.asarray(file["PrimaryEvents"]["fTheta"]) > 90])
+                    decayed_add = sum(np.asarray(file["AllEvents"]["fIsDecayed"]))
+                    absorbed_add = sum(np.logical_and(np.asarray(file["AllEvents"]["fIsAbsorbed"]), np.logical_not(np.asarray(file["AllEvents"]["fIsDecayed"]))))
+                    
+                    reflected+=reflected_add
+                    transmitted+=transmitted_add
+                    decayed+= decayed_add
+                    absorbed+= absorbed_add
+                    
+                    events += len(np.asarray(file["AllEvents"]["fEvent"]))
                 
-                # Cut on configurations where there are less than 10 reflected (or transmitted if TRANSMITTED_PARTICLES=True) events (for statistical purposes)
-                if (len(thetas) < 10): continue
+                # Append tallys to arrays
+                n_reflected.append(reflected)
+                n_transmitted.append(transmitted)
+                n_decayed.append(decayed)
+                n_absorbed.append(absorbed)
+                if events != EVENTS: print("******ERROR*****")
+                if (reflected+transmitted+decayed+absorbed) != events: 
+                    print("*****ERROR2*****")
+                
+                # Cut on configurations where there are less than CUT reflected (or transmitted if TRANSMITTED_PARTICLES=True) events (for statistical purposes)
+                if (len(thetas) < CUT): continue
                 #print(len(thetas))
                 
-                # Record theta_incident in as an incident theta where there are >= 10 (or transmitted if TRANSMITTED_PARTICLES=True) events
+                # Transform transmitted thetas
+                thetas = [180-theta for theta in thetas] if TRANSMITTED_PARTICLES else thetas
+                
+                print(len(thetas))
+                
+                # Record theta_incident in as an incident theta where there are >= 5 (or transmitted if TRANSMITTED_PARTICLES=True) events
                 incident_angles.append(theta_incident)
                 
                 # Compute the mean and std deviation from raw theta data; compute mode from histogram binning (take central value of max bin(s))
@@ -786,8 +966,15 @@ for particle in PARTICLES:
                 if CORRELATION_HISTOGRAM_THETA_MOMENTUM:
                     print("making 2d histogram of theta vs momentum")
                     fig_h_cor, ax_h_cor = plt.subplots()
-                    make_correlation_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_cor.savefig(f"plots/histogram_correlation_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    make_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
+                    fig_h_cor.savefig(f"plots/histogram_correlation_theta_momentum_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    plt.close(fig_h_cor)  # Close the histogram figure after saving
+                    
+                if CORRELATION_HISTOGRAM_THETA_PHI:
+                    print("making 2d histogram of theta vs phi")
+                    fig_h_cor, ax_h_cor = plt.subplots()
+                    make_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
+                    fig_h_cor.savefig(f"plots/histogram_correlation_theta_phi_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_cor)  # Close the histogram figure after saving
                     
                 # Add histograms to arrays of histograms (depending on those selected at top of script)
@@ -797,7 +984,7 @@ for particle in PARTICLES:
                 
                 if PHI_HISTOGRAM_ARRAY:
                     print("making phi histogram array")
-                    make_theta_histogram_a(fig_phi_array, axes_phi_array[momentum_index][theta_index], phis, phi_mode, phi_mean, phi_std_dev, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
+                    make_phi_histogram_a(fig_phi_array, axes_phi_array[momentum_index][theta_index], phis, phi_mode, phi_mean, phi_std_dev, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
                 
                 if MOMENTUM_HISTOGRAM_ARRAY:
                     print("making momentum histogram array")
@@ -805,14 +992,23 @@ for particle in PARTICLES:
 
                 if CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY:
                     print("making theta momentum correlation histogram array")
-                    hist = make_correlation_histogram_a(fig_cor_array, axes_cor_array[momentum_index][theta_index], thetas, momenta, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-            
+                    hist_t_m = make_correlation_theta_momentum_histogram_a(fig_cor_array_t_m, axes_cor_array_t_m[momentum_index][theta_index], thetas, momenta, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
+                
+                if CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
+                    print("making theta phi correlation histogram array")
+                    hist_t_p = make_correlation_theta_phi_histogram_a(fig_cor_array_t_p, axes_cor_array_t_p[momentum_index][theta_index], thetas, phis, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
+                  
+                  
             # Scatter plot with error bars for this momentum   
             if THETAS_SCATTER_PLOT:         
                 ax_mean.errorbar(incident_angles, theta_means, yerr=theta_mean_errors, fmt='o',markersize=5, markeredgecolor='black', capsize=3, elinewidth=1, markeredgewidth=0.5, ecolor='black', label=f"P = {momentum} MeV/c")
                 ax_mode.errorbar(incident_angles, theta_modes, yerr=theta_mode_errors, fmt='o',markersize=5, markeredgecolor='black', capsize=3, elinewidth=1, markeredgewidth=0.5, ecolor='black', label=f"P = {momentum} MeV/c")
                 
             if MOMENTUM_SCATTER_PLOT: pass
+            
+            # Scatterplot of N reflected, transmitted, absorbed
+            if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
+                make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_absorbed, particle, surface_name, momentum, EVENTS)
 
 
         # Make Scatter Plots (depending on selection at top of script)
@@ -845,10 +1041,19 @@ for particle in PARTICLES:
             plt.close(fig_momentum_array)  # Close the histogram figure after saving
             
         if CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY:
-            fig_cor_array.suptitle(f"{refl_trans_string} Theta Momentum Correlation Histograms - Theta versus Momentum\nParticle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
-            cbar_ax = fig_cor_array.add_axes([0.93, 0.04, 0.015, 0.88])  # [left, bottom, width, height]
-            cbar = fig_cor_array.colorbar(hist[3], cax=cbar_ax)
-            cbar.set_label('Count')
-            fig_cor_array.tight_layout(pad=2, rect=[0,0,0.92,1])
-            fig_cor_array.savefig(f"plots/histogram_correlation_array_{particle}_{surface_name}{transmit}.png")
-            plt.close(fig_cor_array)  # Close the histogram figure after saving
+            fig_cor_array_t_m.suptitle(f"{refl_trans_string} Theta Momentum Correlation Histograms - Theta versus Momentum\nParticle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            cbar_ax = fig_cor_array_t_m.add_axes([0.93, 0.04, 0.015, 0.88])  # [left, bottom, width, height]
+            cbar = fig_cor_array_t_m.colorbar(hist_t_m[3], cax=cbar_ax)
+            cbar.set_label('Rate')
+            fig_cor_array_t_m.tight_layout(pad=2, rect=[0,0,0.92,1])
+            fig_cor_array_t_m.savefig(f"plots/histogram_correlation_array_theta_momentum_{particle}_{surface_name}{transmit}.png")
+            plt.close(fig_cor_array_t_m)  # Close the histogram figure after saving
+            
+        if CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
+            fig_cor_array_t_p.suptitle(f"{refl_trans_string} Theta Phi Correlation Histograms - Theta versus Momentum\nParticle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            cbar_ax = fig_cor_array_t_p.add_axes([0.93, 0.04, 0.015, 0.88])  # [left, bottom, width, height]
+            cbar = fig_cor_array_t_p.colorbar(hist_t_p[3], cax=cbar_ax)
+            cbar.set_label('Rate')
+            fig_cor_array_t_p.tight_layout(pad=2, rect=[0,0,0.92,1])
+            fig_cor_array_t_p.savefig(f"plots/histogram_correlation_array_theta_phi_{particle}_{surface_name}{transmit}.png")
+            plt.close(fig_cor_array_t_p)  # Close the histogram figure after saving

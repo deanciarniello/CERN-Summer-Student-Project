@@ -1,4 +1,11 @@
+# File: setup.sh
+# Author: Dean Ciarniello
+# Date: 2023-08-09
+
 #!/bin/bash
+
+# Setup Script (for lxplus)
+#=====================================================
 echo "beginning setup.sh"
 
 # Source geant4 and gcc

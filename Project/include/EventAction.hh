@@ -1,3 +1,9 @@
+/*
+File: EventAction.hh
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
 #ifndef EVENT_ACTION_HH
 #define EVENT_ACTION_HH
 

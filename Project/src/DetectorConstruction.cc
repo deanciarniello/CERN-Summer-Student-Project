@@ -1,20 +1,35 @@
+/*
+File: DetectorConstruction.cc
+Author: Dean Ciarniello
+Date: 2023-08-09
+*/
+
+// Includes
+// ===================================================
 #include "DetectorConstruction.hh"
 
+// DetectorConstruction Constructor
+// ===================================================
 DetectorConstruction::DetectorConstruction(G4int config, G4double thickness) {
     fConfig = config;
     fPlateThickness = thickness;
 }
 
+// DetectorConstruction Destructor
+// ===================================================
 DetectorConstruction::~DetectorConstruction() {
 
 }
 
+// DetectorConstruction Construct
+// Info: Constructs the geometry and detectors for the simulation
+// ===================================================
 G4VPhysicalVolume *DetectorConstruction::Construct() {
     // ========== Define Materials ==========
     G4NistManager *nist = G4NistManager::Instance();
     G4Material *plateMaterial = nullptr;
 
-    // Vacuum
+    // ===== Vacuum =====
     G4double atomicNumber = 1.;
     G4double massOfMole = 1.008*g/mole;
     G4double density = 1.e-25*g/cm3;
@@ -22,10 +37,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4double pressure = 3.e-18*pascal;
     G4Material *Vacuum = new G4Material("vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
 
-    // Gold
+    // ===== Gold =====
     G4Material *gold = nist->FindOrBuildMaterial("G4_Au");
 
-
+    // Depeding on the detector configuration, set the plate material to the corresponding material
     switch (fConfig) {
         // Copper (Elemental)
         case 0: {
@@ -81,20 +96,23 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
         }
     }
 
+    // Define the coating thickness
     G4double coatingThickness = 5*um;
 
+
     // ========== Construct Shapes ==========
-    // World
+    // ===== World =====
     G4Box *solidWorld = new G4Box("solidWorld", 1*m, 1*m, 1*m); //Lengths are half lengths (0.5->1), standard distance (mm)
     G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "logicWorld");
     G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.), logicWorld, "physWorld", 0, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);
 
-    // Scattering Plate
+    // ===== Scattering Plate =====
     G4Box *solidPlate = new G4Box("solidPlate", 1*m, fPlateThickness*mm, 1*m);
     G4LogicalVolume *logicPlate = new G4LogicalVolume(solidPlate, plateMaterial, "logicPlate");
     G4VPhysicalVolume *physPlate = new G4PVPlacement(0, G4ThreeVector(0., -1*(fPlateThickness*mm), 0.), logicPlate, "physPlate", logicWorld, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
 
+    // ===== Plate Coating =====
     G4Box *solidCoatingGold = nullptr;
     G4LogicalVolume *logicCoatingGold = nullptr;
     G4VPhysicalVolume *physCoatingGold = nullptr;
@@ -105,11 +123,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     }
 
 
-
     // ========== Set Visualization Attributes ==========
-    
     G4VisAttributes* plateVisAttributes = new G4VisAttributes();
     G4VisAttributes* coatingVisAttributes = new G4VisAttributes();
+
+    // Depending on the detector configuration, assign the correct vis attributes and color
     switch (fConfig) {
         case 0:
             plateVisAttributes->SetColour(G4Colour::Brown());
@@ -130,6 +148,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     }
     plateVisAttributes->SetForceSolid(true);  // Enable solid visualization
     logicPlate->SetVisAttributes(plateVisAttributes);
+
 
     // ========== Set Step Size in Volumes ===========
     G4double maxStep = 0.1*mm;

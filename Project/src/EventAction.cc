@@ -1,59 +1,75 @@
+/*
+File: EventAction.cc
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
+// Includes
+// ===================================================
 #include "EventAction.hh"
 
+// EventAction Constructor
+// ===================================================
 EventAction::EventAction(RunAction*) {
     fPXout = 0;
     fPYout = 0;
     fPZout = 0;
     
-    //fBoundaryCount = 0;
-
     fIsDecayed = false;
     fIsAbsorbed = false;
 }
 
+// EventAction Destructor
+// ===================================================
 EventAction::~EventAction() {
 
 }
 
+// EventAction BeginOfEvent Action
+// Info: set/reset all event variables
+// ===================================================
 void EventAction::BeginOfEventAction(const G4Event* event) {
-    // ========== Set Event Action Parameters ==========
     fPXout = 0;
     fPYout = 0;
     fPZout = 0;
-    
-    //fBoundaryCount = 0;
 
     fIsDecayed = false;
     fIsAbsorbed = false;
 
-
     fPrimaryPDG = event->GetPrimaryVertex()->GetPrimary()->GetPDGcode();
 }
 
+// EventAction EndOfEventAction
+// Info: record all event variables in corresponding root ntuples
+// ===================================================
 void EventAction::EndOfEventAction(const G4Event* event) {
-    // ========== Print Out Final Event Momenta for Primary Particle ==========
     /*G4cout << "End of event action." << G4endl;
     G4cout << "Px: " << fPXout << G4endl;
     G4cout << "Py: " << fPYout << G4endl;
     G4cout << "Pz: " << fPZout << G4endl;*/
+
+    // Check if particle absorbed
     G4double Pabs = sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2));
     if (Pabs == 0) {
         SetIsAbsorbed(true);
         //G4cout << "Absorbed!" << G4endl;
     }
-
     //if (fIsDecayed) { G4cout << "Decayed!" << G4endl; }
 
     // ========== Fill Ntuples/Histograms ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();
+
+    // Fill All Event ntuples
     man->FillNtupleIColumn(1,0,event->GetEventID());
     man->FillNtupleIColumn(1,1,fIsDecayed);
     man->FillNtupleIColumn(1,2,fIsAbsorbed);
     man->AddNtupleRow(1); 
 
     if ((!fIsDecayed) && (!fIsAbsorbed)) {
+        // Compute theta
         double theta = acos((fPYout)/sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2)));
 
+        // Compute phi
         double phi;
         if (fPXout > 0) {
             phi = acos(fPZout/sqrt(pow(fPXout,2) + pow(fPZout,2)));
@@ -62,6 +78,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         } else {
             phi = -1*acos(fPZout/sqrt(pow(fPXout,2) + pow(fPZout,2))) + (2 * M_PI);
         }
+
+        // Fill PrimaryEvent ntuples
         man->FillNtupleIColumn(0,0,event->GetEventID());
         man->FillNtupleDColumn(0,1,fPXout);
         man->FillNtupleDColumn(0,2,fPYout);
@@ -71,6 +89,5 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         man->AddNtupleRow(0);
 
         man->FillH2(0, phi/deg, theta/deg);
-        //man->FillH2(1, fPZout, theta/deg);
     }
 }

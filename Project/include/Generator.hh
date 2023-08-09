@@ -1,3 +1,9 @@
+/*
+File: Generator.hh
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
 #ifndef GENERATOR_HH
 #define GENERATOR_HH
 

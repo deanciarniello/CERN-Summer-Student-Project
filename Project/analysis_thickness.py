@@ -1,3 +1,7 @@
+# File: analysis_thickness.py
+# Author: Dean Ciarniello
+# Date: 2023-08-09
+
 # Packages
 # ======================================================
 import numpy as np
@@ -63,12 +67,16 @@ ax.scatter(THICKNESSES, n_reflected, marker='o', edgecolors='black')
 ax.set_xlabel("Thickness (mm)", fontsize=9, fontweight='bold')
 ax.set_ylabel("N Reflected", fontsize=9, fontweight='bold')
 ax.set_title(f"Thickness Study\n Particle: {PARTICLE}, Surface: {return_surface_name(SURFACE)}, Momentum: {MOMENTUM} MeV/c, Angle: {ANGLE} deg\nN Events = {EVENTS}", fontsize=11)
+
+# Setup grid and axes limits
 ax.grid(True, linestyle='--', linewidth=0.5)
 ax.tick_params(axis='both', which='major', labelsize=10)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 ax.set_xlim([0, 1.1*max(THICKNESSES)])
 ax.set_ylim([0, 1.5*max(n_reflected)])
+
+# Save and close figure
 fig.tight_layout(pad=2)
-fig.savefig(f'thickness_study_{return_surface_name(SURFACE)}_{PARTICLE}_{MOMENTUM}_{ANGLE}.png')
+fig.savefig(f'thickness_study_{PARTICLE}_{return_surface_name(SURFACE)}_{MOMENTUM}_{ANGLE}.png')
 plt.close()

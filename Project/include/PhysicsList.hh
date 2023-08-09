@@ -1,3 +1,9 @@
+/*
+File: PhysicsList.hh
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
 #ifndef PHYSICS_HH 
 #define PHYSICS_HH
 

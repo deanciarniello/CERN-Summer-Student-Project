@@ -1,3 +1,7 @@
+# File: CMakeLists.txt
+# Author: Dean Ciarniello
+# Date: 2023-07-28
+
 # Setup Project
 # ===========================================
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)

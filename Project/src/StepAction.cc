@@ -1,19 +1,35 @@
+/*
+File: StepAction.cc
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
+// Includes
+// ===================================================
 #include "StepAction.hh"
 
+
+// StepAction Constructor
+// ===================================================
 StepAction::StepAction(EventAction *eventAction) {
     fEventAction = eventAction;
 }
 
+// StepAction Destructor
+// ===================================================
 StepAction::~StepAction() {
 
 }
 
+// StepAction UserSteppingAction
+// Info: follow the steps/tracks of simulated particles, record whether they decay
+//       or ar absorbed in the plate volume, and set event variables
+//       such as momentum, when the particle has left the scattering plate volume
 void StepAction::UserSteppingAction(const G4Step *step) {
     // Check particle PDG
     G4int particlePDG = step->GetTrack()->GetDynamicParticle()->GetPDGcode();
 
     if (particlePDG == fEventAction->GetPrimaryPDG()) {
-
         // Check if step is last in current volume
         G4bool isBoundary = step->IsLastStepInVolume();
         
