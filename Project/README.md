@@ -18,8 +18,10 @@
 ## Table of Contents
 
 - [About](#about)
-- [Visualisation](#visualization)
-- [Batch](#batch)
+- [Simulation](#simulation)
+    - [Visualisation](#visualization)
+    - [Batch](#batch)
+- [Analysis](#analysis)
 - [Additional Notes](#notes)
 - [Built Using](#built_using)
 - [Authors](#authors)
@@ -30,13 +32,18 @@
 Write about 1-2 paragraphs describing the purpose of your project.
 
 
-## Visualization <a name="visualization"></a>
+## Simulation <a name="simulation"></a>
+
+### Visualization <a name="visualization"></a>
 
 Add notes about how to use the system.
 
-## Batch <a name="batch"></a>
+### Batch <a name="batch"></a>
 
 Add notes about how to use the system.
+
+## Analysis <a name="analysis"></a>
+
 
 ## Additional Notes <a name = "notes"></a>
 

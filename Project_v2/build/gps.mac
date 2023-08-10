@@ -1,6 +1,14 @@
+# THIS FILE SETS UP CONFIG FOR VISUALIZATION OF THE SIMULATION WITH A GENERAL PARTICLE SOURCE
 
+# Visualization
+#===============================================================
+# Open Visualization
 /vis/open OGLI
+
+# Initial Viewpoint
 /vis/viewer/set/viewpointVector 1 0 0
+
+# Setup
 /vis/drawVolume
 /vis/viewer/set/autoRefresh true
 /vis/scene/add/trajectories smooth
@@ -9,24 +17,22 @@
 /vis/scene/add/eventID
 /vis/scene/endOfEventAction accumulate 1000
 
+# General Particle Source
 #===============================================================
-# 1D accelerator beam
-#
-/gps/particle mu+
+# Set particle and source type
+/gps/particle e-
 /gps/pos/type Beam
-#
-# the beam spot is centered at the origin and is
-# of 1d gaussian shape with a 20mm central plateau
+
+# Set beam spot centered at the origin and is of 1d gaussian shape with 
+# 1mm central plateau and 9mm sigma
 /gps/pos/shape Circle
 /gps/pos/centre 0. 0. 0. m
-/gps/pos/radius 35. mm
-#/gps/pos/sigma_r 5. mm
-#
-# the beam is travelling along the x-axis with 1 degrees dispersion
+/gps/pos/radius 20. mm
+/gps/pos/sigma_r 10. mm
+
+# Set beam travelling along x-axis with 5 degrees dispersion sigma
 /gps/ang/type beam1d
 /gps/ang/sigma_r 1. deg
-#
-# the beam energy is in gaussian profile centered at 40 MeV
-/gps/ene/type Gauss
-/gps/ene/mono 5.6 MeV
-/gps/ene/sigma 0.1 MeV
+
+# Set beam energy constant
+/gps/energy 25 MeV

@@ -82,21 +82,23 @@ int main(int argc, char** argv) {
     G4UImanager *UImanager = G4UImanager::GetUIpointer();
 
     // Set up general particle source
-    G4String particle = argv[8];
-    UImanager->ApplyCommand("/gps/particle "+particle);
-    UImanager->ApplyCommand("/gps/pos/type Beam");
-    UImanager->ApplyCommand("/gps/pos/shape Circle");
-    UImanager->ApplyCommand("/gps/pos/centre 0. 0. 0. m");
-    G4String radius = argv[9];
-    UImanager->ApplyCommand("/gps/pos/radius "+radius+" mm");
-    UImanager->ApplyCommand("/gps/ang/type beam1d");
-    G4String angle_sigma = argv[10];
-    UImanager->ApplyCommand("/gps/ang/sigma_r "+angle_sigma+" deg");
-    UImanager->ApplyCommand("/gps/ene/type Gauss");
-    G4String beam_energy = argv[11];
-    UImanager->ApplyCommand("/gps/ene/mono "+beam_energy+" MeV");
-    G4String energy_sigma = argv[12];
-    UImanager->ApplyCommand("/gps/ene/sigma "+energy_sigma+" MeV");
+    if (!vis) {
+        G4String particle = argv[8];
+        UImanager->ApplyCommand("/gps/particle "+particle);
+        UImanager->ApplyCommand("/gps/pos/type Beam");
+        UImanager->ApplyCommand("/gps/pos/shape Circle");
+        UImanager->ApplyCommand("/gps/pos/centre 0. 0. 0. m");
+        G4String radius = argv[9];
+        UImanager->ApplyCommand("/gps/pos/radius "+radius+" mm");
+        UImanager->ApplyCommand("/gps/ang/type beam1d");
+        G4String angle_sigma = argv[10];
+        UImanager->ApplyCommand("/gps/ang/sigma_r "+angle_sigma+" deg");
+        UImanager->ApplyCommand("/gps/ene/type Gauss");
+        G4String beam_energy = argv[11];
+        UImanager->ApplyCommand("/gps/ene/mono "+beam_energy+" MeV");
+        G4String energy_sigma = argv[12];
+        UImanager->ApplyCommand("/gps/ene/sigma "+energy_sigma+" MeV");
+    }
 
     // Execute .mac file
     G4String command = "/control/execute ";

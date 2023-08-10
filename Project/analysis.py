@@ -32,10 +32,10 @@ CORRELATION_HISTOGRAM_THETA_PHI = False
 THETA_HISTOGRAM_ARRAY = False
 PHI_HISTOGRAM_ARRAY = False
 MOMENTUM_HISTOGRAM_ARRAY = False
-CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY = True
-CORRELATION_HISTOGRAM_THETA_PHI_ARRAY = True
+CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY = False
+CORRELATION_HISTOGRAM_THETA_PHI_ARRAY = False
 
-REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT = False
+REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT = True
 
 THETAS_SCATTER_PLOT = False
 MOMENTUM_SCATTER_PLOT = False   # Not currently implemented
@@ -53,17 +53,17 @@ transmit = "_transmitted" if TRANSMITTED_PARTICLES else ""
 # Plotting Configuration
 # Note: data for any permutations must be in the DATA directory
 #=====================================================
-MOMENTA = [10,20,30,40]
-ANGLES = [20,40,60,80] #[0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
+MOMENTA = range(10,210,10)
+ANGLES =  range(5,90,10) #[0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
 SURFACES = [0] # 0, 1, 2
-PARTICLES = ["mu-"] #"mu-", "e-", "proton", "mu+"
+PARTICLES = ["proton"] #"mu-", "e-", "proton", "mu+"
 #=====================================================
 
 
 # Data Directory
 # Info: directory where the files are located
 #=====================================================
-DATA = "/eos/user/d/dciarnie/Data/output/"
+DATA = "/eos/user/d/dciarnie/Data/output_1_v0./output_1_v0./"
 #=====================================================
 
 
@@ -694,7 +694,7 @@ def make_thetas_scatter_plot_mode(fig_mode, ax_mode, particle, surface_name):
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitted, n_decayed, n_absorbed, particle, surface_name, momentum, total):
+def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out, n_absorbed, particle, surface_name, momentum, total):
     '''
         Parameters:
             fig_rtd (matplotlib figure):        figure of plot
@@ -714,27 +714,47 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
             Produces a scatter plot for one momentum and material/surface configuration, of the number of 
             reflected, transmitted, absorbed, and decayed particles
     '''
-    # Make Scatter Plots
-    ax_rtd.scatter(inc_angles, n_reflected, marker='o', edgecolors='black', label="Reflected")
-    ax_rtd.scatter(inc_angles, n_transmitted, marker='o', edgecolors='black', label="Transmitted")
-    ax_rtd.scatter(inc_angles, n_decayed, marker='o', edgecolors='black', label="Decayed")
-    ax_rtd.scatter(inc_angles, n_absorbed, marker='o', edgecolors='black', label="Absorbed")
+    # Create a twin y-axis for decayed particles
+    ax2 = ax_rtd.twinx()
+    ax2.scatter(inc_angles, n_decayed_in, color="tab:green", marker='+', edgecolors='none', label='Decayed In', zorder=2)
+    ax2.scatter(inc_angles, n_decayed_out, color="tab:blue", marker='+', edgecolors='none', label='Decayed Out', zorder=1)
+    ax2.set_ylabel('Count - Decayed', color='red', fontsize=9, fontweight='bold')
+    ax2.tick_params(axis='both', which='major', labelsize=10)
     
-    # Label axes and title
+    # Make Scatter Plots
+    ax_rtd.scatter(inc_angles, n_reflected, color="tab:blue", marker='o', edgecolors='none', label="Reflected", zorder=5)
+    ax_rtd.scatter(inc_angles, n_transmitted, color="tab:orange", marker='o', edgecolors='none', label="Transmitted", zorder=3)
+    #ax_rtd.scatter(inc_angles, n_decayed, marker='o', edgecolors='black', label="Decayed")
+    ax_rtd.scatter(inc_angles, n_absorbed, marker='o', color="tab:green", edgecolors='none', label="Absorbed", zorder=2)
     ax_rtd.set_xlabel("Incident Angle (deg)", fontsize=9, fontweight='bold')
     ax_rtd.set_ylabel("Count", fontsize=9, fontweight='bold')
+    ax_rtd.tick_params(axis='both', which='major', labelsize=10)
+
+    # Adding legend for both datasets
+    lines, labels = ax_rtd.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    #ax_rtd.legend(lines + lines2, labels + labels2, loc='center left')
+    
+    # Label axes and title
     ax_rtd.set_title(f"Angle Study\n Particle: {particle}, Surface: {surface_name}, Momentum: {momentum} MeV/c\nN Events = {total}", fontsize=11)
     ax_rtd.grid(True, linestyle='--', linewidth=0.5)
     
-    # Set up ticks and axes limits
-    ax_rtd.tick_params(axis='both', which='major', labelsize=10)
+    # Set up spines and axes limits
     ax_rtd.spines['top'].set_visible(False)
     ax_rtd.spines['right'].set_visible(False)
     ax_rtd.set_xlim([0, 90])
-    ax_rtd.set_ylim([-0.5*total,1.05*total])
+    ax_rtd.set_ylim([-0.05*total,1.05*total])
+    
+    # Shrink y axis by 20% to make room for legend
+    box1 = ax_rtd.get_position()
+    box2 = ax2.get_position()
+    ax_rtd.set_position([box1.x0, box1.y0, box1.width * 0.8, box1.height])
+    ax2.set_position([box2.x0, box2.y0, box2.width * 0.8, box2.height])
+
+    # Put a legend to the right of the current axis
+    ax_rtd.legend(lines + lines2, labels + labels2, loc='center left', bbox_to_anchor=(1.1, 0.85), fontsize=8)
     
     # Make legend and save/close figure.
-    ax_rtd.legend()
     fig_rtd.savefig(f'plots/scatter_plot_rtd_{particle}_{surface_name}_{momentum}.png')
     plt.close(fig_rtd)
 
@@ -773,7 +793,7 @@ for particle in PARTICLES:
         for momentum_index, momentum in enumerate(MOMENTA):
             # Create reflected, transmitted, decayed scatterplot
             if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
-                fig_rtd, ax_rtd = plt.subplots()
+                fig_rtd, ax_rtd = plt.subplots(figsize=(8,5))
             
             print("Analyzing momentum: " + str(momentum))
             
@@ -805,6 +825,9 @@ for particle in PARTICLES:
             n_reflected = []
             n_transmitted = []
             n_decayed = []
+            n_decayed_in = []
+            n_decayed_out = []
+            a_decay_pdgid = []
             n_absorbed = []
 
             for theta_index, theta_incident in enumerate(ANGLES):
@@ -820,13 +843,16 @@ for particle in PARTICLES:
                 transmitted = 0
                 absorbed = 0
                 decayed = 0
+                decayed_in = 0
+                decayed_out = 0
+                decay_pdgid = 0
                 events = 0
                 
                 
                 # Record path to specific data files
                 #path = DATA+str(surface)+'/'+particle+'/'+str(theta_incident)+'/'+str(momentum)+'/'
                 
-                path = DATA + 'output_'+str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
+                path = DATA + "output_" +str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
                 #print(path)
 
                 # Iterate through all .root files for the specified configuration
@@ -855,12 +881,17 @@ for particle in PARTICLES:
                     # Compute reflected, absorbed, transmitted, and decayed and add to current tally
                     reflected_add = len(np.asarray(file["PrimaryEvents"]["fEvent"])[np.asarray(file["PrimaryEvents"]["fTheta"]) < 90])
                     transmitted_add = len(np.asarray(file["PrimaryEvents"]["fEvent"])[np.asarray(file["PrimaryEvents"]["fTheta"]) > 90])
-                    decayed_add = sum(np.asarray(file["AllEvents"]["fIsDecayed"]))
-                    absorbed_add = sum(np.logical_and(np.asarray(file["AllEvents"]["fIsAbsorbed"]), np.logical_not(np.asarray(file["AllEvents"]["fIsDecayed"]))))
+                    decayed_add = sum(np.logical_and(np.asarray(file["AllEvents"]["fIsDecayed"]), np.logical_not(np.asarray(file["AllEvents"]["fIsAbsorbed"]))))
+                    absorbed_add = sum(np.asarray(file["AllEvents"]["fIsAbsorbed"]))
+                    decayed_in_add = sum(np.asarray(file["AllEvents"]["fIsDecayedIn"]))
+                    decayed_out_add = sum(np.asarray(file["AllEvents"]["fIsDecayedOut"]))
+                    decay_pdgid = np.asarray(file["AllEvents"]["fDecayPDG"])
                     
                     reflected+=reflected_add
                     transmitted+=transmitted_add
                     decayed+= decayed_add
+                    decayed_in+=decayed_in_add
+                    decayed_out+=decayed_out_add
                     absorbed+= absorbed_add
                     
                     events += len(np.asarray(file["AllEvents"]["fEvent"]))
@@ -870,6 +901,9 @@ for particle in PARTICLES:
                 n_transmitted.append(transmitted)
                 n_decayed.append(decayed)
                 n_absorbed.append(absorbed)
+                n_decayed_in.append(decayed_in)
+                n_decayed_out.append(decayed_out)
+                a_decay_pdgid.append(decay_pdgid)
                 if events != EVENTS: print("******ERROR*****")
                 if (reflected+transmitted+decayed+absorbed) != events: 
                     print("*****ERROR2*****")
@@ -880,8 +914,6 @@ for particle in PARTICLES:
                 
                 # Transform transmitted thetas
                 thetas = [180-theta for theta in thetas] if TRANSMITTED_PARTICLES else thetas
-                
-                print(len(thetas))
                 
                 # Record theta_incident in as an incident theta where there are >= 5 (or transmitted if TRANSMITTED_PARTICLES=True) events
                 incident_angles.append(theta_incident)
@@ -1008,7 +1040,7 @@ for particle in PARTICLES:
             
             # Scatterplot of N reflected, transmitted, absorbed
             if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
-                make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_absorbed, particle, surface_name, momentum, EVENTS)
+                make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out, n_absorbed, particle, surface_name, momentum, EVENTS)
 
 
         # Make Scatter Plots (depending on selection at top of script)

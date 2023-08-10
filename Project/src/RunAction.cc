@@ -45,11 +45,12 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     man->CreateNtupleIColumn("fEvent");
     man->CreateNtupleIColumn("fIsDecayed");
     man->CreateNtupleIColumn("fIsAbsorbed");
-    man->FinishNtuple();
+    man->CreateNtupleIColumn("fIsDecayedIn");
+    man->CreateNtupleIColumn("fIsDecayedDuring");
+    man->CreateNtupleIColumn("fIsDecayedOut");
+    man->CreateNtupleIColumn("fDecayPDG");
 
-    // Create 2D Histograms
-    man->CreateH2("Phi_vs_Theta", "Phi versus Theta", 5, 0., 360., 5, 0., 180.);
-    //man->CreateH2("Pz_vs_Theta", "Pz versus Theta", 2.5, 0., 100., 5, 0., 180.);
+    man->FinishNtuple();
 }
 
 // RunAction EndOfRunAction

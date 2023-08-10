@@ -11,10 +11,13 @@ Date: 2023-07-22
 // EventAction Constructor
 // ===================================================
 EventAction::EventAction(RunAction*) {
+    // Initialize Event Parameters
     fPXout = 0;
     fPYout = 0;
     fPZout = 0;
     
+    fDecayPDG = 0;
+
     fIsDecayed = false;
     fIsAbsorbed = false;
 }
@@ -33,6 +36,8 @@ void EventAction::BeginOfEventAction(const G4Event* event) {
     fPYout = 0;
     fPZout = 0;
 
+    fDecayPDG = 0;
+
     fIsDecayed = false;
     fIsAbsorbed = false;
 
@@ -48,6 +53,9 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     G4cout << "Py: " << fPYout << G4endl;
     G4cout << "Pz: " << fPZout << G4endl;*/
 
+    
+    //G4cout << "Secondary PDGs before ntuple: "<< fSecondaryPDG.size() << G4endl;
+
     // Check if particle absorbed
     G4double Pabs = sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2));
     if (Pabs == 0) {
@@ -59,13 +67,21 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     // ========== Fill Ntuples/Histograms ==========
     G4AnalysisManager *man = G4AnalysisManager::Instance();
 
+    G4bool isDecayedIn = ((!fHasEnteredMaterial) && fIsDecayed);
+    G4bool isDecayedDuring = ((fHasEnteredMaterial && fIsDecayed) && fIsAbsorbed);
+    G4bool isDecayedOut = ((fHasEnteredMaterial && fIsDecayed) && (!fIsAbsorbed));
+
     // Fill All Event ntuples
     man->FillNtupleIColumn(1,0,event->GetEventID());
     man->FillNtupleIColumn(1,1,fIsDecayed);
     man->FillNtupleIColumn(1,2,fIsAbsorbed);
+    man->FillNtupleIColumn(1,3,isDecayedIn);
+    man->FillNtupleIColumn(1,4,isDecayedDuring);
+    man->FillNtupleIColumn(1,5,isDecayedOut);
+    man->FillNtupleIColumn(1,6,fDecayPDG);
     man->AddNtupleRow(1); 
 
-    if ((!fIsDecayed) && (!fIsAbsorbed)) {
+    if ((!isDecayedIn) && (!isDecayedDuring) && (!fIsAbsorbed)) {
         // Compute theta
         double theta = acos((fPYout)/sqrt(pow(fPXout,2) + pow(fPYout,2) + pow(fPZout,2)));
 
@@ -87,7 +103,5 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         man->FillNtupleDColumn(0,4,theta/deg);
         man->FillNtupleDColumn(0,5,phi/deg);
         man->AddNtupleRow(0);
-
-        man->FillH2(0, phi/deg, theta/deg);
     }
 }

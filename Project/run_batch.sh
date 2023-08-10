@@ -1,8 +1,8 @@
+#!/bin/bash
+
 # File: run_batch.sh
 # Author: Dean Ciarniello
 # Date: 2023-08-08
-
-#!/bin/bash
 
 # Output Directory
 # ===========================================
@@ -11,13 +11,17 @@ OUTPUT_DIR=/eos/user/d/dciarnie/Data
 
 # Source gcc and geant4 versions
 # ===========================================
+echo "start source"
 source /cvmfs/sft.cern.ch/lcg/contrib/gcc/10.3.0/x86_64-centos7/setup.sh
 source /cvmfs/geant4.cern.ch/geant4/10.7.ref09/x86_64-centos7-gcc10-optdeb/CMake-setup.sh
+echo "end source"
 
 
 # Use user CERNBOX as EOS instance
 # ===========================================
+echo "start export"
 export EOS_MGM_URL=root://eosuser.cern.ch
+echo "end export"
 
 
 # Define the momentum, angle, particle, and material
@@ -31,9 +35,11 @@ material=$5
 
 # Make output directory
 # ===========================================
+echo "start make output dir"
 if [ ! -d "${output}" ]; then
   mkdir -p "${output}"
 fi
+echo "end make output dir"
 
 
 # Run Script
@@ -59,5 +65,6 @@ fi
 # For staging out a directory
 # ===========================================
 echo "Moving Files from ${output} to EOS"
-eos cp -r ${output} ${OUTPUT_DIR}
+eos cp -r ${output}/ ${OUTPUT_DIR}
 echo "Done Moving Files to EOS"
+

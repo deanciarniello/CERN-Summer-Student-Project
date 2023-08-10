@@ -1,7 +1,7 @@
 /*
 File: simulation.cc
 Author: Dean Ciarniello
-Date: 2023-08-09
+Date: 2023-07-22
 */
 
 // Includes
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     // 1) .mac file
     // 2) detector config (plate material)
     // 3) beam angle (w.r.t normal)
-    // 4) beam momentum (MeV)
+    // 4) beam momentum (MeV/c)
     // 5) beam particle type
     // 6) output file name
     // 7) path to output file

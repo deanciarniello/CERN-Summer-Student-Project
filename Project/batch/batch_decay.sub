@@ -1,0 +1,23 @@
+# File: batch_decay.sub
+
+# Executable to run
+executable = run_batch.sh
+arguments = $(file_output) $(angles) $(momenta) $(particles) $(surfaces)
+
+# Input files required by the executable (if any)
+transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
+
+# Output files produced by the executable (if any)
+transfer_output_files = ""
+
+# Log files for the job
+output = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).out
+error = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).err
+log = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).log
+
++JobFlavour = "espresso"
+
+#getenv = True
+
+# Queue the job
+queue file_output,angles,momenta,particles,surfaces from config/config_updated_decay_20230809-130226.txt

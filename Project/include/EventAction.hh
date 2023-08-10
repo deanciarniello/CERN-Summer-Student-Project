@@ -13,14 +13,14 @@ Date: 2023-07-22
 #include "G4Event.hh"
 #include "G4SystemOfUnits.hh"
 
-//#include "G4AnalysisManager.hh"
-#include "g4root.hh"
+#include "G4AnalysisManager.hh"
+//#include "g4root.hh"
 
 #include "RunAction.hh"
 
 class EventAction : public G4UserEventAction {
 public:
-    EventAction(RunAction*);
+    EventAction(RunAction* run);
     ~EventAction();
 
     virtual void BeginOfEventAction(const G4Event*);
@@ -41,15 +41,23 @@ public:
     G4bool GetIsAbsorbed() { return fIsAbsorbed; }
     void SetIsAbsorbed(G4bool isAbsorbed) { fIsAbsorbed = isAbsorbed; }
 
+    G4bool GetHasEnteredMaterial() { return fHasEnteredMaterial; }
+    void SetHasEnteredMaterial(G4bool hasEnteredMaterial) { fHasEnteredMaterial = hasEnteredMaterial; }
+
+    G4int GetDecayPDG() { return fDecayPDG; }
+    void SetDecayPDG( G4int decayPDG ) { fDecayPDG = decayPDG; }
+
 private:
     G4double fPXout;
     G4double fPYout;
     G4double fPZout;
 
     G4int fPrimaryPDG;
+    G4int fDecayPDG;
 
     G4int fBoundaryCount;
 
+    G4bool fHasEnteredMaterial;
     G4bool fIsDecayed;
     G4bool fIsAbsorbed;
 };

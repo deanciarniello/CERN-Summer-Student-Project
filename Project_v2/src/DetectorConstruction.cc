@@ -122,7 +122,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
     // ========== Construct World ==========
     // ===== World =====
-    G4Box *solidWorld = new G4Box("solidWorld", 1*m, 1*m, 1*m); //Lengths are half lengths (0.5->1), standard distance (mm)
+    G4Box *solidWorld = new G4Box("solidWorld", 5*m, 5*m, 5*m); //Lengths are half lengths (0.5->1), standard distance (mm)
     G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "logicWorld");
     G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.), logicWorld, "physWorld", 0, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);

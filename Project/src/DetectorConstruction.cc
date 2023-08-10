@@ -81,7 +81,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             break;
         }
 
-        // Copper (Elemental)
+        // Copper (Elemental) with gold plating
         case 2: {
             G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
             plateMaterial = copper;
@@ -127,7 +127,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4VisAttributes* plateVisAttributes = new G4VisAttributes();
     G4VisAttributes* coatingVisAttributes = new G4VisAttributes();
 
-    // Depending on the detector configuration, assign the correct vis attributes and color
+    // Depending on the plate configuration, assign the correct vis attributes and color
     switch (fConfig) {
         case 0:
             plateVisAttributes->SetColour(G4Colour::Brown());
