@@ -1,3 +1,11 @@
+/*
+File: simulation.cc
+Author: Dean Ciarniello
+Date: 2023-08-09
+*/
+
+// Includes
+// ===================================================
 #include <iostream>
 #include <stdio.h>
 #include <sstream>
@@ -12,17 +20,24 @@
 #include "PhysicsList.hh"
 #include "Action.hh"
 
+// Main
+// ===================================================
 int main(int argc, char** argv) {
+    // Read in command line arguments and store in respective variables
+    //
     // argv:
     // ---------------------------------
     // 1) .mac file
     // 2) capillary material
-    // 3) capillary shape
-    // 4) capillary config
+    // 3) capillary shape (0 -> Polynomial of the form p_n(x) = ax^n+b; 1 -> Hyperbola h(x) = a*sqrt(1+(x/b)^2) + c)
+    // 4) capillary config (for 0 capillary shape: polyOrder,startRad,endRad,length,thickness,numZPlanes)
+    //                     (for 1 capillary shape: startRad,endRad,length,thickness,numZPlanes)
+    //                      *** all lengths in mm
     // 5) output file name
     // 6) path to output file
     // 7) visualization {0,1}
     // ---------------------------------
+    // (Beam Setup)
     // 8) particle type
     // 9) radius of beam
     // 10) sigma of beam angle (degrees)
@@ -45,19 +60,16 @@ int main(int argc, char** argv) {
         G4cout << d_config << G4endl;
     }
 
-    
+    // Create run manager, and set user initializions: detector construction, physics list, and action
     auto *runManager = G4RunManagerFactory::CreateRunManager();
-    G4cout << "Constructing Detector" << G4endl;
     runManager->SetUserInitialization(new DetectorConstruction(capillaryMaterial, capillaryShape, capillaryConfig));
-    G4cout << "Adding Physics List" << G4endl;
     runManager->SetUserInitialization(new PhysicsList());
-    G4cout << "Initializing Action" << G4endl;
     runManager->SetUserInitialization(new ActionInitialization(outputFile, outputFilePath));
-    G4cout << "Initializing Run Manager .............. ";
+    
+    // Initialize run manager
     runManager->Initialize();
-    G4cout << "Done" << G4endl;
 
-
+    // If ui enabled, define and initialize vis manager
     G4UIExecutive *ui = nullptr;
     G4VisManager *visManager = nullptr;
     if (vis) { 
@@ -66,10 +78,12 @@ int main(int argc, char** argv) {
         visManager->Initialize();
     }
 
+    // Get pointer to UI manager
     G4UImanager *UImanager = G4UImanager::GetUIpointer();
 
+    // Set up general particle source
     G4String particle = argv[8];
-    UImanager->ApplyCommand("/gps/particle " + particle);
+    UImanager->ApplyCommand("/gps/particle "+particle);
     UImanager->ApplyCommand("/gps/pos/type Beam");
     UImanager->ApplyCommand("/gps/pos/shape Circle");
     UImanager->ApplyCommand("/gps/pos/centre 0. 0. 0. m");
@@ -84,13 +98,15 @@ int main(int argc, char** argv) {
     G4String energy_sigma = argv[12];
     UImanager->ApplyCommand("/gps/ene/sigma "+energy_sigma+" MeV");
 
-
+    // Execute .mac file
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
     UImanager->ApplyCommand(command+fileName);
     
+    // If vis enabled, start the session
     if (vis) { ui->SessionStart(); }
 
+    // Delete run, vis, and ui managers
     delete runManager;
     if (vis) {
         delete visManager;

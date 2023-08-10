@@ -1,16 +1,33 @@
+/*
+File: StepAction.cc
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
+// Includes
+// ===================================================
 #include "StepAction.hh"
 
+// StepAction Constructor
+// ===================================================
 StepAction::StepAction(EventAction *eventAction) {
     fEventAction = eventAction;
 }
 
+// StepAction Destructor
+// ===================================================
 StepAction::~StepAction() {
 
 }
 
+// StepAction UserSteppingAction
+// ===================================================
+// Info: follow the steps/tracks of simulated particles, record whether they decay,
+//       whether they exit the capillary, or whether they are absorbed by the capillary
 void StepAction::UserSteppingAction(const G4Step *step) {
-    // Check particle PDG
+    // Check particle PDG and current volume
     G4int particlePDG = step->GetTrack()->GetDynamicParticle()->GetPDGcode();
+    G4String currentVolume = step->GetTrack()->GetVolume()->GetName();
 
     // If particle has not decayed
     if (particlePDG == fEventAction->GetPrimaryPDG()) {

@@ -1,15 +1,29 @@
+/*
+File: Generator.cc
+Author: Dean Ciarniello
+Date: 2023-07-22
+*/
+
+// Includes
+// ===================================================
 #include "Generator.hh"
 
+// PrimaryGenerator Constructor
+// ===================================================
 PrimaryGenerator::PrimaryGenerator() {
-   fParticleSource = new G4GeneralParticleSource();
+    // Use a general particle source
+    fParticleSource = new G4GeneralParticleSource();
 }
 
+// PrimaryGenerator Destructor
+// ===================================================
 PrimaryGenerator::~PrimaryGenerator() {
-    // ========== Delete Particle Gun ==========
     delete fParticleSource;
 }
 
+// PrimaryGenerator GeneratePrimaryes
+// ===================================================
 void PrimaryGenerator::GeneratePrimaries(G4Event *anEvent) {
-    // ========== Generate Primary Vertex ==========
+    // Generate one event
     fParticleSource->GeneratePrimaryVertex(anEvent);
 } 

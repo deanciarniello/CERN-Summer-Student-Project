@@ -1,5 +1,16 @@
+/*
+File: DetectorConstruction.cc
+Author: Dean Ciarniello
+Date: 2023-08-09
+*/
+
+// Includes
+// ===================================================
 #include "DetectorConstruction.hh"
 
+// DetectorConstruction Constructor
+// Info: Extracts capillary configuration parameters from capillaryConfig
+// ===================================================
 DetectorConstruction::DetectorConstruction(G4int capillaryMaterial, G4int capillaryShape, std::vector<G4double> capillaryConfig) {
     fCapillaryMaterial = capillaryMaterial;
     fCapillaryShape = capillaryShape;
@@ -27,16 +38,21 @@ DetectorConstruction::DetectorConstruction(G4int capillaryMaterial, G4int capill
     }
 }
 
+// DetectorConstruction Destructor
+// ===================================================
 DetectorConstruction::~DetectorConstruction() {
 
 }
 
+// DetectorConstruction Construct
+// Info: Constructs the geometry and detectors for the simulation
+// ===================================================
 G4VPhysicalVolume *DetectorConstruction::Construct() {
     // ========== Define Materials ==========
     G4NistManager *nist = G4NistManager::Instance();
     G4Material *capillaryMaterial = nullptr;
 
-    // Vacuum
+    // ===== Vacuum =====
     G4double atomicNumber = 1.;
     G4double massOfMole = 1.008*g/mole;
     G4double density = 1.e-25*g/cm3;
@@ -44,10 +60,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4double pressure = 3.e-18*pascal;
     G4Material *Vacuum = new G4Material("vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
 
-    // Gold
+    // ===== Gold =====
     G4Material *gold = nist->FindOrBuildMaterial("G4_Au");
 
-
+    // Depeding on the detector configuration, set the capillary material to the corresponding material
     switch (fCapillaryMaterial) {
         // Copper (Elemental)
         case 0: {
@@ -105,13 +121,14 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
 
     // ========== Construct World ==========
-    // World
+    // ===== World =====
     G4Box *solidWorld = new G4Box("solidWorld", 1*m, 1*m, 1*m); //Lengths are half lengths (0.5->1), standard distance (mm)
     G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "logicWorld");
     G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0.,0.,0.), logicWorld, "physWorld", 0, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);
 
     // ========== Construct Capillary ==========
+    // Coating thickness for gold coating option
     G4double CoatingThickness = 5*um;
 
     // z-planes (slices of the tessalated polycone)
@@ -125,6 +142,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     std::vector<G4double> r_max;
     std::vector<G4double> r_plate;
 
+    // Compute the inner and outer for the tessalated solid
     switch (fCapillaryShape) {
         case 0: // Parabola
             r_min = this->Polynomial(capillary_z, 0);
@@ -200,6 +218,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4VisAttributes* capillaryVisAttributes = new G4VisAttributes();
     G4VisAttributes* coatingVisAttributes = new G4VisAttributes();
 
+    // Depending on the capillary configuration, assign the correct vis attributes and color
     switch (fCapillaryMaterial) {
         case 0:
             capillaryVisAttributes->SetColour(G4Colour::Brown());
@@ -215,9 +234,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             capillaryVisAttributes->SetColour(G4Colour::White());
             break;
     }
-
     capillaryVisAttributes->SetForceSolid(true);  // Enable solid visualization
     logicalCapillary->SetVisAttributes(capillaryVisAttributes);
+
+    // Do the same for the gold plating option
     if (fCapillaryMaterial == 2) {
         coatingVisAttributes->SetForceSolid(true);
         logicalCapillaryCoating->SetVisAttributes(coatingVisAttributes);
@@ -237,7 +257,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
 
 
-// ========== Define Mathematical Shapes ==========
+// ========== Define Mathematical Functions ==========
+// Info: these functions return the values of the functions
+//        at each point in the domain, and returns as a vector
+
 // Polynomial
 std::vector<G4double> DetectorConstruction::Polynomial(std::vector<G4double> domain, G4double offset) {
     std::vector<G4double> range;
