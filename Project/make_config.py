@@ -10,19 +10,19 @@ import time
 
 # Constants
 #=====================================================
-FILE_NAME_EXTRA = 'updated_decay'                                # Addition string for name of config file
-THICKNESS = False                                        # Whether or not the config file includes thickness as a parameter
+FILE_NAME_EXTRA = 'proton_e-_80MeV_0.5mm'                                # Addition string for name of config file
+THICKNESS = True                                        # Whether or not the config file includes thickness as a parameter
 
 
 # Sample data for angles, momenta, particles, 
 # and surface types
 #=====================================================
-output = ["output_1"]                            # Name of output file (not including path): 'output', 'angle_study', etc
+output = ["proton_e-_80MeV_0.5mm"]                            # Name of output file (not including path): 'output', 'angle_study', etc
 angles = range(0,90,5)                                           # Incident Angles (0 is normal to plate): 0,2.5,5,7.5,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,50,52.5,55,57.5,60,62.5,65,67.5,70,72.5,75,77.5,80,82.5,85,87.5
-momenta = range(10,310,10)                                          # Incident Momenta (MeV/c): range(10, 510, 10)
-particles = ['mu-','e-','proton','mu+']                                     # Incident Particle Type: 'e-', 'mu-', 'mu+', 'proton'
+momenta = [80]                                          # Incident Momenta (MeV/c): range(10, 510, 10)
+particles = ['proton', 'e-']                                     # Incident Particle Type: 'e-', 'mu-', 'mu+', 'proton'
 surface_types = [0,1,2]                                     # Material of Plate: 0 -> Copper, 1 -> Glass, 2 -> Gold Plated Copper
-thicknesses = [5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100] # Thickness of plate (mm)
+thicknesses = [0.5] # Thickness of plate (mm)
 
 
 # Define config file name

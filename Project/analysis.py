@@ -53,18 +53,28 @@ transmit = "_transmitted" if TRANSMITTED_PARTICLES else ""
 # Plotting Configuration
 # Note: data for any permutations must be in the DATA directory
 #=====================================================
-MOMENTA = range(10,210,10)
-ANGLES =  range(5,90,10) #[0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
-SURFACES = [0] # 0, 1, 2
-PARTICLES = ["proton"] #"mu-", "e-", "proton", "mu+"
+MOMENTA = [1500,2000,2500] #range(10,310,10)
+ANGLES =  range(0,90,5) #[0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5] # 0, 2.5, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42.5, 45, 47.5, 50, 52.5, 55, 57.5, 60, 62.5, 65, 67.5, 70, 72.5, 75, 77.5, 80, 82.5, 85, 87.5
+SURFACES = [0,1,2] # 0, 1, 2
+PARTICLES = ['proton'] #"mu-", "e-", "proton", "mu+"
+THICKNESS = 5 # CURRENTLY FOR TITLE PURPOSES ONLY!!! (thickness in mm)
 #=====================================================
 
 
 # Data Directory
 # Info: directory where the files are located
 #=====================================================
-DATA = "/eos/user/d/dciarnie/Data/output_1_v0./output_1_v0./"
+DATA_DIR = '/eos/user/d/dciarnie/Data/'
+DATA_FOLDER = 'proton_high_momentum/'
+DATA = DATA_DIR+DATA_FOLDER
 #=====================================================
+
+
+if not os.path.exists('./plots/'):
+    os.mkdir('./plots/')
+
+if not os.path.exists(f'./plots/{DATA_FOLDER}'):
+    os.mkdir(f'./plots/{DATA_FOLDER}')
 
 
 # Helper Functions
@@ -190,7 +200,7 @@ def make_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, 
 
     '''
     setup = setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}", fontsize=11)
+    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -218,7 +228,7 @@ def make_theta_histogram_a(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle
 
     '''
     setup = setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}", fontsize=11)
+    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -296,7 +306,7 @@ def make_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surf
 
     '''
     setup = setup_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}", fontsize=11)
+    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -324,7 +334,7 @@ def make_phi_histogram_a(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, su
 
     '''
     setup = setup_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}", fontsize=11)
+    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -402,7 +412,7 @@ def make_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, partic
     '''
     setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
-    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}", fontsize=11)
+    ax_h.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -428,7 +438,7 @@ def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, part
             Runs setup function to make histogram and adds title for array of histograms
     '''
     setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}", fontsize=11)
+    ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -489,7 +499,7 @@ def make_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momen
             Runs setup function for 2d histogram, adds title for individual 2d histogram and adds a colorbar + label
     '''
     setup = setup_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm, Corr: {setup[1]:.2f}", fontsize=11)
     
     # Add color bar for the intensity scale
     cbar = fig_h_cor.colorbar(setup[0][3], ax=ax_h_cor)
@@ -517,7 +527,7 @@ def make_correlation_theta_momentum_histogram_a(fig_cor_array, axes_cor_array, t
             Runs setup function for 2d histogram and adds title for array of 2d histogram
     '''
     setup = setup_correlation_theta_momentum_histogram(fig_cor_array, axes_cor_array, thetas, momenta, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    axes_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    axes_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm, Corr: {setup[1]:.2f}", fontsize=11)
     
     return setup[0]
     
@@ -581,7 +591,7 @@ def make_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, part
             Runs setup function for 2d histogram, adds title for individual 2d histogram and adds a colorbar + label
     '''
     setup = setup_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    ax_h_cor.set_title(f"Particle: {particle}, Surface: {surface_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm, Corr: {setup[1]:.2f}", fontsize=11)
     
     # Add color bar for the intensity scale
     cbar = fig_h_cor.colorbar(setup[0][3], ax=ax_h_cor)
@@ -609,7 +619,7 @@ def make_correlation_theta_phi_histogram_a(fig_cor_array, ax_cor_array, thetas, 
             Runs setup function for 2d histogram and adds title for array of 2d histogram
     '''
     setup = setup_correlation_theta_phi_histogram(fig_cor_array, ax_cor_array, thetas, phis, particle, surface_name, momentum, theta_incident, total, refl_trans)
-    ax_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Corr: {setup[1]:.2f}", fontsize=11)
+    ax_cor_array.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Thickness: {THICKNESS}mm, Corr: {setup[1]:.2f}", fontsize=11)
     
     return setup[0]
     
@@ -629,13 +639,16 @@ def setup_thetas_scatter_plot(fig, ax, particle, surface_name):
             Sets the title, grid params, axes limits, legend, and plot position for angles scatter plots
     '''
     # Set title, grid params, and axes limits
-    ax.set_title(f"Theta Study - Particle: {particle}, Surface: {surface_name}", fontweight='bold', fontsize=12)
+    ax.set_title(f"Theta Study - Particle: {particle}, Surface: {surface_name}, Thickness: {THICKNESS}mm", fontsize=12)
     ax.grid(True, linestyle='--', linewidth=0.5)
     ax.tick_params(axis='both', which='major', labelsize=10)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.set_ylim([0, 90])
     ax.set_xlim([0, 90])
+    
+    # Plot identity line
+    ax.plot(np.linspace(0, 90, 90), np.linspace(0, 90, 90), color='black', marker='', alpha=0.5, zorder=0)
     
     # Shrink y axis by 20% to make room for legend
     box = ax.get_position()
@@ -665,7 +678,7 @@ def make_thetas_scatter_plot_mean(fig_mean, ax_mean, particle, surface_name):
     setup_thetas_scatter_plot(fig_mean, ax_mean, particle, surface_name)
     
     # Save and close
-    fig_mean.savefig(f"plots/scatter_plot_theta_mean_{particle}_{surface_name}.png")
+    fig_mean.savefig(f"plots/{DATA_FOLDER}/scatter_plot_theta_mean_{particle}_{surface_name}.png")
     plt.close(fig_mean)
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -689,12 +702,12 @@ def make_thetas_scatter_plot_mode(fig_mode, ax_mode, particle, surface_name):
     setup_thetas_scatter_plot(fig_mode, ax_mode, particle, surface_name)
     
     # Save and close
-    fig_mode.savefig(f"plots/scatter_plot_theta_mode_{particle}_{surface_name}.png")
+    fig_mode.savefig(f"plots/{DATA_FOLDER}/scatter_plot_theta_mode_{particle}_{surface_name}.png")
     plt.close(fig_mode)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out, n_absorbed, particle, surface_name, momentum, total):
+def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out_r, n_decayed_out_t, n_absorbed, particle, surface_name, momentum, total):
     '''
         Parameters:
             fig_rtd (matplotlib figure):        figure of plot
@@ -716,16 +729,16 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
     '''
     # Create a twin y-axis for decayed particles
     ax2 = ax_rtd.twinx()
-    ax2.scatter(inc_angles, n_decayed_in, color="tab:green", marker='+', edgecolors='none', label='Decayed In', zorder=2)
-    ax2.scatter(inc_angles, n_decayed_out, color="tab:blue", marker='+', edgecolors='none', label='Decayed Out', zorder=1)
+    ax2.plot(inc_angles, n_decayed_out_r, color="tab:blue", marker='+', label='Decayed Out (R)', zorder=1)
+    ax2.plot(inc_angles, n_decayed_out_t, color="tab:orange", marker='+', label='Decayed Out (T)', zorder=1)
+    ax2.plot(inc_angles, n_decayed_in, color="tab:green", marker='+', label='Decayed In', zorder=2)
     ax2.set_ylabel('Count - Decayed', color='red', fontsize=9, fontweight='bold')
     ax2.tick_params(axis='both', which='major', labelsize=10)
     
     # Make Scatter Plots
-    ax_rtd.scatter(inc_angles, n_reflected, color="tab:blue", marker='o', edgecolors='none', label="Reflected", zorder=5)
-    ax_rtd.scatter(inc_angles, n_transmitted, color="tab:orange", marker='o', edgecolors='none', label="Transmitted", zorder=3)
-    #ax_rtd.scatter(inc_angles, n_decayed, marker='o', edgecolors='black', label="Decayed")
-    ax_rtd.scatter(inc_angles, n_absorbed, marker='o', color="tab:green", edgecolors='none', label="Absorbed", zorder=2)
+    ax_rtd.plot(inc_angles, n_reflected, color="tab:blue", marker='o', label="Reflected", zorder=5)
+    ax_rtd.plot(inc_angles, n_transmitted, color="tab:orange", marker='o', label="Transmitted", zorder=3)
+    ax_rtd.plot(inc_angles, n_absorbed, marker='o', color="tab:green", label="Absorbed", zorder=2)
     ax_rtd.set_xlabel("Incident Angle (deg)", fontsize=9, fontweight='bold')
     ax_rtd.set_ylabel("Count", fontsize=9, fontweight='bold')
     ax_rtd.tick_params(axis='both', which='major', labelsize=10)
@@ -736,7 +749,7 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
     #ax_rtd.legend(lines + lines2, labels + labels2, loc='center left')
     
     # Label axes and title
-    ax_rtd.set_title(f"Angle Study\n Particle: {particle}, Surface: {surface_name}, Momentum: {momentum} MeV/c\nN Events = {total}", fontsize=11)
+    ax_rtd.set_title(f"Angle Study\n Particle: {particle}, Surface: {surface_name}, Momentum: {momentum} MeV/c\nN Events = {total}, Thickness: {THICKNESS}mm", fontsize=11)
     ax_rtd.grid(True, linestyle='--', linewidth=0.5)
     
     # Set up spines and axes limits
@@ -744,6 +757,7 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
     ax_rtd.spines['right'].set_visible(False)
     ax_rtd.set_xlim([0, 90])
     ax_rtd.set_ylim([-0.05*total,1.05*total])
+    ax2.set_ylim([-0.05*max(n_decayed_out_r+n_decayed_out_t),1.05*max(n_decayed_out_r+n_decayed_out_t)] if (max(n_decayed_out_r+n_decayed_out_t)>0) else [-0.05*5, 1.05*5])
     
     # Shrink y axis by 20% to make room for legend
     box1 = ax_rtd.get_position()
@@ -755,7 +769,7 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
     ax_rtd.legend(lines + lines2, labels + labels2, loc='center left', bbox_to_anchor=(1.1, 0.85), fontsize=8)
     
     # Make legend and save/close figure.
-    fig_rtd.savefig(f'plots/scatter_plot_rtd_{particle}_{surface_name}_{momentum}.png')
+    fig_rtd.savefig(f'plots/{DATA_FOLDER}/scatter_plot_rtd_{particle}_{surface_name}_{momentum}.png')
     plt.close(fig_rtd)
 
 #=====================================================
@@ -826,7 +840,8 @@ for particle in PARTICLES:
             n_transmitted = []
             n_decayed = []
             n_decayed_in = []
-            n_decayed_out = []
+            n_decayed_out_r = []
+            n_decayed_out_t = []
             a_decay_pdgid = []
             n_absorbed = []
 
@@ -844,16 +859,24 @@ for particle in PARTICLES:
                 absorbed = 0
                 decayed = 0
                 decayed_in = 0
-                decayed_out = 0
+                decayed_out_r = 0
+                decayed_out_t = 0
                 decay_pdgid = 0
                 events = 0
                 
                 
                 # Record path to specific data files
-                #path = DATA+str(surface)+'/'+particle+'/'+str(theta_incident)+'/'+str(momentum)+'/'
-                
-                path = DATA + "output_" +str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
-                #print(path)
+                path1 = DATA + "output_" +str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
+                path2 = DATA + "output_" +str(surface)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'_'+str(THICKNESS)+'.root'
+                if os.path.exists(path1):
+                    path = path1
+                elif os.path.exists(path2):
+                    path=path2
+                else:
+                    print(" ********** NO FILE FOUND ********** ")
+                    print(path1)
+                    print(path2)
+                    exit()
 
                 # Iterate through all .root files for the specified configuration
                 #for file_path in os.listdir(path):
@@ -884,14 +907,24 @@ for particle in PARTICLES:
                     decayed_add = sum(np.logical_and(np.asarray(file["AllEvents"]["fIsDecayed"]), np.logical_not(np.asarray(file["AllEvents"]["fIsAbsorbed"]))))
                     absorbed_add = sum(np.asarray(file["AllEvents"]["fIsAbsorbed"]))
                     decayed_in_add = sum(np.asarray(file["AllEvents"]["fIsDecayedIn"]))
-                    decayed_out_add = sum(np.asarray(file["AllEvents"]["fIsDecayedOut"]))
+                    
+                    decayed_out_events = np.asarray(file["AllEvents"]["fEvent"])
+                    primary_events = np.asarray(file["PrimaryEvents"]["fEvent"])
+                    decayed_out = np.asarray(file["AllEvents"]["fIsDecayedOut"])
+                    decayed_out_event_nums = decayed_out_events[decayed_out > 0]
+                    theta_decay = np.asarray(file["PrimaryEvents"]["fTheta"])[np.isin(primary_events,decayed_out_event_nums) > 0]
+                    
+                    decayed_out_r_add = len(theta_decay[theta_decay < 90])
+                    decayed_out_t_add = len(theta_decay[theta_decay > 90])
+                    
                     decay_pdgid = np.asarray(file["AllEvents"]["fDecayPDG"])
                     
                     reflected+=reflected_add
                     transmitted+=transmitted_add
                     decayed+= decayed_add
                     decayed_in+=decayed_in_add
-                    decayed_out+=decayed_out_add
+                    decayed_out_r+=decayed_out_r_add
+                    decayed_out_t+=decayed_out_t_add
                     absorbed+= absorbed_add
                     
                     events += len(np.asarray(file["AllEvents"]["fEvent"]))
@@ -902,10 +935,11 @@ for particle in PARTICLES:
                 n_decayed.append(decayed)
                 n_absorbed.append(absorbed)
                 n_decayed_in.append(decayed_in)
-                n_decayed_out.append(decayed_out)
+                n_decayed_out_r.append(decayed_out_r)
+                n_decayed_out_t.append(decayed_out_t)
                 a_decay_pdgid.append(decay_pdgid)
                 if events != EVENTS: print("******ERROR*****")
-                if (reflected+transmitted+decayed+absorbed) != events: 
+                if (reflected+transmitted+decayed+absorbed-decayed_out_r-decayed_out_t) != events: 
                     print("*****ERROR2*****")
                 
                 # Cut on configurations where there are less than CUT reflected (or transmitted if TRANSMITTED_PARTICLES=True) events (for statistical purposes)
@@ -978,35 +1012,35 @@ for particle in PARTICLES:
                     print("making theta histogram")
                     fig_h_theta, ax_h_theta = plt.subplots()
                     make_theta_histogram(fig_h_theta, ax_h_theta, thetas, theta_mode, theta_mean, theta_std_dev, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_theta.savefig(f"plots/histogram_theta_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    fig_h_theta.savefig(f"plots/{DATA_FOLDER}/histogram_theta_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_theta)  # Close the histogram figure after saving
                 
                 if PHI_HISTOGRAMS:
                     print("making phi histogram")
                     fig_h_phi, ax_h_phi = plt.subplots()
                     make_phi_histogram(fig_h_phi, ax_h_phi, phis, phi_mode, phi_mean, phi_std_dev, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_phi.savefig(f"plots/histogram_phi_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    fig_h_phi.savefig(f"plots/{DATA_FOLDER}/histogram_phi_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_phi)  # Close the histogram figure after saving
                 
                 if MOMENTUM_HISTOGRAMS:
                     print("making momentum histogram")
                     fig_h_momentum, ax_h_momentum = plt.subplots()
                     make_momentum_histogram(fig_h_momentum, ax_h_momentum, momenta, momentum_mode, momentum_mean, momentum_std_dev, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_momentum.savefig(f"plots/histogram_momentum_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    fig_h_momentum.savefig(f"plots/{DATA_FOLDER}/histogram_momentum_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_momentum)  # Close the histogram figure after saving
                     
                 if CORRELATION_HISTOGRAM_THETA_MOMENTUM:
                     print("making 2d histogram of theta vs momentum")
                     fig_h_cor, ax_h_cor = plt.subplots()
                     make_correlation_theta_momentum_histogram(fig_h_cor, ax_h_cor, thetas, momenta, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_cor.savefig(f"plots/histogram_correlation_theta_momentum_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    fig_h_cor.savefig(f"plots/{DATA_FOLDER}/histogram_correlation_theta_momentum_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_cor)  # Close the histogram figure after saving
                     
                 if CORRELATION_HISTOGRAM_THETA_PHI:
                     print("making 2d histogram of theta vs phi")
                     fig_h_cor, ax_h_cor = plt.subplots()
                     make_correlation_theta_phi_histogram(fig_h_cor, ax_h_cor, thetas, phis, particle, surface_name, momentum, theta_incident, EVENTS, len(thetas))
-                    fig_h_cor.savefig(f"plots/histogram_correlation_theta_phi_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
+                    fig_h_cor.savefig(f"plots/{DATA_FOLDER}/histogram_correlation_theta_phi_{particle}_{surface_name}_{momentum}_{theta_incident}{transmit}.png")
                     plt.close(fig_h_cor)  # Close the histogram figure after saving
                     
                 # Add histograms to arrays of histograms (depending on those selected at top of script)
@@ -1040,7 +1074,7 @@ for particle in PARTICLES:
             
             # Scatterplot of N reflected, transmitted, absorbed
             if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
-                make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out, n_absorbed, particle, surface_name, momentum, EVENTS)
+                make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out_r, n_decayed_out_t, n_absorbed, particle, surface_name, momentum, EVENTS)
 
 
         # Make Scatter Plots (depending on selection at top of script)
@@ -1055,37 +1089,37 @@ for particle in PARTICLES:
         
         # Make Histogram Arrays (depending on selection at top of script)
         if THETA_HISTOGRAM_ARRAY:
-            fig_theta_array.suptitle(f"{refl_trans_string} Theta Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            fig_theta_array.suptitle(f"{refl_trans_string} Theta Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}\nN Events: {EVENTS}, Thickness: {THICKNESS}mm", fontsize=14, fontweight='bold')
             fig_theta_array.tight_layout(pad=2)
-            fig_theta_array.savefig(f"plots/histogram_theta_array_{particle}_{surface_name}{transmit}.png")
+            fig_theta_array.savefig(f"plots/{DATA_FOLDER}/histogram_theta_array_{particle}_{surface_name}{transmit}.png")
             plt.close(fig_theta_array)  # Close the histogram figure after saving
         
         if PHI_HISTOGRAM_ARRAY:
-            fig_phi_array.suptitle(f"{refl_trans_string} Phi Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            fig_phi_array.suptitle(f"{refl_trans_string} Phi Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}\nN Events: {EVENTS}, Thickness: {THICKNESS}mm", fontsize=14, fontweight='bold')
             fig_phi_array.tight_layout(pad=2)
-            fig_phi_array.savefig(f"plots/histogram_phi_array_{particle}_{surface_name}{transmit}.png")
+            fig_phi_array.savefig(f"plots/{DATA_FOLDER}/histogram_phi_array_{particle}_{surface_name}{transmit}.png")
             plt.close(fig_phi_array)  # Close the histogram figure after saving
             
         if MOMENTUM_HISTOGRAM_ARRAY:
-            fig_momentum_array.suptitle(f"{refl_trans_string} Momentum Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            fig_momentum_array.suptitle(f"{refl_trans_string} Momentum Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}\nN Events: {EVENTS}, Thickness: {THICKNESS}mm", fontsize=14, fontweight='bold')
             fig_momentum_array.tight_layout(pad=2)
-            fig_momentum_array.savefig(f"plots/histogram_momentum_array_{particle}_{surface_name}{transmit}.png")
+            fig_momentum_array.savefig(f"plots/{DATA_FOLDER}/histogram_momentum_array_{particle}_{surface_name}{transmit}.png")
             plt.close(fig_momentum_array)  # Close the histogram figure after saving
             
         if CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY:
-            fig_cor_array_t_m.suptitle(f"{refl_trans_string} Theta Momentum Correlation Histograms - Theta versus Momentum\nParticle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            fig_cor_array_t_m.suptitle(f"{refl_trans_string} Theta Momentum Correlation Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}\nN Events: {EVENTS}, Thickness: {THICKNESS}mm", fontsize=14, fontweight='bold')
             cbar_ax = fig_cor_array_t_m.add_axes([0.93, 0.04, 0.015, 0.88])  # [left, bottom, width, height]
             cbar = fig_cor_array_t_m.colorbar(hist_t_m[3], cax=cbar_ax)
             cbar.set_label('Rate')
             fig_cor_array_t_m.tight_layout(pad=2, rect=[0,0,0.92,1])
-            fig_cor_array_t_m.savefig(f"plots/histogram_correlation_array_theta_momentum_{particle}_{surface_name}{transmit}.png")
+            fig_cor_array_t_m.savefig(f"plots/{DATA_FOLDER}/histogram_correlation_array_theta_momentum_{particle}_{surface_name}{transmit}.png")
             plt.close(fig_cor_array_t_m)  # Close the histogram figure after saving
             
         if CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
-            fig_cor_array_t_p.suptitle(f"{refl_trans_string} Theta Phi Correlation Histograms - Theta versus Momentum\nParticle: {particle}, Surface: {surface_name}, N Events: {EVENTS}", fontsize=14, fontweight='bold')
+            fig_cor_array_t_p.suptitle(f"{refl_trans_string} Theta Phi Correlation Histograms - Theta versus Momentum - Particle: {particle}, Surface: {surface_name}, N Events: {EVENTS}, Thickness: {THICKNESS}mm", fontsize=14, fontweight='bold')
             cbar_ax = fig_cor_array_t_p.add_axes([0.93, 0.04, 0.015, 0.88])  # [left, bottom, width, height]
             cbar = fig_cor_array_t_p.colorbar(hist_t_p[3], cax=cbar_ax)
             cbar.set_label('Rate')
             fig_cor_array_t_p.tight_layout(pad=2, rect=[0,0,0.92,1])
-            fig_cor_array_t_p.savefig(f"plots/histogram_correlation_array_theta_phi_{particle}_{surface_name}{transmit}.png")
+            fig_cor_array_t_p.savefig(f"plots/{DATA_FOLDER}/histogram_correlation_array_theta_phi_{particle}_{surface_name}{transmit}.png")
             plt.close(fig_cor_array_t_p)  # Close the histogram figure after saving

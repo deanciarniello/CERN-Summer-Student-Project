@@ -6,7 +6,7 @@
 
 # Output Directory
 # ===========================================
-OUTPUT_DIR=/eos/user/d/dciarnie/Data
+OUTPUT_DIR=/eos/user/d/dciarnie/Data/
 
 
 # Source gcc and geant4 versions
@@ -49,6 +49,16 @@ if [ $# -eq 5 ]; then
   echo "Running Script"
   ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}.root ${output}/ 0
   echo "Finished Script"
+
+  # For staging out a directory
+  # ===========================================
+  echo "Moving Files from ${output} to EOS"
+  eos cp -r ${output}/output_${material}_${particle}_${momentum}_${angle}.root ${OUTPUT_DIR}${output}
+  echo "Done Moving Files to EOS"
+
+  echo "Removing output from EOS"
+  rm -r ${output}
+  echo "Done removing output from EOS"
 fi
 
 if [ $# -eq 6 ]; then
@@ -59,12 +69,18 @@ if [ $# -eq 6 ]; then
   echo "Running Script (with thickness arg)"
   ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}_${thickness}.root ${output}/ 0 $thickness
   echo "Finished Script (with thickness arg)"
+
+  # For staging out a directory
+  # ===========================================
+  echo "Moving Files from ${output} to EOS"
+  eos cp -r ${output}/output_${material}_${particle}_${momentum}_${angle}_${thickness}.root ${OUTPUT_DIR}${output}
+  echo "Done Moving Files to EOS"
+
+  echo "Removing output from EOS"
+  rm -r ${output}
+  echo "Done removing output from EOS"
 fi
 
 
-# For staging out a directory
-# ===========================================
-echo "Moving Files from ${output} to EOS"
-eos cp -r ${output}/ ${OUTPUT_DIR}
-echo "Done Moving Files to EOS"
+
 
