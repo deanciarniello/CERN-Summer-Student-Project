@@ -2,7 +2,7 @@
 
 # Executable to run
 executable = run_batch.sh
-arguments = $(angles) $(momenta) $(particles) $(surfaces)
+arguments = $(file_output) $(angles) $(momenta) $(particles) $(surfaces)
 
 # Input files required by the executable (if any)
 transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
@@ -11,14 +11,13 @@ transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
 transfer_output_files = ""
 
 # Log files for the job
-output = jobs/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).out
-error = jobs/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).err
-log = jobs/job_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).log
+output = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).out
+error = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID)$(ProcId).err
+log = jobs/job_$(file_output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(ClusterID).log
 
 +JobFlavour = "espresso"
 
 #getenv = True
 
 # Queue the job
-queue angles,momenta,particles,surfaces from config/config_e-_mu-.txt
-queue angles,momenta,particles,surfaces from config/config_mu+_proton.txt
+queue file_output,angles,momenta,particles,surfaces from $(config)

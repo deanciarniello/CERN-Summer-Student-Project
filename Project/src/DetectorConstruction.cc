@@ -97,7 +97,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     }
 
     // Define the coating thickness
-    G4double coatingThickness = 5*um;
+    G4double coatingThickness = 0*um;
+    if (fConfig == 2) {
+        coatingThickness = 5*um;
+    }
 
 
     // ========== Construct Shapes ==========
@@ -108,18 +111,18 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     G4VisAttributes *worldVisAttributes = new G4VisAttributes(0);
 
     // ===== Scattering Plate =====
-    G4Box *solidPlate = new G4Box("solidPlate", 1*m, fPlateThickness*mm, 1*m);
+    G4Box *solidPlate = new G4Box("solidPlate", 1*m, (fPlateThickness/2)*mm, 1*m);
     G4LogicalVolume *logicPlate = new G4LogicalVolume(solidPlate, plateMaterial, "logicPlate");
-    G4VPhysicalVolume *physPlate = new G4PVPlacement(0, G4ThreeVector(0., -1*(fPlateThickness*mm), 0.), logicPlate, "physPlate", logicWorld, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
+    G4VPhysicalVolume *physPlate = new G4PVPlacement(0, G4ThreeVector(0., (-1*(fPlateThickness*mm)/2)-(coatingThickness), 0.), logicPlate, "physPlate", logicWorld, false, 0, true); // rotation, center pos, logic volume, name, inside other volume?, boolean operations, copy number, should check for overlaps?
 
     // ===== Plate Coating =====
     G4Box *solidCoatingGold = nullptr;
     G4LogicalVolume *logicCoatingGold = nullptr;
     G4VPhysicalVolume *physCoatingGold = nullptr;
     if (fConfig == 2) {
-        solidCoatingGold = new G4Box("solidCoatingGold", 1*m, coatingThickness, 1*m);
+        solidCoatingGold = new G4Box("solidCoatingGold", 1*m, coatingThickness/2, 1*m);
         logicCoatingGold = new G4LogicalVolume(solidCoatingGold, gold, "logicalCoatingGold");
-        physCoatingGold = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCoatingGold, "physCoatingGold", logicWorld, false, 0, true);
+        physCoatingGold = new G4PVPlacement(0, G4ThreeVector(0., -1*(coatingThickness)/2, 0.), logicCoatingGold, "physCoatingGold", logicWorld, false, 0, true);
     }
 
 

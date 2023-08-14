@@ -31,7 +31,10 @@ angle=$2
 momentum=$3
 particle=$4
 material=$5
+mac=$6
 
+# Define .mac file
+mac='run.mac'
 
 # Make output directory
 # ===========================================
@@ -44,10 +47,10 @@ echo "end make output dir"
 
 # Run Script
 # ===========================================
-if [ $# -eq 5 ]; then
+if [ $# -eq 6 ]; then
   # Run script without plate thickness argument
   echo "Running Script"
-  ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}.root ${output}/ 0
+  ./simulation $mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}.root ${output}/ 0
   echo "Finished Script"
 
   # For staging out a directory
@@ -61,13 +64,13 @@ if [ $# -eq 5 ]; then
   echo "Done removing output from EOS"
 fi
 
-if [ $# -eq 6 ]; then
+if [ $# -eq 7 ]; then
   # Define thickness
   thickness=$6
 
   # Run script with plate thickness argument
   echo "Running Script (with thickness arg)"
-  ./simulation run.mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}_${thickness}.root ${output}/ 0 $thickness
+  ./simulation $mac $material $angle $momentum $particle output_${material}_${particle}_${momentum}_${angle}_${thickness}.root ${output}/ 0 $thickness
   echo "Finished Script (with thickness arg)"
 
   # For staging out a directory

@@ -58,6 +58,11 @@ Once you have run this command line argument, a visualization will pop up. There
 
 
 ### Batch <a name="batch"></a>
+***This is designed to be run on lxplus (CERN) with an HTCondor batch system, and output file transferring to EOS***
+
+To successfully run a batch job of this simulation, there are a few things that need to be done:
+
+1. Create an output directory in EOS where you want to save all of your batch outputs. It might also be useful to make a subdirectory specific to each batch you are running to categorize the output files.
 
 Add notes about how to use the system.
 

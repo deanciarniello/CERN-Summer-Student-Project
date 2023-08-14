@@ -20,4 +20,4 @@ log = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thickne
 #getenv = True
 
 # Queue the job
-queue output,angles,momenta,particles,surfaces,thicknesses from config/config_thickness_50_45_mu-_0.txt
+queue output,angles,momenta,particles,surfaces,thicknesses from $(config)
