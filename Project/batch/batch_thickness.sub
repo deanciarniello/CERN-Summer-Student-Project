@@ -2,7 +2,13 @@
 
 # Executable to run
 executable = run_batch.sh
-arguments = $(output) $(angles) $(momenta) $(particles) $(surfaces) $(thicknesses)
+
+# Specify .mac file (i.e. for number of events), default is run.mac
+if defined mac
+    arguments = $(output) $(angles) $(momenta) $(particles) $(surfaces) $(mac) $(thicknesses)
+else
+    arguments = $(output) $(angles) $(momenta) $(particles) $(surfaces) run.mac $(thicknesses)
+endif
 
 # Input files required by the executable (if any)
 transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
@@ -10,12 +16,24 @@ transfer_input_files = build/simulation, build/run.mac, run_batch.sh, config/
 # Output files produced by the executable (if any)
 transfer_output_files = ""
 
-# Log files for the job
-output = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).out
-error = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).err
-log = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).log
+# Specify jobs directory
+if defined job_dir
+    # Log files for the job
+    output = $(job_dir)/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).out
+    error = $(job_dir)/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).err
+    log = $(job_dir)/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$.log
+else
+    # Log files for the job
+    output = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).out
+    error = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$(ProcId).err
+    log = jobs/job_$(output)_$(angles)_$(momenta)_$(particles)_$(surfaces)_$(thicknesses)_$(ClusterID)$.log
+endif
 
-+JobFlavour = "espresso"
+if defined flavour
+    +JobFlavour = "$(flavour)"
+else
+    +JobFlavour = "espresso"
+endif
 
 #getenv = True
 

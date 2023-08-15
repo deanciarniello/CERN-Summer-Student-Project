@@ -8,8 +8,8 @@ Date: 2023-07-22
 #define RUN_ACTION_HH
 
 #include "G4UserRunAction.hh"
-#include "G4AnalysisManager.hh"
-//#include "g4root.hh"
+//#include "G4AnalysisManager.hh"
+#include "g4root.hh"
 
 
 class RunAction : public G4UserRunAction {

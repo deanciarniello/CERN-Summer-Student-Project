@@ -697,3 +697,54 @@ def make_rtd_scatter_plot(fig_rtd, ax_rtd, inc_angles, n_reflected, n_transmitte
 
     # Put a legend to the right of the current axis
     ax_rtd.legend(lines + lines2, labels + labels2, loc='center left', bbox_to_anchor=(1.1, 0.85), fontsize=8)
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_cutoff_angle_scatterplot(fig_cutoff, ax_cutoff, momenta, cutoff_angles, cut, material_name, particle, total, refl_trans_string, thickness):
+    '''
+    '''
+    ax_cutoff.plot(momenta, cutoff_angles, marker='o', markeredgecolor='black', label="Cutoff Theta")
+    
+    # Set title, grid params, and axes limits
+    ax_cutoff.set_title(f"Cutoff Theta - Particle: {particle}, Material: {material_name}, Thickness: {thickness:.2f}mm\n Events: Total = {total}, Cut = {cut}", fontsize=12)
+    ax_cutoff.grid(True, linestyle='--', linewidth=0.5)
+    ax_cutoff.tick_params(axis='both', which='major', labelsize=10)
+    ax_cutoff.spines['top'].set_visible(False)
+    ax_cutoff.spines['right'].set_visible(False)
+    ax_cutoff.set_xlim([min(momenta)-0.05*max(momenta), 1.05*max(momenta)])
+    ax_cutoff.set_ylim([-0.05*90,90*1.05])
+    
+    ax_cutoff.legend(fontsize=8)
+    
+    ax_cutoff.set_xlabel("Incident Momentum (MeV/c)", fontsize=10, fontweight='bold')
+    ax_cutoff.set_ylabel(f"{refl_trans_string} Cutoff Theta (deg)", fontsize=10, fontweight='bold')
+    
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distributions, incident_angles, particle, material_name, momentum, total, thickness, refl_trans_string):
+    # Create a 2D histogram grid
+    # Create individual 1D histograms for each incident angle
+    histograms = [np.histogram(momenta, bins=20, range=(0, momentum), density=True)[0] for momenta in momentum_distributions]
+
+    # Combine individual histograms into a 2D histogram
+    hist2d = np.array(histograms)
+
+    # Plot the 2D histogram
+    im = ax_mom_inc.imshow(
+        hist2d.T, extent=[min(incident_angles), 90, 0, momentum],
+        origin='lower', aspect='auto', cmap='inferno'
+    )
+    
+    # Add color bar for the intensity scale
+    cbar = fig_mom_inc.colorbar(im, ax=ax_mom_inc)
+    cbar.set_label('Rate')
+
+    ax_mom_inc.set_ylabel(f'{refl_trans_string} Momentum (MeV/c)')
+    ax_mom_inc.set_xlabel('Incident Angle (deg)')
+    ax_mom_inc.set_title(f'2D Histogram of Momenta vs Incident Angle\nParticle: {particle}, Momentum: {momentum}MeV/c, Material: {material_name}, Thickness: {thickness:.2f}mm', fontsize=12)
+
+
+
+
+
+

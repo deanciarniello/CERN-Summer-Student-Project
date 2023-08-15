@@ -88,6 +88,13 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             break;
         }
 
+        // Gold (Elemental)
+        case 3: {
+            G4Material *gold = nist->FindOrBuildMaterial("G4_Au");
+            plateMaterial = gold;
+            break;
+        }
+
         // Default (Copper)
         default: {
             G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
@@ -143,6 +150,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             coatingVisAttributes->SetColour(G4Colour::Yellow());
             coatingVisAttributes->SetForceSolid(true);
             logicCoatingGold->SetVisAttributes(coatingVisAttributes);
+            break;
+        case 3:  
+            plateVisAttributes->SetColour(G4Colour::Yellow());
             break;
         default:
             plateVisAttributes->SetColour(G4Colour::White());

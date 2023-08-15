@@ -12,7 +12,7 @@ import numpy as np
 def return_surface_name(material):
     '''
         Parameters:
-            material (int):                  0 (Copper); 1 (Glass); 2 (Gold-Plated Copper)
+            material (int):                  0 (Copper); 1 (Glass); 2 (Gold-Plated Copper); 3 (Gold)
         
         Returns:
             material_name (string):          name of corresponding surface/material
@@ -24,6 +24,8 @@ def return_surface_name(material):
         material_name = "Glass"
     if material == 2:
         material_name = "Gold-Plated-Copper"
+    if material == 3:
+        material_name = "Gold"
     return material_name
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,7 +59,7 @@ def bootstrap_mode_error(data):
     """
     # Calculate the mode for each bootstrap sample
     bootstrap_modes = []
-    for _ in range(1000):
+    for _ in range(100):
         bootstrap_sample = np.random.choice(data, size=len(data), replace=True)
         bin_counts, bin_edges = np.histogram(bootstrap_sample, bins='auto')
         bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2

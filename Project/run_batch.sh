@@ -24,7 +24,7 @@ export EOS_MGM_URL=root://eosuser.cern.ch
 echo "end export"
 
 
-# Define the momentum, angle, particle, and material
+# Define the momentum, angle, particle, material, and mac file
 # ===========================================
 output=$1
 angle=$2
@@ -32,9 +32,6 @@ momentum=$3
 particle=$4
 material=$5
 mac=$6
-
-# Define .mac file
-mac='run.mac'
 
 # Make output directory
 # ===========================================
@@ -66,7 +63,7 @@ fi
 
 if [ $# -eq 7 ]; then
   # Define thickness
-  thickness=$6
+  thickness=$7
 
   # Run script with plate thickness argument
   echo "Running Script (with thickness arg)"

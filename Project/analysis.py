@@ -6,14 +6,12 @@
 #=====================================================
 import numpy as np
 from scipy.stats import *
-from scipy import stats, optimize
-import scipy as sc
 import matplotlib.pyplot as plt
 import uproot
 import os
 import sys
-import matplotlib.colors as colors
 import configparser
+from tqdm import tqdm
 
 from analysis_helpers import *
 from analysis_plotters import *
@@ -52,7 +50,8 @@ REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT = config.getboolean('PlotSelection', 
 THETAS_SCATTER_PLOT = config.getboolean('PlotSelection', 'THETAS_SCATTER_PLOT')
 MOMENTUM_SCATTER_PLOT = config.getboolean('PlotSelection', 'MOMENTUM_SCATTER_PLOT')
 TRANSMITTED_PARTICLES = config.getboolean('PlotSelection', 'TRANSMITTED_PARTICLES')
-
+CUTOFF_THETA_SCATTER_PLOT = config.getboolean('PlotSelection', 'CUTOFF_THETA_SCATTER_PLOT')
+HISTOGRAM_MOMENTA_INCIDENT_ANGLE = config.getboolean('PlotSelection','HISTOGRAM_MOMENTA_INCIDENT_ANGLE')
 
 # Plotting Configuration
 # Note: data for any permutations must be in the DATA directory
@@ -98,8 +97,8 @@ if not os.path.exists(f'./plots/{DATA_FOLDER}'):
 # Main Code
 #=====================================================
 # Iterate over permutations of particles, surfaces (materials), momenta, and angles of incident particles
-for particle in PARTICLES:
-    for material in MATERIALS:
+for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=True):
+    for material in tqdm(MATERIALS, leave=False, desc='MATERIALS', dynamic_ncols=True):
         # Create the figure and axis objects for selected scatterplots and histogram arrays
         if THETAS_SCATTER_PLOT:
             fig_mean, ax_mean = plt.subplots()
@@ -119,17 +118,23 @@ for particle in PARTICLES:
             
         if CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
             fig_cor_array_t_p, axes_cor_array_t_p = plt.subplots(len(MOMENTA), len(ANGLES), figsize=(16,16), sharex=False, sharey=False)
+            
+        if CUTOFF_THETA_SCATTER_PLOT:
+            fig_cutoff, ax_cutoff = plt.subplots()
         
         # Record surface/material name as string
         material_name = return_surface_name(material)
         
+        # Initialize cutoff angle array
+        cutoff_angles = []
 
-        for momentum_index, momentum in enumerate(MOMENTA):
+        for momentum_index, momentum in enumerate(tqdm(MOMENTA, leave=False, desc='MOMENTA', dynamic_ncols=True)):
             # Create reflected, transmitted, decayed scatterplot
             if REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT:
                 fig_rtd, ax_rtd = plt.subplots(figsize=(8,5))
-            
-            print("Analyzing momentum: " + str(momentum))
+                
+            if HISTOGRAM_MOMENTA_INCIDENT_ANGLE:
+                fig_mom_inc, ax_mom_inc = plt.subplots(figsize=(8,6))
             
             # Initiate arrays for statistical parameters for theta
             theta_means = []
@@ -151,6 +156,7 @@ for particle in PARTICLES:
             momentum_std_devs = []
             momentum_mean_errors = []
             momentum_mode_errors = []
+            momentum_distributions = []
             
             # Record array of incident angles where there are reflected (or transmitted if TRANSMITTED_PARTICLES=True) particles
             incident_angles = []
@@ -165,9 +171,10 @@ for particle in PARTICLES:
             a_decay_pdgid = []
             n_absorbed = []
 
-            for theta_index, theta_incident in enumerate(ANGLES):
-                #print("Analyzing theta: " + str(theta_incident))
-                
+            # Set initial cutoff angle
+            cutoff_angle = 0
+            
+            for theta_index, theta_incident in enumerate(tqdm(ANGLES, leave=False, desc='THETAS', dynamic_ncols=True)):
                 # Initialize arrays of angles and momenta of reflected (or transmitted if TRANSMITTED_PARTICLES=True) particles for each configuration
                 thetas = []
                 phis = []
@@ -183,6 +190,7 @@ for particle in PARTICLES:
                 decayed_out_t = 0
                 decay_pdgid = 0
                 events = 0
+                
                 
                 
                 # Record path to specific data files
@@ -266,12 +274,14 @@ for particle in PARTICLES:
                 n_decayed_out_r.append(decayed_out_r)
                 n_decayed_out_t.append(decayed_out_t)
                 a_decay_pdgid.append(decay_pdgid)
-                if events != EVENTS: print("******ERROR*****")
+                if events != EVENTS: print("******ERROR*****\nEVENTS does not match number in file")
                 if (reflected+transmitted+decayed+absorbed-decayed_out_r-decayed_out_t) != events: 
                     print("*****ERROR2*****")
                 
                 # Cut on configurations where there are less than CUT reflected (or transmitted if TRANSMITTED_PARTICLES=True) events (for statistical purposes)
-                if (len(thetas) < CUT): continue
+                if (len(thetas) < CUT): 
+                    cutoff_angle = theta_incident
+                    continue
                 #print(len(thetas))
                 
                 # Transform transmitted thetas
@@ -280,60 +290,56 @@ for particle in PARTICLES:
                 # Record theta_incident in as an incident theta where there are >= 5 (or transmitted if TRANSMITTED_PARTICLES=True) events
                 incident_angles.append(theta_incident)
                 
-                # Compute the mean and std deviation from raw theta data; compute mode from histogram binning (take central value of max bin(s))
-                range_th = (90,180) if TRANSMITTED_PARTICLES else (0,90)
-                theta_hist, theta_bin_edges = np.histogram(thetas, range=range_th, bins='auto')
-                theta_max_frequency = np.max(theta_hist)
-                theta_mode, theta_mode_error = bootstrap_mode_error(np.asarray(thetas))
-                theta_mean = np.nanmean(thetas)
-                theta_std_dev = np.nanstd(thetas)
-                theta_mean_error = theta_std_dev/np.sqrt(len(thetas))                                   # Error on mean = sigma/sqrt(n) where n is sample size
+                if THETA_HISTOGRAMS or CORRELATION_HISTOGRAM_THETA_MOMENTUM or CORRELATION_HISTOGRAM_THETA_PHI or THETA_HISTOGRAM_ARRAY or CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY or CORRELATION_HISTOGRAM_THETA_PHI_ARRAY or THETAS_SCATTER_PLOT:
+                    # Compute the mean and std deviation from raw theta data; compute mode from histogram binning (take central value of max bin(s))
+                    range_th = (90,180) if TRANSMITTED_PARTICLES else (0,90)
+                    theta_hist, theta_bin_edges = np.histogram(thetas, range=range_th, bins='auto')
+                    theta_max_frequency = np.max(theta_hist)
+                    theta_mode, theta_mode_error = bootstrap_mode_error(np.asarray(thetas))
+                    theta_mean = np.nanmean(thetas)
+                    theta_std_dev = np.nanstd(thetas)
+                    theta_mean_error = theta_std_dev/np.sqrt(len(thetas))                                   # Error on mean = sigma/sqrt(n) where n is sample size
 
-                # Append mean, mode, std dev, and errors to their respective arrays
-                theta_modes.append(theta_mode)
-                theta_means.append(theta_mean)
-                theta_std_devs.append(theta_std_dev)
-                theta_mean_errors.append(theta_mean_error)
-                theta_mode_errors.append(theta_mode_error)
+                    # Append mean, mode, std dev, and errors to their respective arrays
+                    theta_modes.append(theta_mode)
+                    theta_means.append(theta_mean)
+                    theta_std_devs.append(theta_std_dev)
+                    theta_mean_errors.append(theta_mean_error)
+                    theta_mode_errors.append(theta_mode_error)
                 
-                #theta_mode_errors.append(np.sqrt((theta_mode_error**2)+(theta_mean_error**2)))          # Add error on hist bin and SEM (standard error on mean) in quadrature
-                
-                # Compute the mean and std deviation from raw phi data; compute mode from histogram binning (take central value of max bin(s))
-                phi_hist, phi_bin_edges = np.histogram(phis, range=(0,360), bins='auto')
-                phi_max_frequency = np.max(phi_hist)
-                phi_mode_bins = np.where(phi_hist == phi_max_frequency)[0]
-                phi_mode_interval = (phi_bin_edges[phi_mode_bins[0]], phi_bin_edges[phi_mode_bins[-1] + 1])
-                phi_mode_error = (phi_mode_interval[1]-phi_mode_interval[0])/(2*np.sqrt(3))       # Error on histogram bin containing mode (i.e. max histogram bin); rectangular pdf
-                phi_mode = np.nanmean(phi_mode_interval)
-                phi_mean = np.nanmean(phis)
-                phi_std_dev = np.nanstd(phis)
-                phi_mean_error = phi_std_dev/np.sqrt(len(phis))                                   # Error on mean = sigma/sqrt(n) where n is sample size
+                if PHI_HISTOGRAMS or CORRELATION_HISTOGRAM_THETA_PHI or PHI_HISTOGRAM_ARRAY or CORRELATION_HISTOGRAM_THETA_PHI_ARRAY:
+                    # Compute the mean and std deviation from raw phi data; compute mode from histogram binning (take central value of max bin(s))
+                    phi_hist, phi_bin_edges = np.histogram(phis, range=(0,360), bins='auto')
+                    phi_max_frequency = np.max(phi_hist)
+                    phi_mode, phi_mode_error = bootstrap_mode_error(np.asarray(phis))
+                    phi_mean = np.nanmean(phis)
+                    phi_std_dev = np.nanstd(phis)
+                    phi_mean_error = phi_std_dev/np.sqrt(len(phis))                                   # Error on mean = sigma/sqrt(n) where n is sample size
 
-                # Append mean, mode, std dev, and errors to their respective arrays
-                phi_modes.append(phi_mode)
-                phi_means.append(phi_mean)
-                phi_std_devs.append(phi_std_dev)
-                phi_mean_errors.append(phi_mean_error)
-                phi_mode_errors.append(np.sqrt((phi_mode_error**2)+(phi_mean_error**2)))          # Add error on hist bin and SEM (standard error on mean) in quadrature
+                    # Append mean, mode, std dev, and errors to their respective arrays
+                    phi_modes.append(phi_mode)
+                    phi_means.append(phi_mean)
+                    phi_std_devs.append(phi_std_dev)
+                    phi_mean_errors.append(phi_mean_error)
+                    phi_mode_errors.append(phi_mode_error)          # Add error on hist bin and SEM (standard error on mean) in quadrature
                 
-                # Compute the mean and std deviation from raw momentum data; compute mode from histogram binning (take central value of max bin(s))
-                momentum_hist, momentum_bin_edges = np.histogram(momenta, range=(0,momentum), bins='auto')
-                momentum_max_frequency = np.max(momentum_hist)
-                momentum_mode_bins = np.where(momentum_hist == momentum_max_frequency)[0]
-                momentum_mode_interval = (momentum_bin_edges[momentum_mode_bins[0]], momentum_bin_edges[momentum_mode_bins[-1] + 1])
-                momentum_mode_error = (momentum_mode_interval[1]-momentum_mode_interval[0])/(2*np.sqrt(3)) # Error on histogram bin containing mode (i.e. max histogram bin); rectangular pdf
-                momentum_mode = np.nanmean(momentum_mode_interval)
-                momentum_mean = np.nanmean(momenta)
-                momentum_std_dev = np.nanstd(momenta)
-                momentum_mean_error = momentum_std_dev/np.sqrt(len(momenta)) # Error on mean = sigma/sqrt(n) where n is sample size
+                if MOMENTUM_HISTOGRAMS or CORRELATION_HISTOGRAM_THETA_MOMENTUM or MOMENTUM_HISTOGRAM_ARRAY or CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY or MOMENTUM_SCATTER_PLOT:
+                    # Compute the mean and std deviation from raw momentum data; compute mode from histogram binning (take central value of max bin(s))
+                    momentum_hist, momentum_bin_edges = np.histogram(momenta, range=(0,momentum), bins='auto')
+                    momentum_max_frequency = np.max(momentum_hist)
+                    momentum_mode, momentum_mode_error = bootstrap_mode_error(np.asarray(momenta))
+                    momentum_mean = np.nanmean(momenta)
+                    momentum_std_dev = np.nanstd(momenta)
+                    momentum_mean_error = momentum_std_dev/np.sqrt(len(momenta)) # Error on mean = sigma/sqrt(n) where n is sample size
 
-                # Append mean, mode, std dev, and errors to their respective arrays
-                momentum_modes.append(momentum_mode)
-                momentum_means.append(momentum_mean)
-                momentum_std_devs.append(momentum_std_dev)
-                momentum_mean_errors.append(momentum_mean_error)
-                momentum_mode_errors.append(np.sqrt((momentum_mode_error**2)+(momentum_mean_error**2))) # Add error on hist bin and SEM (standard error on mean) in quadrature
-                
+                    # Append mean, mode, std dev, and errors to their respective arrays
+                    momentum_modes.append(momentum_mode)
+                    momentum_means.append(momentum_mean)
+                    momentum_std_devs.append(momentum_std_dev)
+                    momentum_mean_errors.append(momentum_mean_error)
+                    momentum_mode_errors.append(momentum_mode_error) # Add error on hist bin and SEM (standard error on mean) in quadrature
+                momentum_distributions.append(momenta)
+
                 # Make individual histograms (depending on those selected at top of script)
                 if THETA_HISTOGRAMS:
                     print("making theta histogram")
@@ -392,6 +398,8 @@ for particle in PARTICLES:
                     hist_t_p = make_correlation_theta_phi_histogram_a(fig_cor_array_t_p, axes_cor_array_t_p[momentum_index][theta_index], thetas, phis, particle, material_name, momentum, theta_incident, EVENTS, len(thetas), refl_trans_string, THICKNESS)
                   
                   
+            cutoff_angles.append(cutoff_angle)
+            
             # Scatter plot with error bars for this momentum   
             if THETAS_SCATTER_PLOT:         
                 ax_mean.errorbar(incident_angles, theta_means, yerr=theta_mean_errors, fmt='o',markersize=5, markeredgecolor='black', capsize=3, elinewidth=1, markeredgewidth=0.5, ecolor='black', label=f"P = {momentum} MeV/c")
@@ -404,7 +412,12 @@ for particle in PARTICLES:
                 make_rtd_scatter_plot(fig_rtd, ax_rtd, ANGLES, n_reflected, n_transmitted, n_decayed, n_decayed_in, n_decayed_out_r, n_decayed_out_t, n_absorbed, particle, material_name, momentum, EVENTS, THICKNESS, angles_range)
                 fig_rtd.savefig(f'plots/{DATA_FOLDER}/scatter_plot_rtd_{particle}_{material_name}_{momentum}.png')
                 plt.close(fig_rtd)
-
+                
+            # 2D histogram of outgoing momentum vs incident angle
+            if HISTOGRAM_MOMENTA_INCIDENT_ANGLE:
+                make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distributions, incident_angles, particle, material_name, momentum, EVENTS, THICKNESS, refl_trans_string)
+                fig_mom_inc.savefig(f'plots/{DATA_FOLDER}/hist2d_momenta_vs_incident_angle_{particle}_{material_name}_{momentum}.png')
+                plt.close(fig_mom_inc)
 
         # Make Scatter Plots (depending on selection at top of script)
         if THETAS_SCATTER_PLOT:
@@ -456,3 +469,9 @@ for particle in PARTICLES:
             fig_cor_array_t_p.tight_layout(pad=2, rect=[0,0,0.92,1])
             fig_cor_array_t_p.savefig(f"plots/{DATA_FOLDER}/histogram_correlation_array_theta_phi_{particle}_{material_name}{transmit}.png")
             plt.close(fig_cor_array_t_p)  # Close the histogram figure after saving
+        
+        
+        if CUTOFF_THETA_SCATTER_PLOT:
+            make_cutoff_angle_scatterplot(fig_cutoff, ax_cutoff, MOMENTA, cutoff_angles, CUT, material_name, particle, EVENTS, refl_trans_string, THICKNESS)
+            fig_cutoff.savefig(f"plots/{DATA_FOLDER}/scatter_plot_cutoff_theta_{particle}_{material_name}{transmit}")
+            plt.close(fig_cutoff)
