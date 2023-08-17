@@ -18,12 +18,12 @@ DetectorConstruction::DetectorConstruction(G4int capillaryMaterial, G4int capill
 
     switch (fCapillaryShape) {
         case 0: {
-            fPolyOrder = fCapillaryConfig.at(0);
-            fStartRadius = fCapillaryConfig.at(1)*mm;
-            fEndRadius = fCapillaryConfig.at(2)*mm;
-            fLength = fCapillaryConfig.at(3)*mm;
-            fThickness = fCapillaryConfig.at(4)*mm;
-            fZ = fCapillaryConfig.at(5);
+            fStartRadius = fCapillaryConfig.at(0)*mm;
+            fEndRadius = fCapillaryConfig.at(1)*mm;
+            fLength = fCapillaryConfig.at(2)*mm;
+            fThickness = fCapillaryConfig.at(3)*mm;
+            fZ = fCapillaryConfig.at(4);
+            fPolyOrder = fCapillaryConfig.at(5);
             break;
         }
 

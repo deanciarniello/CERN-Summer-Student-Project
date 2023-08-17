@@ -732,7 +732,7 @@ def make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distribution
     # Plot the 2D histogram
     im = ax_mom_inc.imshow(
         hist2d.T, extent=[min(incident_angles), 90, 0, momentum],
-        origin='lower', aspect='auto', cmap='inferno'
+        origin='lower', aspect='auto', cmap='Greys'
     )
     
     # Add color bar for the intensity scale

@@ -30,8 +30,8 @@ int main(int argc, char** argv) {
     // 1) .mac file
     // 2) capillary material
     // 3) capillary shape (0 -> Polynomial of the form p_n(x) = ax^n+b; 1 -> Hyperbola h(x) = a*sqrt(1+(x/b)^2) + c)
-    // 4) capillary config (for 0 capillary shape: polyOrder,startRad,endRad,length,thickness,numZPlanes)
-    //                     (for 1 capillary shape: startRad,endRad,length,thickness,numZPlanes)
+    // 4) capillary config (for 0 capillary shape: startRad;endRad;length;thickness;numZPlanes;polyOrder;
+    //                     (for 1 capillary shape: startRad;endRad;length;thickness;numZPlanes)
     //                      *** all lengths in mm
     // 5) output file name
     // 6) path to output file
@@ -39,10 +39,10 @@ int main(int argc, char** argv) {
     // ---------------------------------
     // (Beam Setup)
     // 8) particle type
-    // 9) radius of beam
-    // 10) sigma of beam angle (degrees)
-    // 11) beam energy (NOT MOMENTUM) in MeV
-    // 12) beam energy sigma
+    // 9) radius of plateau of circular beam (mm)
+    // 10) sigma of beam falloff (mm)
+    // 11) sigma of beam angle (degrees)
+    // 12) beam energy (NOT MOMENTUM) in MeV
     G4int capillaryMaterial = std::stoi(argv[2]);
     G4int capillaryShape = std::stoi(argv[3]);
     G4String outputFile = argv[5];
@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
     std::string str_config;
     G4double d_config;
     std::stringstream ss(argv[4]);
-    while (getline(ss, str_config, ',')){
+    while (getline(ss, str_config, ';')){
         d_config = std::stod(str_config);
         capillaryConfig.push_back(d_config);
         G4cout << d_config << G4endl;
@@ -89,15 +89,15 @@ int main(int argc, char** argv) {
         UImanager->ApplyCommand("/gps/pos/shape Circle");
         UImanager->ApplyCommand("/gps/pos/centre 0. 0. 0. m");
         G4String radius = argv[9];
-        UImanager->ApplyCommand("/gps/pos/radius "+radius+" mm");
+        UImanager->ApplyCommand("/gps/pos/radius "+radius+" mm")
+        G4String radius_sigma = argv[10];;
+        UImanager->ApplyCommand("/gps/pos/sigma_r "+radius_sigma+" mm");
         UImanager->ApplyCommand("/gps/ang/type beam1d");
-        G4String angle_sigma = argv[10];
+        G4String angle_sigma = argv[11];
         UImanager->ApplyCommand("/gps/ang/sigma_r "+angle_sigma+" deg");
         UImanager->ApplyCommand("/gps/ene/type Gauss");
-        G4String beam_energy = argv[11];
+        G4String beam_energy = argv[12];
         UImanager->ApplyCommand("/gps/ene/mono "+beam_energy+" MeV");
-        G4String energy_sigma = argv[12];
-        UImanager->ApplyCommand("/gps/ene/sigma "+energy_sigma+" MeV");
     }
 
     // Execute .mac file

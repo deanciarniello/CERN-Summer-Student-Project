@@ -1,0 +1,252 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make -f Makefile cmTC_63562/fast && /usr/bin/make  -f CMakeFiles/cmTC_63562.dir/build.make CMakeFiles/cmTC_63562.dir/build
+make[1]: Entering directory '/home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_63562.dir/src.c.o
+/usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_63562.dir/src.c.o -c /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_63562
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_63562.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_63562.dir/src.c.o -o cmTC_63562 
+/usr/bin/ld: CMakeFiles/cmTC_63562.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x5e): undefined reference to `pthread_cancel'
+/usr/bin/ld: src.c:(.text+0x6f): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_63562.dir/build.make:99: cmTC_63562] Error 1
+make[1]: Leaving directory '/home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:127: cmTC_63562/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_84121 && [1/2] Building C object CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_84121.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/cc1.exe -quiet -v -iprefix C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/ -D_REENTRANT /usr/share/cmake-3.23/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_84121.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\Users\deanc\AppData\Local\Temp\ccIgShdZ.s
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+ignoring nonexistent directory "/mingw64/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed"
+ignoring nonexistent directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed
+End of search list.
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 1e797df90ac784be2cfd35c70bb47558
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_84121.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o C:\Users\deanc\AppData\Local\Temp\ccIgShdZ.s
+GNU assembler version 2.38 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.38
+COMPILER_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.'
+[2/2] Linking C executable cmTC_84121
+FAILED: cmTC_84121 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -v  -rdynamic CMakeFiles/cmTC_84121.dir/CMakeCCompilerABI.c.o -o cmTC_84121   && :
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+COLLECT_LTO_WRAPPER=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/lto-wrapper.exe
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+ninja: build stopped: subcommand failed.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_53add && [1/2] Building C object CMakeFiles/cmTC_53add.dir/testCCompiler.c.o
+[2/2] Linking C executable cmTC_53add
+FAILED: cmTC_53add 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -rdynamic CMakeFiles/cmTC_53add.dir/testCCompiler.c.o -o cmTC_53add   && :
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+ninja: build stopped: subcommand failed.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_8a9dd && [1/2] Building C object CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8a9dd.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/cc1.exe -quiet -v -iprefix C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/ -D_REENTRANT /usr/share/cmake-3.23/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_8a9dd.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\Users\deanc\AppData\Local\Temp\cceSDtJn.s
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+ignoring nonexistent directory "/mingw64/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed"
+ignoring nonexistent directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed
+End of search list.
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 1e797df90ac784be2cfd35c70bb47558
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8a9dd.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o C:\Users\deanc\AppData\Local\Temp\cceSDtJn.s
+GNU assembler version 2.38 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.38
+COMPILER_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.'
+[2/2] Linking C executable cmTC_8a9dd
+FAILED: cmTC_8a9dd 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -v  -rdynamic CMakeFiles/cmTC_8a9dd.dir/CMakeCCompilerABI.c.o -o cmTC_8a9dd   && :
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+COLLECT_LTO_WRAPPER=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/lto-wrapper.exe
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+ninja: build stopped: subcommand failed.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_0b97f && [1/2] Building C object CMakeFiles/cmTC_0b97f.dir/testCCompiler.c.o
+[2/2] Linking C executable cmTC_0b97f
+FAILED: cmTC_0b97f 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -rdynamic CMakeFiles/cmTC_0b97f.dir/testCCompiler.c.o -o cmTC_0b97f   && :
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+ninja: build stopped: subcommand failed.
+
+
+
+Detecting C compiler ABI info failed to compile with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_2b021 && [1/2] Building C object CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2b021.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/cc1.exe -quiet -v -iprefix C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/ -D_REENTRANT /usr/share/cmake-3.23/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_2b021.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\Users\deanc\AppData\Local\Temp\ccCbgGmz.s
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+ignoring nonexistent directory "/mingw64/include"
+ignoring duplicate directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed"
+ignoring nonexistent directory "C:/msys64/mingw64/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring nonexistent directory "D:/a/msys64/mingw64/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../include
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/include-fixed
+End of search list.
+GNU C17 (Rev1, Built by MSYS2 project) version 11.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0-p13, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 1e797df90ac784be2cfd35c70bb47558
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2b021.dir/'
+ C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o C:\Users\deanc\AppData\Local\Temp\ccCbgGmz.s
+GNU assembler version 2.38 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.38
+COMPILER_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/;C:/msys64/mingw64/bin/../lib/gcc/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../../x86_64-w64-mingw32/lib/;C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.'
+[2/2] Linking C executable cmTC_2b021
+FAILED: cmTC_2b021 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -v  -rdynamic CMakeFiles/cmTC_2b021.dir/CMakeCCompilerABI.c.o -o cmTC_2b021   && :
+Using built-in specs.
+COLLECT_GCC=gcc.exe
+COLLECT_LTO_WRAPPER=C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/11.3.0/lto-wrapper.exe
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+Target: x86_64-w64-mingw32
+Configured with: ../gcc-11.3.0/configure --prefix=/mingw64 --with-local-prefix=/mingw64/local --build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --with-native-system-header-dir=/mingw64/include --libexecdir=/mingw64/lib --enable-bootstrap --enable-checking=release --with-arch=x86-64 --with-tune=generic --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-lto --enable-libgomp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/mingw64 --with-mpfr=/mingw64 --with-mpc=/mingw64 --with-isl=/mingw64 --with-pkgversion='Rev1, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Rev1, Built by MSYS2 project) 
+ninja: build stopped: subcommand failed.
+
+
+
+
+Determining if the C compiler works failed with the following output:
+Change Dir: /home/deanciarniello/CERN/project_temp/CERN-Summer-Student-Project/Project/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/ninja cmTC_ccd72 && [1/2] Building C object CMakeFiles/cmTC_ccd72.dir/testCCompiler.c.o
+[2/2] Linking C executable cmTC_ccd72
+FAILED: cmTC_ccd72 
+: && /mnt/c/msys64/mingw64/bin/gcc.exe  -rdynamic CMakeFiles/cmTC_ccd72.dir/testCCompiler.c.o -o cmTC_ccd72   && :
+gcc.exe: error: unrecognized command-line option '-rdynamic'
+ninja: build stopped: subcommand failed.
+
+
+
