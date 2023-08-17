@@ -611,7 +611,7 @@ def make_thetas_scatter_plot_mean(fig_mean, ax_mean, particle, material_name, re
     setup_thetas_scatter_plot(fig_mean, ax_mean, particle, material_name, thickness, angles_range)
     
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+    
 def make_thetas_scatter_plot_mode(fig_mode, ax_mode, particle, material_name, refl_trans_string, thickness, angles_range):
     '''
         Parameters:

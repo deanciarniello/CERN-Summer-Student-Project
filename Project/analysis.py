@@ -191,8 +191,6 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                 decay_pdgid = 0
                 events = 0
                 
-                
-                
                 # Record path to specific data files
                 path1 = DATA + "output_" +str(material)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'.root'
                 path2 = DATA + "output_" +str(material)+'_'+str(particle)+'_'+str(momentum)+'_'+str(theta_incident)+'_'+str(THICKNESS)+'.root'
@@ -212,7 +210,7 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                     print(path2)
                     print(path3)
                     print(path4)
-                    exit()
+                    sys.exit(1)
 
                 # Iterate through all .root files for the specified configuration
                 #for file_path in os.listdir(path):
@@ -274,9 +272,14 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                 n_decayed_out_r.append(decayed_out_r)
                 n_decayed_out_t.append(decayed_out_t)
                 a_decay_pdgid.append(decay_pdgid)
-                if events != EVENTS: print("******ERROR*****\nEVENTS does not match number in file")
+                
+                # Checks to make sure data file is valid
+                if events != EVENTS: 
+                    print("******ERROR*****\nEVENTS does not match number in file")
+                    sys.exit(1)
                 if (reflected+transmitted+decayed+absorbed-decayed_out_r-decayed_out_t) != events: 
                     print("*****ERROR2*****")
+                    sys.exit(1)
                 
                 # Cut on configurations where there are less than CUT reflected (or transmitted if TRANSMITTED_PARTICLES=True) events (for statistical purposes)
                 if (len(thetas) < CUT): 

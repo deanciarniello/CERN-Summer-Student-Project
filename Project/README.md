@@ -22,6 +22,7 @@
     - [Batch](#batch)
 - [Analysis](#analysis)
 - [Additional Notes](#notes)
+    - [Material Identification](#materialID)
 - [Built Using](#built_using)
 - [Authors](#authors)
 - [Acknowledgements](#acknowledgements)
@@ -107,14 +108,14 @@ To successfully run a batch job of this simulation, there are a few things that 
 
     # Sample data for angles, momenta, particles, and material types (and thickness)
     #=====================================================
-    OUTPUT = 'output_file_xyz' # Name of output file (not including path) for the : 'output', 'angle_study', etc
+    OUTPUT = 'batch_directory' # Name of output directory (not including path) for the : 'output', 'angle_study', etc
     ANGLES = [20,40,60,80] # Incident Angles (deg)
     MOMENTA = [10,20,30] # Incident Momenta (MeV/c)
     PARTICLES = ['proton', 'e-'] # Incident Particle Type: 'e-', 'mu-', 'mu+', 'proton'
-    MATERIALS = [2] # Material of Plate: 0 -> Copper, 1 -> Glass, 2 -> Gold Plated Copper, 3 -> Gold
+    MATERIALS = [0,1,2] # Material of Plate: 0 -> Copper, 1 -> Glass, 2 -> Gold Plated Copper, 3 -> Gold
     THICKNESS = 5 # Thickness of plate (mm)
     ```
-    and run the script with ```python3 make_config.py```. This will produce a configuration file with all of the permutations of the parameters set above.
+    and run the script with ```python3 make_config.py```. This will produce a configuration file with all of the permutations of the parameters set above. *Hint: use ```np.linspace``` and ```range``` to simplify complicated ranges of momenta and angles*
 
 3. Now that you have your configuration file with all of the combinations of parameters you intend on simulating, you can submit the batch to the grid. If you are using the default plate thickness (5mm), run the following command:
     ```bash
@@ -142,12 +143,103 @@ To successfully run a batch job of this simulation, there are a few things that 
     ```
     Make additional .mac files as necessary with different event numbers ```N```, and add them to the **Project/mac** directory. For instance, see **Project/mac/run1000000.mac**.
 
+Once these steps have been completed, the batch will be submitted and once completed, the outputs will be available in the specified batch output directory on the EOS system. Repeat these steps with different configuration files to submit further batches.
+
 ## Analysis <a name="analysis"></a>
 
+In order to run analysis on simulated data, the primary thing to prepare is a configuration file. It should take the form of this sample configuration file:
+```ini
+[Setup]
+# Number of Events (must agree with number of events in supplied data)
+EVENTS = 1000000
+# Cutoff number of reflected/transmitted events per configuration for adding to plots/analysis
+EVENTS_CUT = 10
+# Reflected particles (False), Transmitted particles (True)
+TRANSMITTED_PARTICLES = False
+
+[PlotSelection]
+# Histograms of outgoing theta distributions
+THETA_HISTOGRAMS = False
+# Histograms of outgoing phi distributions
+PHI_HISTOGRAMS = False
+# Histograms of outgoing momentum distributions
+MOMENTUM_HISTOGRAMS = False
+# 2D histograms of outgoing theta vs outgoing momentum
+CORRELATION_HISTOGRAM_THETA_MOMENTUM = False
+# 2D histograms of outgoing theta vs outgoing phi
+CORRELATION_HISTOGRAM_THETA_PHI = False
+
+# Array of histograms of outgoing theta distributions
+THETA_HISTOGRAM_ARRAY = False
+# Array of histograms  of outgoing phi distributions
+PHI_HISTOGRAM_ARRAY = False
+# Array of histograms of outgoing momentum distributions
+MOMENTUM_HISTOGRAM_ARRAY = False
+# Array of 2d histograms of outgoing theta vs outgoing momentum
+CORRELATION_HISTOGRAM_THETA_MOMENTUM_ARRAY = False
+# Array of 2d histograms of outgoing theta vs outgoing phi
+CORRELATION_HISTOGRAM_THETA_PHI_ARRAY = False
+
+# Scatterplot of reflected, transmitted, decayed, absorbed events
+REFLECTED_TRANSMITTED_DECAYED_SCATTER_PLOT = True
+
+# Scatterplot of cutoff angles
+CUTOFF_THETA_SCATTER_PLOT = False
+
+# 2D Histogram of outgoing momenta  vs incident angle
+HISTOGRAM_MOMENTA_INCIDENT_ANGLE = False
+
+# Scatterplots of the mean and mode (with error) of the outgoing thetas
+THETAS_SCATTER_PLOT = True
+# Scatterplots of the mean and mode (with error) of the outgoing momenta
+MOMENTUM_SCATTER_PLOT = False
+
+[PlottingParameters]
+# for MOMENTA and ANGLES, the format is start, stop, step
+# or MATERIALS and PARTICLES, the format is input1, input2, input3, ... , inputN
+MOMENTA = 10, 300, 10
+ANGLES = 0, 87.5, 2.5
+MATERIALS = 0, 1, 2, 3
+PARTICLES = proton, e-, mu-, mu+
+THICKNESS = 5
+
+[Data]
+# Path to general directory where data folders are stored
+DATA_DIRECTORY = path_to_general_data_directory
+# Specific folder in DATA_DIRECTORY where the data for this config is found
+DATA_SUBDIRECTORY = path_to_batch_subdirectory
+```
+- For [Setup], you must specify the number of events per output file. This must agree with the output files or the analysis will return an error. You must also specify the cutoff number of events. The analysis script will not consider data with the number of reflected/transmitted particles less that the cutoff number. Finally, you must specify whether you want to consider transmitted or reflected particles. *Note that the primary purpose of this analysis script is for reflected particles, so not all plots may work as intended for transmitted particles*
+
+- For [PlotSelection], set the boolean values to ```True``` or ```False``` to select which plots/histograms are to be produced.
+
+- For [PlottingParameters], specify the momentum and angle ranges (start, stop, step), the materials (with their corresponding integer), the particles (separated by commas), and the thickness of the plate. *Units for these values are consistent with everything above.* Please ensure that the parameters specified are consistent with (i.e. a subset of) the parameters used in the batch. If there are permutations that are not present in the batch in consideration, the analysis script will return an error.
+
+- For [Data], specify the path to the general data directory, and the name of the specific batch file in consideration in the general data directory.
+
+Once this plotting configuration file is done, the analysis can be run with the following command:
+```bash
+python3 analysis.py path_to_plot_config_file
+```
+
+The resulting plots will be added to the ```Project/plots``` directory in a subdirectory specific to the batch name.
 
 ## Additional Notes <a name = "notes"></a>
+### Material Identification <a name = "materialID"></a>
+|**ID**| **Material**| **Info** |
+|:---:|:---:|:---:|
+|0 |  Copper |
+|1| Glass |Composite: 75% SiO2, 12% CaO, 13% Na2O|
+|2| Gold Plated Copper |5 um gold plating thickness|
+|3| Gold| |
+|4| Aluminium| |
+|5| Iron| |
+|6| Silver| |
+|7| Tungsten| |
+|8| Bronze| [Geant4 HEP and Nuclear Materials](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html) |
+|9| Brass|[Geant4 HEP and Nuclear Materials](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html) |
+|10| Stainless Steel| [Geant4 HEP and Nuclear Materials](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Appendix/materialNames.html)|
 
-Add additional notes about how to deploy this on a live system.
 
 ## Built Using <a name = "built_using"></a>
 - <img width=20px height=20px src="https://geant4.org/assets/logo/g4logo-square.png" alt=""> [Geant4](https://geant4.cern.ch/) - Simulation Framework 

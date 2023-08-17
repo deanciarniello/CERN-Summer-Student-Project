@@ -26,6 +26,20 @@ def return_surface_name(material):
         material_name = "Gold-Plated-Copper"
     if material == 3:
         material_name = "Gold"
+    if material == 4:
+        material_name = "Aluminium"
+    if material == 5:
+        material_name = "Iron"
+    if material == 6:
+        material_name = "Silver"
+    if material == 7:
+        material_name = "Tungsten"
+    if material == 8:
+        material_name = "Bronze"
+    if material == 9:
+        material_name = "Brass"
+    if material == 10:
+        material_name = "Stainless-Steel"
     return material_name
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,3 +85,5 @@ def bootstrap_mode_error(data):
     mode_error = np.std(bootstrap_modes)
 
     return mode, mode_error
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -95,6 +95,55 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
             break;
         }
 
+        // Aluminium (Elemental)
+        case 4: {
+            G4Material *aluminium = nist->FindOrBuildMaterial("G4_Al");
+            plateMaterial = aluminium;
+            break;
+        }
+
+        // Iron (Elemental)
+        case 5: {
+            G4Material *iron = nist->FindOrBuildMaterial("G4_Fe");
+            plateMaterial = iron;
+            break;
+        }
+
+        // Silver (Elemental)
+        case 6: {
+            G4Material *silver = nist->FindOrBuildMaterial("G4_Ag");
+            plateMaterial = silver;
+            break;
+        }
+
+        // Tungsten (Elemental)
+        case 7: {
+            G4Material *tungsten = nist->FindOrBuildMaterial("G4_W");
+            plateMaterial = tungsten;
+            break;
+        }
+
+        // Bronze
+        case 8: {
+            G4Material *bronze = nist->FindOrBuildMaterial("G4_BRONZE");
+            plateMaterial = bronze;
+            break;
+        }
+
+        // Brass
+        case 9: {
+            G4Material *brass = nist->FindOrBuildMaterial("G4_BRASS");
+            plateMaterial = brass;
+            break;
+        }
+
+        // Stainless-Steel
+        case 10: {
+            G4Material *stainless_steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+            plateMaterial = stainless_steel;
+            break;
+        }
+
         // Default (Copper)
         default: {
             G4Material *copper = nist->FindOrBuildMaterial("G4_Cu");
@@ -154,8 +203,29 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
         case 3:  
             plateVisAttributes->SetColour(G4Colour::Yellow());
             break;
+        case 4:  
+            plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 5:  
+            plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 6:  
+            plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 7:  
+            plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 8:  
+            plateVisAttributes->SetColour(G4Colour::Gray());
+            break;
+        case 9:  
+            plateVisAttributes->SetColour(G4Colour::Brown());
+            break;
+        case 10:  
+            plateVisAttributes->SetColour(G4Colour::Brown());
+            break;
         default:
-            plateVisAttributes->SetColour(G4Colour::White());
+            plateVisAttributes->SetColour(G4Colour::Gray());
             break;
 
     }
