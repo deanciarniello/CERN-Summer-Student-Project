@@ -22,7 +22,7 @@
     - [Batch](#batch)
 - [Analysis](#analysis)
 - [Additional Notes](#notes)
-    - [Material Identification](#materialID)
+    - [Material Identification](#material)
 - [Built Using](#built_using)
 - [Authors](#authors)
 - [Acknowledgements](#acknowledgements)
@@ -225,7 +225,7 @@ python3 analysis.py path_to_plot_config_file
 The resulting plots will be added to the ```Project/plots``` directory in a subdirectory specific to the batch name.
 
 ## Additional Notes <a name = "notes"></a>
-### Material Identification <a name = "materialID"></a>
+### Material Identification <a name = "material"></a>
 |**ID**| **Material**| **Info** |
 |:---:|:---:|:---:|
 |0 |  Copper |
