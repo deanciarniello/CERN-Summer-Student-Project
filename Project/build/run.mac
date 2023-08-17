@@ -1,8 +1,0 @@
-# THIS FILE SETS UP THE SIMULATION FOR RUNNING WITHOUT VISUALIZATION (i.e. FOR A BATCH RUN)
-
-# Initialize Run
-/run/initialize
-
-# Run with 100000 events
-#/run/verbose 1
-/run/beamOn 100000
