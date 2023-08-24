@@ -273,6 +273,12 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                 n_decayed_out_t.append(decayed_out_t)
                 a_decay_pdgid.append(decay_pdgid)
                 
+                # Append momentum distributions
+                if (len(thetas) < CUT): 
+                    momentum_distributions.append([])
+                else:
+                    momentum_distributions.append(momenta)
+                
                 # Checks to make sure data file is valid
                 if events != EVENTS: 
                     print("******ERROR*****\nEVENTS does not match number in file")
@@ -341,7 +347,7 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                     momentum_std_devs.append(momentum_std_dev)
                     momentum_mean_errors.append(momentum_mean_error)
                     momentum_mode_errors.append(momentum_mode_error) # Add error on hist bin and SEM (standard error on mean) in quadrature
-                momentum_distributions.append(momenta)
+
 
                 # Make individual histograms (depending on those selected at top of script)
                 if THETA_HISTOGRAMS:
@@ -418,7 +424,7 @@ for particle in tqdm(PARTICLES, leave=False, desc='PARTICLES', dynamic_ncols=Tru
                 
             # 2D histogram of outgoing momentum vs incident angle
             if HISTOGRAM_MOMENTA_INCIDENT_ANGLE:
-                make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distributions, incident_angles, particle, material_name, momentum, EVENTS, THICKNESS, refl_trans_string)
+                make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distributions, ANGLES, particle, material_name, momentum, EVENTS, THICKNESS, refl_trans_string)
                 fig_mom_inc.savefig(f'plots/{DATA_FOLDER}/hist2d_momenta_vs_incident_angle_{particle}_{material_name}_{momentum}.png')
                 plt.close(fig_mom_inc)
 

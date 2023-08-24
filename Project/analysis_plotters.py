@@ -16,7 +16,7 @@ from analysis_helpers import *
 
 # Functions to setup and make plots for analysis.py
 #=====================================================
-def setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string):
+def setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string, thickness):
     '''
         Parameters:
             fig_h (matplotlib figure):      figure of plot
@@ -724,7 +724,7 @@ def make_cutoff_angle_scatterplot(fig_cutoff, ax_cutoff, momenta, cutoff_angles,
 def make_2dhist_momenta_inc_angle(fig_mom_inc, ax_mom_inc, momentum_distributions, incident_angles, particle, material_name, momentum, total, thickness, refl_trans_string):
     # Create a 2D histogram grid
     # Create individual 1D histograms for each incident angle
-    histograms = [np.histogram(momenta, bins=20, range=(0, momentum), density=True)[0] for momenta in momentum_distributions]
+    histograms = [np.histogram(momenta, bins=60, range=(0, momentum), density=True)[0] for momenta in momentum_distributions]
 
     # Combine individual histograms into a 2D histogram
     hist2d = np.array(histograms)
