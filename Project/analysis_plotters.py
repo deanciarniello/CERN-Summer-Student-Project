@@ -16,21 +16,15 @@ from analysis_helpers import *
 
 # Functions to setup and make plots for analysis.py
 #=====================================================
-def setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string, thickness):
+def setup_theta_histogram(ax_h, thetas, mode_, mean_, std_dev_, theta_incident, refl_trans_string):
     '''
         Parameters:
-            fig_h (matplotlib figure):      figure of plot
             ax_h (matplotlib axes):         axes of plot
             thetas (float array):           thetas of reflected/transmited particles
             mode_ (float):                  mode of theta (center of maximum histogram bin)
             mean_ (float):                  mean of thetas of reflected/transmitted particles (i.e. mean of raw data)
             std_dev_ (float):               standard deviation of thetas of reflected/transmitted particles (i.e. std dev of raw data)
-            particle (string):              name of particle
-            material_name (string):          name of scattering surface/material
-            momentum (float):               momentum of particle
             theta_incident (float):         incident theta of particle
-            total (int):                    total number of particles for configuration
-            refl_trans (int):               number of reflected/transmitted particles for configuration (excluding decayed particles)
             refl_trans_string (int):        string corresponding to whether the plots are for reflected or transmitted particles
 
         Returns:
@@ -104,7 +98,7 @@ def make_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, 
             Runs setup function to make histogram, adds title for individual histogram and adjusts height of max bin
 
     '''
-    setup = setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string, thickness)
+    setup = setup_theta_histogram(ax_h, thetas, mode_, mean_, std_dev_, theta_incident, refl_trans_string)
     ax_h.set_title(f"Particle: {particle}, Material: {material_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
 
@@ -134,26 +128,19 @@ def make_theta_histogram_a(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle
             Runs setup function to make histogram and adds title for array of histograms
 
     '''
-    setup = setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string)
+    _ = setup_theta_histogram(fig_h, ax_h, thetas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string)
     ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def setup_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string):
+def setup_phi_histogram(ax_h, phis, mode_, mean_, std_dev_, refl_trans_string):
     '''
         Parameters:
-            fig_h (matplotlib figure):      figure of plot
             ax_h (matplotlib axes):         axes of plot
             phis (float array):             phis of reflected/transmited particles
             mode_ (float):                  mode of phi (center of maximum histogram bin)
             mean_ (float):                  mean of phis of reflected/transmitted particles (i.e. mean of raw data)
             std_dev_ (float):               standard deviation of phis of reflected/transmitted particles (i.e. std dev of raw data)
-            particle (string):              name of particle
-            material_name (string):          name of scattering surface/material
-            momentum (float):               momentum of particle
-            theta_incident (float):         incident theta of particle
-            total (int):                    total number of particles for configuration
-            refl_trans (int):               number of reflected/transmitted particles for configuration (excluding decayed particles)
             refl_trans_string (int):        string corresponding to whether the plots are for reflected or transmitted particles
 
         Returns:
@@ -215,7 +202,7 @@ def make_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, mate
             Runs setup function to make histogram, adds title for individual histogram and adjusts height of max bin
 
     '''
-    setup = setup_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans)
+    setup = setup_phi_histogram(ax_h, phis, mode_, mean_, std_dev_, refl_trans_string)
     ax_h.set_title(f"Particle: {particle}, Material: {material_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
 
@@ -245,26 +232,20 @@ def make_phi_histogram_a(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, ma
             Runs setup function to make histogram and adds title for array of histograms
 
     '''
-    setup = setup_phi_histogram(fig_h, ax_h, phis, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans)
+    _ = setup_phi_histogram(ax_h, phis, mode_, mean_, std_dev_, refl_trans_string)
     ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg\nN {refl_trans_string}: {refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans, refl_trans_string):
+def setup_momentum_histogram(ax_h, momenta, mode_, mean_, std_dev_, momentum, refl_trans_string):
     '''
         Parameters:
-            fig_h (matplotlib figure):      figure of plot
             ax_h (matplotlib axes):         axes of plot
             momenta (float array):          momentum of reflected/transmitted particles
-            mode_ (float):                  mode of theta (center of maximum histogram bin)
-            mean_ (float):                  mean of thetas of reflected/transmitted particles (i.e. mean of raw data)
+            mode_ (float):                  mode of momenta (center of maximum histogram bin)
+            mean_ (float):                  mean of momenta of reflected/transmitted particles (i.e. mean of raw data)
             std_dev_ (float):               standard deviation of thetas of reflected/transmitted particles (i.e. std dev of raw data)
-            particle (string):              name of particle
-            material_name (string):          name of scattering surface/material
             momentum (float):               momentum of incident particle
-            theta_incident (float):         theta incident of particle
-            total (int):                    total number of particles for configuration
-            refl_trans (int):               number of reflected/transmitted particles for configuration (excluding decayed particles)
             refl_trans_string (int):        string corresponding to whether the plots are for reflected or transmitted particles
 
         Returns:
@@ -308,13 +289,13 @@ def make_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, partic
             fig_h (matplotlib figure):      figure of plot
             ax_h (matplotlib axes):         axes of plot
             momenta (float array):          momentum of reflected/transmited particles
-            mode_ (float):                  mode of theta (center of maximum histogram bin)
-            mean_ (float):                  mean of thetas of reflected/transmited particles (i.e. mean of raw data)
-            std_dev_ (float):               standard deviation of thetas of reflected/transmited particles (i.e. std dev of raw data)
+            mode_ (float):                  mode of momenta (center of maximum histogram bin)
+            mean_ (float):                  mean of momenta of reflected/transmited particles (i.e. mean of raw data)
+            std_dev_ (float):               standard deviation of momenta of reflected/transmited particles (i.e. std dev of raw data)
             particle (string):              name of particle
             material_name (string):          name of scattering surface/material
             momentum (float):               momentum of incident particle
-            theta_incident (float):         incident theta of particle
+            theta_incident (float):         incident momenta of particle
             total (int):                    total number of particles for configuration
             refl_trans (int):               number of reflected/transmited particles for configuration (excluding decayed particles)
             refl_trans_string (int):        string corresponding to whether the plots are for reflected or transmitted particles
@@ -325,7 +306,7 @@ def make_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, partic
         Info:
             Runs setup function to make histogram, adds title for individual histogram and adjusts height of max bin
     '''
-    setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans)
+    setup = setup_momentum_histogram(ax_h, momenta, mode_, mean_, std_dev_, momentum, refl_trans_string)
     ax_h.set_ylim([0,1.01*np.max(setup[0])])
     ax_h.set_title(f"Particle: {particle}, Material: {material_name}, Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nEvents: Total={total}, {refl_trans_string}={refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
 
@@ -337,11 +318,11 @@ def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, part
             fig_h (matplotlib figure):      figure of plot
             ax_h (matplotlib axes):         axes of plot
             momenta (float array):          momentum of reflected/transmitted particles
-            mode_ (float):                  mode of theta (center of maximum histogram bin)
-            mean_ (float):                  mean of thetas of reflected/transmitted particles (i.e. mean of raw data)
-            std_dev_ (float):               standard deviation of thetas of reflected/transmitted particles (i.e. std dev of raw data)
+            mode_ (float):                  mode of momenta (center of maximum histogram bin)
+            mean_ (float):                  mean of momenta of reflected/transmitted particles (i.e. mean of raw data)
+            std_dev_ (float):               standard deviation of momenta of reflected/transmitted particles (i.e. std dev of raw data)
             particle (string):              name of particle
-            material_name (string):          name of scattering surface/material
+            material_name (string):         name of scattering surface/material
             momentum (float):               momentum of incident particle
             theta_incident (float):         incident theta of particle
             total (int):                    total number of particles for configuration
@@ -354,8 +335,81 @@ def make_momentum_histogram_a(fig_h, ax_h, momenta, mode_, mean_, std_dev_, part
         Info:
             Runs setup function to make histogram and adds title for array of histograms
     '''
-    setup = setup_momentum_histogram(fig_h, ax_h, momenta, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, refl_trans)
+    _ = setup_momentum_histogram(ax_h, momenta, mode_, mean_, std_dev_, momentum, refl_trans_string)
     ax_h.set_title(f"Momentum: {momentum}MeV/c, Theta: {theta_incident}deg \nN {refl_trans_string}={refl_trans}, Thickness: {thickness:.2f}mm", fontsize=11)
+    
+    
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def setup_alpha_histogram(ax_h, alphas, mode_, mean_, std_dev_):
+    '''
+        Parameters:
+            ax_h (matplotlib axes):         axes of plot
+            alphas (float array):           alphas of reflected particles
+            mode_ (float):                  mode of alphas (center of maximum histogram bin)
+            mean_ (float):                  mean of alphas of reflected particles (i.e. mean of raw data)
+            std_dev_ (float):               standard deviation of alphas of reflected particles (i.e. std dev of raw data)
+
+        Returns:
+            setup (array):                  [the values of the histogram bins]
+        
+        Info:
+            Makes a histogram of the alpha distribution of one configuration of the scattering simulation
+    '''
+    # Plot histogram
+    n, bins, _ = ax_h.hist(alphas, bins='auto', density=False, histtype='step', color='blue', linewidth=1, label=f"$\sigma$: {std_dev_:.2f}")
+    
+    # Plot mean, mode, and incident theta
+    ax_h.axvline(mean_, 0, 1, color='black', linestyle='dashed', linewidth=1, label=f"Mean: {mean_:.2f}")
+    ax_h.axvline(mode_, 0, 1, color='green', linestyle='dashed', linewidth=1, label=f"Mode: {mode_:.2f}")
+    
+    # Set axis labels
+    ax_h.set_xlabel(f"alpha", fontsize=10)
+    ax_h.set_ylabel("Rate", fontsize=10)
+    ax_h.yaxis.set_label_position("left")
+    
+    # Grid and tick mark settings
+    ax_h.grid(True, linestyle='--', linewidth=0.5)
+    ax_h.tick_params(axis='both', which='major', labelsize=10)
+    ax_h.spines['top'].set_visible(False)
+    ax_h.spines['right'].set_visible(False)
+    ax_h.yaxis.tick_left()
+    
+    # Make legend
+    ax_h.legend(fontsize=8)
+    
+    # Return setup (array of anything needed from this function)
+    setup = [n]
+    return setup
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def make_alpha_histogram(fig_h, ax_h, alphas, mode_, mean_, std_dev_, particle, material_name, momentum, theta_incident, total, reflected, thickness):
+    '''
+        Parameters:
+            fig_h (matplotlib figure):      figure of plot
+            ax_h (matplotlib axes):         axes of plot
+            alphas (float array):           alphas of reflected/transmited particles
+            mode_ (float):                  mode of alphas (center of maximum histogram bin)
+            mean_ (float):                  mean of alphas of reflected particles (i.e. mean of raw data)
+            std_dev_ (float):               standard deviation of alphas of reflected particles (i.e. std dev of raw data)
+            particle (string):              name of particle
+            material_name (string):         name of scattering surface/material
+            momentum (float):               momentum of incident particle
+            theta_incident (float):         incident momenta of particle
+            total (int):                    total number of particles for configuration
+            reflected (int):                total number of alpha measurements
+            thickness (float):              thickness of the plate (in mm)
+
+        Returns:
+        
+        Info:
+            Runs setup function to make histogram, adds title for individual histogram and adjusts height of max bin
+    '''
+    setup = setup_alpha_histogram(ax_h, alphas, mode_, mean_, std_dev_)
+    ax_h.set_ylim([0,1.01*np.max(setup[0])])
+    ax_h.set_title(f"Particle: {particle}, Material: {material_name}, Momentum: {momentum}MeV/c\, Theta: {theta_incident}deg\n Events: Total={total}, Reflected={reflected}, Thickness: {thickness:.2f}mm", fontsize=11)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 

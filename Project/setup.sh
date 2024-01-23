@@ -11,8 +11,8 @@ echo "beginning setup.sh"
 # Source geant4 and gcc
 #=====================================================
 echo "sourcing geant4 and gcc (compiler)"
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/10.3.0/x86_64-centos7/setup.sh
-source /cvmfs/geant4.cern.ch/geant4/10.7.ref09/x86_64-centos7-gcc10-optdeb/CMake-setup.sh
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/12.1.0/x86_64-el9-gcc12-opt/setup.sh
+source /cvmfs/geant4.cern.ch/geant4/11.1.ref10/x86_64-el9-gcc12-optdeb/CMake-setup.sh
 
 # Setup fresh build directory
 #=====================================================

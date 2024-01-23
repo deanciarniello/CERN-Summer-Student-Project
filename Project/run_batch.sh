@@ -9,19 +9,19 @@
 OUTPUT_DIR=/eos/user/d/dciarnie/Data/
 
 
-# Source gcc and geant4 versions
-# ===========================================
-echo "start source"
-source /cvmfs/sft.cern.ch/lcg/contrib/gcc/10.3.0/x86_64-centos7/setup.sh
-source /cvmfs/geant4.cern.ch/geant4/10.7.ref09/x86_64-centos7-gcc10-optdeb/CMake-setup.sh
-echo "end source"
-
-
 # Use user CERNBOX as EOS instance
 # ===========================================
 echo "start export"
 export EOS_MGM_URL=root://eosuser.cern.ch
 echo "end export"
+
+
+# Source gcc and geant4 versions
+# ===========================================
+echo "start source"
+source /cvmfs/sft.cern.ch/lcg/contrib/gcc/12.1.0/x86_64-el9-gcc12-opt/setup.sh
+source /cvmfs/geant4.cern.ch/geant4/11.1.ref10/x86_64-el9-gcc12-optdeb/CMake-setup.sh
+echo "end source"
 
 
 # Define the momentum, angle, particle, material, and mac file

@@ -11,19 +11,19 @@ import numpy as np
 
 # Constants
 #=====================================================
-FILE_NAME_EXTRA = 'mu-_28-125MeV_full_stainlesssteel'                                # Addition string for name of config file
-THICKNESS_BOOL = False                                        # Whether or not the config file includes thickness as a parameter
+FILE_NAME_EXTRA = 'e-_depth_study_30mm'                                # Addition string for name of config file
+THICKNESS_BOOL = True                                        # Whether or not the config file includes thickness as a parameter
 
 
 # Sample data for angles, momenta, particles, 
 # and material types
 #=====================================================
 OUTPUT = FILE_NAME_EXTRA                            # Name of output file (not including path): 'output', 'angle_study', etc
-ANGLES = np.linspace(0,89.5,180)                      # Incident Angles (0 is normal to plate): 0,2.5,5,7.5,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,50,52.5,55,57.5,60,62.5,65,67.5,70,72.5,75,77.5,80,82.5,85,87.5
-MOMENTA = [28,125]                                        # Incident Momenta (MeV/c): range(10, 510, 10)
-PARTICLES = ['mu-']                                     # Incident Particle Type: 'e-', 'mu-', 'mu+', 'proton'
-MATERIALS = [10]                                     # Material of Plate: 0 -> Copper, 1 -> Glass, 2 -> Gold Plated Copper, 3 -> Gold
-THICKNESS = 5             # Thickness of plate (mm)
+ANGLES = np.linspace(0,87.5,36)                      # Incident Angles (0 is normal to plate): 0,2.5,5,7.5,10,12.5,15,17.5,20,22.5,25,27.5,30,32.5,35,37.5,40,42.5,45,47.5,50,52.5,55,57.5,60,62.5,65,67.5,70,72.5,75,77.5,80,82.5,85,87.5
+MOMENTA = [20, 40, 60, 80, 120, 140, 160, 180, 200]                                        # Incident Momenta (MeV/c): range(10, 510, 10)
+PARTICLES = ['e-']                                     # Incident Particle Type: 'e-', 'mu-', 'mu+', 'proton'
+MATERIALS = [0, 1, 3]                                     # Material of Plate: 0 -> Copper, 1 -> Glass, 2 -> Gold Plated Copper, 3 -> Gold
+THICKNESS = 30             # Thickness of plate (mm)
 
 
 # Define config file name

@@ -29,6 +29,10 @@ public:
     void SetPX(G4double px) { fPXout = px; }
     void SetPY(G4double py) { fPYout = py; }
     void SetPZ(G4double pz) { fPZout = pz; }
+    void SetDepth(G4double depth) { fDepth = depth; }
+    G4double GetDepth() { return fDepth; }
+    
+    void SetPlateTopHeight(G4double topHeight) { fPlateTopHeight = topHeight; }
 
     G4int GetPrimaryPDG() { return fPrimaryPDG; }
 
@@ -51,6 +55,8 @@ private:
     G4double fPXout;
     G4double fPYout;
     G4double fPZout;
+    G4double fPlateTopHeight;
+    G4double fDepth;
 
     G4int fPrimaryPDG;
     G4int fDecayPDG;

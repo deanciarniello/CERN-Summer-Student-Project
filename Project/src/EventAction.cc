@@ -36,6 +36,9 @@ void EventAction::BeginOfEventAction(const G4Event* event) {
     fPYout = 0;
     fPZout = 0;
 
+    fDepth = 100;
+    fPlateTopHeight = 100;
+
     fDecayPDG = 0;
 
     fIsDecayed = false;
@@ -102,6 +105,13 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         man->FillNtupleDColumn(0,3,fPZout);
         man->FillNtupleDColumn(0,4,theta/deg);
         man->FillNtupleDColumn(0,5,phi/deg);
+        G4double depth;
+        if (fPYout < 0) {
+            depth = 100;
+        } else {
+            depth = (fPlateTopHeight - fDepth)/mm;
+        }
+        man->FillNtupleDColumn(0,6,depth);
         man->AddNtupleRow(0);
     }
 }

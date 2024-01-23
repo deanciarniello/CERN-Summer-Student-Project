@@ -38,6 +38,7 @@ void RunAction::BeginOfRunAction(const G4Run*) {
     man->CreateNtupleDColumn("fP_z");
     man->CreateNtupleDColumn("fTheta");
     man->CreateNtupleDColumn("fPhi");
+    man->CreateNtupleDColumn("fDepth");
     man->FinishNtuple();
 
     // Create Ntuple for All Events (including decay events)
